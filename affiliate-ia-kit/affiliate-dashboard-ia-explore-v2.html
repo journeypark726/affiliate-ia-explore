@@ -1355,8 +1355,15 @@
     color: var(--content-default-level-5);
     display: inline-flex; align-items: center; gap: var(--spacing-8);
   }
+  .kpi-section__title-group { display: flex; flex-direction: column; gap: var(--spacing-4); }
+  .kpi-section__desc {
+    margin: 0;
+    color: var(--content-default-level-2);
+    font-size: 13px;
+    line-height: 1.45;
+  }
   .kpi-section__header {
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex; align-items: flex-start; justify-content: space-between;
     gap: var(--spacing-16);
     margin-bottom: var(--spacing-16);
   }
@@ -2603,16 +2610,19 @@
       <!-- Trading commission KPIs — 4 individual cards in 2x2 -->
       <div class="kpi-section">
       <div class="kpi-section__header">
-        <h2 class="kpi-section__title title-m">
-          Data overview
-          <span class="tip" data-tip="Last updated at: 05/28/2026 09:00:00 UTC" aria-label="Last updated at: 05/28/2026 09:00:00 UTC" tabindex="0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"/>
-              <line x1="12" y1="11" x2="12" y2="16"/>
-              <circle cx="12" cy="8" r="0.5" fill="currentColor"/>
-            </svg>
-          </span>
-        </h2>
+        <div class="kpi-section__title-group">
+          <h2 class="kpi-section__title title-m">
+            Data overview
+            <span class="tip" data-tip="Last updated at: 05/28/2026 09:00:00 UTC" aria-label="Last updated at: 05/28/2026 09:00:00 UTC" tabindex="0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/>
+                <line x1="12" y1="11" x2="12" y2="16"/>
+                <circle cx="12" cy="8" r="0.5" fill="currentColor"/>
+              </svg>
+            </span>
+          </h2>
+          <p class="kpi-section__desc">Data is calculated based on UTC.</p>
+        </div>
         <a href="#" class="text-btn kpi-section__details" data-route="rewards-trend">View details
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
         </a>
