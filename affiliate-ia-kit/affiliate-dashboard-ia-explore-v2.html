@@ -313,7 +313,7 @@
     position: fixed;
     top: 60px;
     left: 0;
-    width: 260px;
+    width: 280px;
     height: calc(100vh - 60px);
     padding: var(--spacing-24);
     display: flex; flex-direction: column;
@@ -340,11 +340,12 @@
   .side-nav__item .chev {
     width: 12px; height: 12px;
     display: inline-grid; place-items: center;
-    color: var(--content-default-level-3);
+    color: var(--content-default-level-2);
     transition: transform 200ms ease;
+    transform: rotate(180deg); /* default = caret-down (group closed) */
   }
-  .side-nav__item .chev svg { width: 12px; height: 12px; }
-  .side-nav__group.is-open > .side-nav__item .chev { transform: rotate(180deg); }
+  .side-nav__item .chev svg { width: 12px; height: 12px; display: block; }
+  .side-nav__group.is-open > .side-nav__item .chev { transform: rotate(0deg); } /* open = caret-up */
   .side-nav__sub {
     display: none;
     flex-direction: column;
@@ -890,7 +891,7 @@
   /* =====================================================================
      Page container
   ===================================================================== */
-  /* Min viewport 1280px (smallest supported). Sidebar (260px, fixed)
+  /* Min viewport 1280px (smallest supported). Sidebar (280px, fixed)
      takes the left; .page reserves 40px gap left of content and 40px
      on the right. .container fluidly grows up to 1200px so content
      gains real estate as the viewport widens, while always leaving
@@ -898,7 +899,7 @@
   body { min-width: 1280px; }
   .page {
     margin: 0 auto;
-    padding: var(--spacing-80) var(--spacing-40) var(--spacing-80) calc(260px + var(--spacing-40));
+    padding: var(--spacing-80) var(--spacing-40) var(--spacing-80) calc(280px + var(--spacing-40));
   }
   .container { width: 100%; max-width: 1200px; margin: 0 auto; }
 
@@ -2532,8 +2533,8 @@
       </svg>
       <span class="label">Referee management</span>
       <span class="chev" aria-hidden="true">
-        <!-- chevron-down-icon (FDS) -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        <!-- caret-up-icon (FDS) — rotated 180deg via CSS when group is closed -->
+        <svg viewBox="0 0 12 12" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5.60545 3.56786C5.79966 3.31071 6.20034 3.31071 6.39455 3.56786L9.65712 7.88794C9.88936 8.19545 9.65942 8.625 9.26257 8.625H2.73743C2.34058 8.625 2.11064 8.19545 2.34288 7.88794L5.60545 3.56786Z"/></svg>
       </span>
     </div>
     <div class="side-nav__sub">
@@ -2564,7 +2565,8 @@
       </svg>
       <span class="label">Events</span>
       <span class="chev" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        <!-- caret-up-icon (FDS) — rotated 180deg via CSS when group is closed -->
+        <svg viewBox="0 0 12 12" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5.60545 3.56786C5.79966 3.31071 6.20034 3.31071 6.39455 3.56786L9.65712 7.88794C9.88936 8.19545 9.65942 8.625 9.26257 8.625H2.73743C2.34058 8.625 2.11064 8.19545 2.34288 7.88794L5.60545 3.56786Z"/></svg>
       </span>
     </div>
     <div class="side-nav__sub">
