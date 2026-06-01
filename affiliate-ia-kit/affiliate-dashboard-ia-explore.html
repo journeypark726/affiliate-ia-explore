@@ -4894,7 +4894,9 @@
     const [prevBtn, nextBtn] = pag.querySelectorAll('.icon-btn');
     function showPage(p) {
       currentPage = p;
-      table.querySelectorAll('tbody tr').forEach(tr => {
+      // Only iterate direct .history-table rows (parents + details).
+      // Excludes subtable rows nested inside each detail.
+      table.querySelectorAll(':scope > tbody > tr.parent, :scope > tbody > tr.detail').forEach(tr => {
         if (tr.dataset.page === String(p)) {
           if (tr.classList.contains('parent')) {
             tr.style.display = '';
