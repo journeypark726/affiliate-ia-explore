@@ -4316,7 +4316,9 @@
   };
   const pageTitleEl = document.getElementById('page-title');
 
-  function goTo(route) {
+  function goTo(route, options) {
+    const opts = options || {};
+    const pushHistory = opts.pushHistory !== false; // default true
     const r = ROUTES[route];
     if (!r) return;
     document.querySelectorAll('.tab-panel').forEach(p => { p.hidden = true; });
@@ -4338,7 +4340,28 @@
     }
     document.body.classList.toggle('no-sidebar', !!r.noSidebar);
     window.scrollTo(0, 0);
+    // Browser history integration so OS / browser Back button can return to
+    // the previous panel.
+    if (pushHistory && history.state?.route !== route) {
+      history.pushState({ route }, '', '#' + route);
+    }
   }
+
+  // Replace the initial state so the first entry in history has a known route.
+  // (location.hash may carry a deep-link from a previous session.)
+  (function initHistoryState() {
+    const fromHash = location.hash.slice(1);
+    const initial = (fromHash && ROUTES[fromHash]) ? fromHash : 'home';
+    history.replaceState({ route: initial }, '', '#' + initial);
+    // If hash differs from current visible panel default, navigate without pushing.
+    if (initial !== 'home') goTo(initial, { pushHistory: false });
+  })();
+
+  // Handle browser Back / Forward buttons.
+  window.addEventListener('popstate', (e) => {
+    const route = (e.state && e.state.route) || 'home';
+    goTo(route, { pushHistory: false });
+  });
 
   document.querySelectorAll('[data-route]').forEach(node => {
     node.addEventListener('click', (e) => {
