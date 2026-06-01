@@ -2022,7 +2022,6 @@
   .history-head__controls {
     display: flex; align-items: center; gap: var(--spacing-8);
   }
-  .history-head__controls .secondary-btn { margin-left: auto; }
   .search-input {
     height: 36px;
     border-radius: var(--radius-8);
@@ -2048,19 +2047,6 @@
     color: var(--content-default-level-3);
     display: inline-grid; place-items: center;
   }
-  .secondary-btn {
-    height: 36px; padding: 0 var(--spacing-16);
-    border-radius: var(--radius-8);
-    background: var(--background-default-level-1);
-    border: 1px solid var(--border-default-level-2);
-    color: var(--content-default-level-4);
-    font-family: var(--font-mono);
-    font-weight: 600; font-size: 13px;
-    display: inline-flex; align-items: center; gap: var(--spacing-8);
-  }
-  .secondary-btn:hover { border-color: var(--border-default-level-3); }
-  .secondary-btn svg { width: 14px; height: 14px; }
-
   .history-table { font-size: 13px; }
   .history-table thead th {
     color: var(--content-default-level-2);
@@ -3144,7 +3130,7 @@
 
       <section class="chart-card">
         <div class="chart">
-          <svg viewBox="0 0 1100 260" preserveAspectRatio="none" style="width:100%; height:260px;">
+          <svg viewBox="0 0 1100 260" style="width:100%; height:auto; display:block;">
             <g font-family="var(--font-mono)" fill="#959595" font-size="10">
               <text x="0"  y="20">1,500</text>
               <text x="0"  y="70">1,200</text>
@@ -3190,8 +3176,8 @@
     <div class="history-head" style="margin-top: var(--spacing-64);">
       <h2 class="history-head__title title-l">Referee history</h2>
       <div class="history-head__controls">
-        <button class="secondary-btn" style="margin-left: auto;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        <button class="fds-btn fds-btn--secondary fds-btn--neutral" style="margin-left: auto;" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
           Download CSV
         </button>
       </div>
