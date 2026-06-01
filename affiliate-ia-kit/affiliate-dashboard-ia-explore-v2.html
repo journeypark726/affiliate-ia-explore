@@ -456,12 +456,60 @@
   }
   .am-sub-link {
     color: var(--content-default-level-3);
+    font-size: 13px;
+    display: inline-flex; align-items: center; gap: var(--spacing-4);
   }
   .am-sub-link--active {
     color: var(--content-accent-info);
-    display: inline-flex; align-items: center; gap: var(--spacing-4);
     cursor: pointer;
   }
+
+  /* Add button used on Me card and child cards (tree view) */
+  .am-add-btn {
+    display: inline-flex; align-items: center; gap: var(--spacing-4);
+    height: 28px; padding: 0 var(--spacing-10);
+    border: 1px solid var(--border-default-level-2);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--content-default-level-5);
+    font-size: 13px; font-weight: 500;
+    cursor: pointer;
+    transition: background 120ms ease, border-color 120ms ease;
+  }
+  .am-add-btn:hover { background: var(--background-interaction-hover); border-color: var(--border-default-level-3); }
+  .am-add-btn svg { width: 12px; height: 12px; }
+
+  /* Me card: Sub-Affiliate value + Add button row */
+  .am-field__value-row {
+    display: inline-flex; align-items: center; gap: var(--spacing-12);
+  }
+
+  /* Child card footer (Sub-affiliate link + Add button) */
+  .am-card__footer {
+    margin-top: var(--spacing-12);
+    padding-top: var(--spacing-12);
+    border-top: 1px solid var(--border-default-level-1);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--spacing-8);
+  }
+
+  /* Horizontally scrollable row when more than 4 child cards */
+  .am-row--scroll {
+    display: flex;
+    grid-template-columns: none;
+    overflow-x: auto;
+    padding-bottom: var(--spacing-8);
+  }
+  .am-row--scroll > .am-card {
+    flex: 0 0 calc((100% - var(--spacing-16) * 3) / 4);
+    min-width: 200px;
+  }
+  .am-row--scroll::-webkit-scrollbar { height: 8px; }
+  .am-row--scroll::-webkit-scrollbar-thumb { background: var(--border-default-level-2); border-radius: var(--radius-full); }
+  .am-row--scroll::-webkit-scrollbar-track { background: transparent; }
+
+  .am-card__name--add { color: var(--content-accent-info); text-decoration: none; }
+  .am-card__name--add:hover { text-decoration: underline; }
 
   /* =====================================================================
      Home row — My Referral Link + Notification center side by side
@@ -3994,10 +4042,9 @@
 
       <div class="am-view" data-am-view-panel="tree" hidden>
 
-      <!-- Level 0 -->
+      <!-- Level 1 (root: Me) -->
       <div class="am-section-head">
-        <h2 class="title-m am-section-head__title">Level 0</h2>
-        <span class="am-section-head__meta">My parent affiliate (<span class="mono">{alias}</span>) - <span class="mono">{referral code}</span></span>
+        <h2 class="title-m am-section-head__title">Level 1</h2>
       </div>
 
       <section class="am-card am-card--me">
@@ -4006,7 +4053,7 @@
             <span class="am-card__avatar" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c.7-3.5 3.8-5.5 7.5-5.5s6.8 2 7.5 5.5"/></svg>
             </span>
-            <span class="am-card__name">Me (<span class="mono">{Alias}</span>)</span>
+            <span class="am-card__name">Me</span>
           </div>
           <button class="icon-btn icon-btn--ghost" aria-label="More">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
@@ -4020,22 +4067,28 @@
           </div>
           <div class="am-field">
             <div class="am-field__label">Sub-Affiliate</div>
-            <div class="am-field__value mono">3</div>
+            <div class="am-field__value-row">
+              <span class="am-field__value mono">26</span>
+              <button class="am-add-btn" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Add
+              </button>
+            </div>
           </div>
           <div class="am-field am-field--wide">
-            <div class="am-field__label">Referral link</div>
+            <div class="am-field__label">Referral Link</div>
             <div class="am-input am-input--link">
-              <span class="mono">https://flipster.xyz/signin?referral_code=EXAMPLE</span>
-              <button class="copy-btn" aria-label="Copy referral link">
+              <span class="mono">https://stg.prex.run/signin?referral_code=MLRSROOTT</span>
+              <button class="copy-btn" aria-label="Copy referral link" data-copy="https://stg.prex.run/signin?referral_code=MLRSROOTT">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
               </button>
             </div>
           </div>
           <div class="am-field">
-            <div class="am-field__label">Referral code</div>
+            <div class="am-field__label">Referral Code</div>
             <div class="am-input">
-              <span class="mono">SEOINVEST</span>
-              <button class="copy-btn" aria-label="Copy referral code">
+              <span class="mono">MLRSROOTT</span>
+              <button class="copy-btn" aria-label="Copy referral code" data-copy="MLRSROOTT">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
               </button>
             </div>
@@ -4043,44 +4096,43 @@
         </div>
       </section>
 
-      <!-- Tree connector: vertical from Level 0 -->
-      <svg class="am-tree am-tree--trunk" width="100%" height="32" viewBox="0 0 1000 32" preserveAspectRatio="none" aria-hidden="true">
-        <line x1="500" y1="0" x2="500" y2="32" />
+      <!-- Tree connector: branching to 4 children -->
+      <svg class="am-tree am-tree--branch" width="100%" height="32" viewBox="0 0 1000 32" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="500" y1="0" x2="500" y2="14" />
+        <line x1="125" y1="14" x2="875" y2="14" />
+        <line x1="125" y1="14" x2="125" y2="32" />
+        <line x1="375" y1="14" x2="375" y2="32" />
+        <line x1="625" y1="14" x2="625" y2="32" />
+        <line x1="875" y1="14" x2="875" y2="32" />
       </svg>
 
-      <!-- Level 1 -->
+      <!-- Level 2 -->
       <div class="am-section-head am-section-head--sub">
-        <h2 class="title-s am-section-head__title">Level 1</h2>
+        <h2 class="title-s am-section-head__title">Level 2</h2>
       </div>
 
-      <!-- Tree connector: branching to 3 children -->
-      <svg class="am-tree am-tree--branch" width="100%" height="28" viewBox="0 0 1000 28" preserveAspectRatio="none" aria-hidden="true">
-        <line x1="500" y1="0" x2="500" y2="14" />
-        <line x1="167" y1="14" x2="833" y2="14" />
-        <line x1="167" y1="14" x2="167" y2="28" />
-        <line x1="500" y1="14" x2="500" y2="28" />
-        <line x1="833" y1="14" x2="833" y2="28" />
-      </svg>
-
-      <div class="am-row">
+      <div class="am-row am-row--scroll">
         <article class="am-card am-card--child">
           <div class="am-card__top">
             <div class="am-card__id">
               <span class="am-card__avatar" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c.7-3.5 3.8-5.5 7.5-5.5s6.8 2 7.5 5.5"/></svg>
               </span>
-              <span class="am-card__name">Sunny</span>
+              <span class="am-card__name">gcc</span>
             </div>
-            <button class="icon-btn icon-btn--ghost" aria-label="More">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
-            </button>
           </div>
           <dl class="am-card__list">
-            <div><dt>UID</dt><dd class="mono">AAWARQV</dd></div>
-            <div><dt>Referral code</dt><dd class="mono">11B2024</dd></div>
-            <div><dt>Trading commission</dt><dd class="am-edit"><span class="mono">5.00%</span> <button class="icon-btn icon-btn--ghost am-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></dd></div>
-            <div><dt>Sub-affiliate</dt><dd class="am-sub-link">0</dd></div>
+            <div><dt>UID</dt><dd class="mono">MGJAWC2</dd></div>
+            <div><dt>Referral code</dt><dd class="mono">PXM7QPSQ3E</dd></div>
+            <div><dt>Trading commission</dt><dd class="am-edit"><span class="mono">11.00%</span> <button class="icon-btn icon-btn--ghost am-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></dd></div>
           </dl>
+          <div class="am-card__footer">
+            <span class="am-sub-link am-sub-link--active">Sub-affiliate 8 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+            <button class="am-add-btn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add
+            </button>
+          </div>
         </article>
 
         <article class="am-card am-card--child">
@@ -4089,18 +4141,44 @@
               <span class="am-card__avatar" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c.7-3.5 3.8-5.5 7.5-5.5s6.8 2 7.5 5.5"/></svg>
               </span>
-              <span class="am-card__name">Sunnycow</span>
+              <span class="am-card__name">GG</span>
             </div>
-            <button class="icon-btn icon-btn--ghost" aria-label="More">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
-            </button>
           </div>
           <dl class="am-card__list">
-            <div><dt>UID</dt><dd class="mono">BBWARQV</dd></div>
-            <div><dt>Referral code</dt><dd class="mono">22B2024</dd></div>
+            <div><dt>UID</dt><dd class="mono">FQY843P</dd></div>
+            <div><dt>Referral code</dt><dd class="mono">CCTPQW8XY4</dd></div>
             <div><dt>Trading commission</dt><dd class="am-edit"><span class="mono">5.00%</span> <button class="icon-btn icon-btn--ghost am-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></dd></div>
-            <div><dt>Sub-affiliate</dt><dd class="am-sub-link am-sub-link--active">Sub-affiliate 7 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></dd></div>
           </dl>
+          <div class="am-card__footer">
+            <span class="am-sub-link am-sub-link--active">Sub-affiliate 1 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+            <button class="am-add-btn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add
+            </button>
+          </div>
+        </article>
+
+        <article class="am-card am-card--child">
+          <div class="am-card__top">
+            <div class="am-card__id">
+              <span class="am-card__avatar" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c.7-3.5 3.8-5.5 7.5-5.5s6.8 2 7.5 5.5"/></svg>
+              </span>
+              <span class="am-card__name">111</span>
+            </div>
+          </div>
+          <dl class="am-card__list">
+            <div><dt>UID</dt><dd class="mono">WWGBG7V</dd></div>
+            <div><dt>Referral code</dt><dd class="mono">Q35G3XETPE</dd></div>
+            <div><dt>Trading commission</dt><dd class="am-edit"><span class="mono">21.00%</span> <button class="icon-btn icon-btn--ghost am-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></dd></div>
+          </dl>
+          <div class="am-card__footer">
+            <span class="am-sub-link">Sub-affiliate 0</span>
+            <button class="am-add-btn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add
+            </button>
+          </div>
         </article>
 
         <article class="am-card am-card--child">
@@ -4109,15 +4187,21 @@
               <span class="am-card__avatar am-card__avatar--add" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
               </span>
-              <span class="am-card__name">Add alias</span>
+              <a class="am-card__name am-card__name--add" href="#">Add alias</a>
             </div>
           </div>
           <dl class="am-card__list">
-            <div><dt>UID</dt><dd class="mono">CCWARQV</dd></div>
-            <div><dt>Referral code</dt><dd class="mono">33B2024</dd></div>
-            <div><dt>Trading commission</dt><dd class="am-edit"><span class="mono am-pill">5.00%</span> <button class="icon-btn icon-btn--ghost am-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></dd></div>
-            <div><dt>Sub-affiliate</dt><dd class="am-sub-link am-sub-link--active">Sub-affiliate 8 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></dd></div>
+            <div><dt>UID</dt><dd class="mono">QDNYN7J</dd></div>
+            <div><dt>Referral code</dt><dd class="mono">HUGBQLD5A4</dd></div>
+            <div><dt>Trading commission</dt><dd class="am-edit"><span class="mono">12.00%</span> <button class="icon-btn icon-btn--ghost am-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></dd></div>
           </dl>
+          <div class="am-card__footer">
+            <span class="am-sub-link">Sub-affiliate 0</span>
+            <button class="am-add-btn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add
+            </button>
+          </div>
         </article>
       </div>
 
