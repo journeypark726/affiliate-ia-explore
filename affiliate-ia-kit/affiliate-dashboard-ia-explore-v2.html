@@ -313,7 +313,7 @@
     position: fixed;
     top: 60px;
     left: 0;
-    width: 280px;
+    width: 260px;
     height: calc(100vh - 60px);
     padding: var(--spacing-24);
     display: flex; flex-direction: column;
@@ -890,7 +890,7 @@
   /* =====================================================================
      Page container
   ===================================================================== */
-  /* Min viewport 1280px (smallest supported). Sidebar (280px, fixed)
+  /* Min viewport 1280px (smallest supported). Sidebar (260px, fixed)
      takes the left; .page reserves 40px gap left of content and 40px
      on the right. .container fluidly grows up to 1200px so content
      gains real estate as the viewport widens, while always leaving
@@ -898,7 +898,7 @@
   body { min-width: 1280px; }
   .page {
     margin: 0 auto;
-    padding: var(--spacing-80) var(--spacing-40) var(--spacing-80) calc(280px + var(--spacing-40));
+    padding: var(--spacing-80) var(--spacing-40) var(--spacing-80) calc(260px + var(--spacing-40));
   }
   .container { width: 100%; max-width: 1200px; margin: 0 auto; }
 
