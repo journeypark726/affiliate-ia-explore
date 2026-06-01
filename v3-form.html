@@ -1,0 +1,94 @@
+<div class="inner-sheet">
+
+  <!-- Trigger price field (Trigger mode only) -->
+  <div class="price-field" id="triggerPriceField" style="display:none">
+    <div class="price-field-label-row">
+      <span class="price-field-label">Trigger price</span>
+    </div>
+    <div class="price-value-row">
+      <div class="price-value-wrap" onclick="focusField('trigger')">
+        <span class="price-value" id="triggerPriceDisplay">122,016</span>
+        <div class="cursor-line" id="triggerPriceCursor" style="visibility:hidden"></div>
+      </div>
+      <div class="trigger-from-market" id="triggerFromMarket">
+        <span class="trigger-pct" id="triggerPctDisplay">+0.00%</span>
+        <div class="trigger-from-label-wrap">
+          <span class="trigger-from-text">from market</span>
+          <div class="trigger-from-underline"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order price section
+       • Limit mode:   plain "Order price" label, price input, BBO inline (same as v1)
+       • Trigger mode: "Order price · Market/Limit" label + ↔ switch, input only for Limit exec
+  -->
+  <div class="price-field" id="orderPriceField">
+    <div class="price-field-label-row v2-order-label-row">
+      <!-- Label: "Order price" always; " · Market/Limit" appended in Trigger mode only -->
+      <span class="v2-exec-type-label">
+        Order price<span id="execTypeSub" style="display:none">&thinsp;·&thinsp;<span id="execTypeLabel">Market</span></span>
+      </span>
+      <!-- Switch button: "↔ Limit" / "↔ Market" — shown in Trigger mode only -->
+      <div class="v2-exec-switch" id="execTypeSwitch" onclick="toggleExecTypeV2()" style="display:none">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2004 2.23966C12.9186 2.5432 12.9361 3.01775 13.2397 3.2996L15.3401 5.25L6.75 5.25C6.33579 5.25 6 5.58579 6 6C6 6.41422 6.33579 6.75 6.75 6.75L15.3401 6.75L13.2397 8.70041C12.9361 8.98226 12.9186 9.45681 13.2004 9.76034C13.4823 10.0639 13.9568 10.0815 14.2603 9.7996L17.7603 6.5496C17.9132 6.40769 18 6.20855 18 6C18 5.79145 17.9132 5.59232 17.7603 5.45041L14.2603 2.20041C13.9568 1.91856 13.4823 1.93613 13.2004 2.23966ZM6.79959 10.2397C6.51774 9.93613 6.04319 9.91856 5.73966 10.2004L2.23966 13.4504C2.08684 13.5923 2 13.7915 2 14C2 14.2086 2.08684 14.4077 2.23966 14.5496L5.73966 17.7996C6.04319 18.0815 6.51774 18.0639 6.79959 17.7603C7.08145 17.4568 7.06387 16.9823 6.76034 16.7004L4.6599 14.75H13.25C13.6642 14.75 14 14.4142 14 14C14 13.5858 13.6642 13.25 13.25 13.25H4.6599L6.76034 11.2996C7.06387 11.0177 7.08145 10.5432 6.79959 10.2397Z" fill="#7b7b7b"/>
+        </svg>
+        <span id="execSwitchLabel">Limit</span>
+      </div>
+    </div>
+    <!-- Price input row:
+         • Limit mode:         always shown
+         • Trigger + Limit exec: shown
+         • Trigger + Market exec: hidden (market price is implicit)
+    -->
+    <div class="price-value-row" id="execPriceRow">
+      <div class="price-value-wrap" onclick="focusField('execute')">
+        <span class="price-value" id="execPriceActive">122,016</span>
+        <div class="cursor-line" id="execPriceCursor" style="visibility:hidden"></div>
+        <span class="price-best-counterparty" id="execPriceBBO" style="display:none">Best counterparty</span>
+      </div>
+      <div class="bbo-wrap" id="bboWrap">
+        <div id="bboCheckbox" onclick="toggleBBO()" style="cursor:pointer;display:flex;align-items:center;flex-shrink:0;">
+          <svg id="bboIconUncheck" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0.5" y="0.5" width="15" height="15" rx="3.5" stroke="#B4B4B4"/>
+          </svg>
+          <svg id="bboIconCheck" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none">
+            <rect width="16" height="16" rx="4" fill="#EEEEEE"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.2354 3.89705C12.6374 4.16511 12.7461 4.70837 12.478 5.11046L7.97804 11.8605C7.83263 12.0786 7.59709 12.22 7.33622 12.2458C7.07535 12.2717 6.81665 12.1792 6.63128 11.9938L3.63128 8.99381C3.28957 8.6521 3.28957 8.09808 3.63128 7.75637C3.97299 7.41467 4.52701 7.41467 4.86872 7.75637L7.114 10.0017L11.022 4.13973C11.29 3.73764 11.8333 3.62899 12.2354 3.89705Z" fill="black"/>
+          </svg>
+        </div>
+        <div class="bbo-label-row">
+          <span class="bbo-text">BBO</span>
+          <div class="bbo-icon-btn">
+            <svg width="16" height="16" viewBox="62 8 16 16" fill="none">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M70 22.5C73.5899 22.5 76.5 19.5899 76.5 16C76.5 12.4101 73.5899 9.5 70 9.5C66.4101 9.5 63.5 12.4101 63.5 16C63.5 19.5899 66.4101 22.5 70 22.5ZM70.1617 13.4621C69.8644 13.4111 69.5587 13.467 69.2987 13.6198C69.0387 13.7726 68.8412 14.0125 68.7411 14.297C68.624 14.6297 68.2595 14.8045 67.9268 14.6875C67.5941 14.5705 67.4193 14.2059 67.5364 13.8733C67.7365 13.3042 68.1316 12.8244 68.6516 12.5188C69.1717 12.2132 69.7831 12.1015 70.3776 12.2034C70.9721 12.3054 71.5113 12.6145 71.8998 13.076C72.2882 13.5373 72.5008 14.1212 72.4999 14.7243C72.4997 15.7015 71.7752 16.3468 71.2578 16.6917C70.9796 16.8771 70.706 17.0135 70.5044 17.1031C70.4027 17.1483 70.3171 17.1826 70.2554 17.2061C70.2245 17.2179 70.1995 17.227 70.1812 17.2335L70.159 17.2412L70.152 17.2437L70.1495 17.2445L70.1485 17.2448C70.1483 17.2449 70.1477 17.2451 69.9458 16.6393L70.1477 17.2451C69.8132 17.3566 69.4515 17.1758 69.34 16.8412C69.2286 16.5069 69.4091 16.1455 69.7432 16.0338L69.7534 16.0302C69.7632 16.0267 69.7793 16.0209 69.8008 16.0127C69.8438 15.9963 69.9079 15.9707 69.9858 15.9361C70.1434 15.866 70.3487 15.7629 70.5494 15.6291C70.9897 15.3355 71.2229 15.0233 71.2229 14.7237L71.2229 14.7227C71.2233 14.4211 71.117 14.1291 70.9228 13.8984C70.7286 13.6677 70.4589 13.5131 70.1617 13.4621ZM69.3583 19.1935C69.3583 18.8408 69.6442 18.555 69.9969 18.555H70.0032C70.3559 18.555 70.6418 18.8408 70.6418 19.1935C70.6418 19.5462 70.3559 19.832 70.0032 19.832H69.9969C69.6442 19.832 69.3583 19.5462 69.3583 19.1935Z" fill="#959595"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USDT margin -->
+  <div class="margin-section" onclick="focusField('limitMargin')">
+    <div class="margin-top-row">
+      <div class="margin-value-wrap">
+        <div class="cursor-line" id="limitMarginCursor" style="visibility:hidden"></div>
+        <span class="margin-title" id="limitMarginDisplay">USDT margin</span>
+      </div>
+      <div class="position-size-btn">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.2004 2.23966C12.9186 2.5432 12.9361 3.01775 13.2397 3.2996L15.3401 5.25L6.75 5.25C6.33579 5.25 6 5.58579 6 6C6 6.41422 6.33579 6.75 6.75 6.75L15.3401 6.75L13.2397 8.70041C12.9361 8.98226 12.9186 9.45681 13.2004 9.76034C13.4823 10.0639 13.9568 10.0815 14.2603 9.7996L17.7603 6.5496C17.9132 6.40769 18 6.20855 18 6C18 5.79145 17.9132 5.59232 17.7603 5.45041L14.2603 2.20041C13.9568 1.91856 13.4823 1.93613 13.2004 2.23966ZM6.79959 10.2397C6.51774 9.93613 6.04319 9.91856 5.73966 10.2004L2.23966 13.4504C2.08684 13.5923 2 13.7915 2 14C2 14.2086 2.08684 14.4077 2.23966 14.5496L5.73966 17.7996C6.04319 18.0815 6.51774 18.0639 6.79959 17.7603C7.08145 17.4568 7.06387 16.9823 6.76034 16.7004L4.6599 14.75H13.25C13.6642 14.75 14 14.4142 14 14C14 13.5858 13.6642 13.25 13.25 13.25H4.6599L6.76034 11.2996C7.06387 11.0177 7.08145 10.5432 6.79959 10.2397Z" fill="#959595"/></svg>
+        <span class="pos-size-label">Position size</span>
+      </div>
+    </div>
+    <div class="margin-bottom-row">
+      <span class="available-text">Available funds: 345.69 USDT</span>
+      <div class="add-btn">
+        <span class="add-label">Add</span>
+        <div class="add-underline"></div>
+      </div>
+    </div>
+  </div>
+</div>

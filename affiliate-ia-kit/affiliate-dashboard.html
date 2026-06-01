@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Affiliate — Flipster</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  /* =====================================================================
+     FDS Tokens — CSS variables
+     Source: Flipster Design System (dark mode only)
+  ===================================================================== */
+  :root {
+    color-scheme: dark;
+
+    /* Palette — used only when no semantic token fits */
+    --palette-blue-500:  #0a84ff;
+    --palette-blue-300:  #0e457c;
+    --palette-blue-100:  #0d2643;
+    --palette-gray-black:#000000;
+    --palette-gray-0:    #111111;
+    --palette-gray-50:   #1c1c1c;
+    --palette-gray-100:  #222222;
+    --palette-gray-200:  #2a2a2a;
+    --palette-gray-300:  #3a3a3a;
+    --palette-gray-400:  #484848;
+    --palette-gray-500:  #606060;
+    --palette-gray-600:  #7b7b7b;
+    --palette-gray-700:  #959595;
+    --palette-gray-800:  #b4b4b4;
+    --palette-gray-900:  #eeeeee;
+    --palette-gray-white:#ffffff;
+    --palette-red-500:   #ff3b30;
+    --palette-yellow-500:#faad14;
+    --palette-green-500: #34c759;
+    --palette-lime-500:  #cfe600;
+    --palette-lime-600:  #edff00;
+
+    /* CONTENT semantic */
+    --content-default-level-0: #000000;
+    --content-default-level-1: #7b7b7b;
+    --content-default-level-2: #959595;
+    --content-default-level-3: #b4b4b4;
+    --content-default-level-4: #eeeeee;
+    --content-default-level-5: #ffffff;
+    --content-accent-info:     #0a84ff;
+    --content-accent-buy:      #34c759;
+    --content-accent-sell:     #ff3b30;
+    --content-accent-promotion:#cfe600;
+    --content-accent-vip:      #ffe6a8;
+    --content-state-positive:  #34c759;
+    --content-state-negative:  #ff3b30;
+    --content-state-warning:   #faad14;
+    --content-interaction-hover:    rgba(255, 255, 255, 0.32);
+    --content-interaction-disabled: rgba(255, 255, 255, 0.16);
+
+    /* BACKGROUND semantic */
+    --background-default-level-0: #111111;
+    --background-default-level-1: #1c1c1c;
+    --background-default-level-2: #2a2a2a;
+    --background-default-level-3: #3a3a3a;
+    --background-default-level-4: #ffffff;
+    --background-accent-primary:       #0a84ff;
+    --background-accent-primary-tint:  rgba(10, 132, 255, 0.16);
+    --background-accent-secondary:     #eeeeee;
+    --background-accent-secondary-tint:rgba(238, 238, 238, 0.10);
+    --background-accent-buy:           #34c759;
+    --background-accent-buy-tint:      rgba(52, 199, 89, 0.12);
+    --background-accent-sell:          #ff3b30;
+    --background-accent-sell-tint:     rgba(255, 59, 48, 0.12);
+    --background-accent-promotion-tint:rgba(237, 255, 0, 0.06);
+    --background-state-positive-tint:  rgba(52, 199, 89, 0.12);
+    --background-state-negative-tint:  rgba(255, 59, 48, 0.12);
+    --background-state-warning-tint:   rgba(250, 173, 20, 0.12);
+    --background-interaction-hover:    rgba(255, 255, 255, 0.10);
+    --background-interaction-disabled: rgba(255, 255, 255, 0.08);
+
+    /* BORDER semantic */
+    --border-default-level-1: #2a2a2a;
+    --border-default-level-2: #3a3a3a;
+    --border-default-level-3: #484848;
+    --border-default-level-4: #b4b4b4;
+    --border-accent-info:     #0c5cac;
+    --border-accent-buy:      #216331;
+    --border-accent-sell:     #7c241f;
+    --border-accent-promotion:#6e7f00;
+
+    /* Gradients */
+    --gradient-vip: linear-gradient(135deg, #e4af5b 0%, #ffcc7b 10%, #fff6e9 30%, #fff6e9 40%, #ffcc7b 59.5%, #e4af5b 100%);
+    --gradient-promotion: linear-gradient(82.26deg, #3326c8 11.963%, #3326c8 50%, #7815db 88.037%);
+
+    /* Spacing — 4px base */
+    --spacing-2:  2px;
+    --spacing-4:  4px;
+    --spacing-8:  8px;
+    --spacing-10: 10px;
+    --spacing-12: 12px;
+    --spacing-16: 16px;
+    --spacing-20: 20px;
+    --spacing-24: 24px;
+    --spacing-32: 32px;
+    --spacing-40: 40px;
+    --spacing-48: 48px;
+    --spacing-64: 64px;
+    --spacing-80: 80px;
+
+    /* Radius */
+    --radius-0:  0;
+    --radius-4:  4px;
+    --radius-8:  8px;
+    --radius-12: 12px;
+    --radius-16: 16px;
+    --radius-full: 1000px;
+
+    /* Typography */
+    --font-sans: "Pretendard", "Pretendard Variable", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+    --font-mono: "Pretendard", "Pretendard Variable", "SF Mono", "Roboto Mono", "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  /* =====================================================================
+     Reset / Base
+  ===================================================================== */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--background-default-level-0);
+    color: var(--content-default-level-4);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; padding: 0; }
+  a { color: inherit; text-decoration: none; }
+  ul, ol { margin: 0; padding: 0; list-style: none; }
+  table { border-collapse: collapse; width: 100%; }
+
+  /* Monospace utility — for any numeric/financial value */
+  .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+
+  /* =====================================================================
+     Typography utilities (Title / Text scales)
+  ===================================================================== */
+  .display-l    { font-size: 32px; font-weight: 700; line-height: 112%; }
+  .title-l      { font-size: 28px; font-weight: 600; line-height: 112%; }
+  .title-m      { font-size: 24px; font-weight: 600; line-height: 112%; }
+  .title-s      { font-size: 20px; font-weight: 600; line-height: 112%; }
+  .title-xs     { font-size: 18px; font-weight: 600; line-height: 112%; }
+  .text-l-strong{ font-size: 16px; font-weight: 600; line-height: 135%; }
+  .text-l       { font-size: 16px; font-weight: 400; line-height: 135%; }
+  .text-m-strong{ font-size: 14px; font-weight: 600; line-height: 140%; }
+  .text-m       { font-size: 14px; font-weight: 400; line-height: 140%; }
+  .text-s-strong{ font-size: 12px; font-weight: 600; line-height: 140%; }
+  .text-s       { font-size: 12px; font-weight: 400; line-height: 140%; }
+  .text-xs      { font-size: 11px; font-weight: 400; line-height: 140%; }
+
+  /* =====================================================================
+     GNB (Top global nav) — minimal reconstruction for visual context
+  ===================================================================== */
+  .gnb {
+    height: 60px;
+    border-bottom: 1px solid var(--border-default-level-1);
+    background: var(--background-default-level-0);
+    display: flex;
+    align-items: center;
+    padding: 0 var(--spacing-24);
+    gap: var(--spacing-24);
+  }
+  .gnb__logo {
+    display: flex; align-items: center; gap: var(--spacing-8);
+    font-weight: 700; font-size: 18px; color: var(--content-default-level-5);
+  }
+  .gnb__logo-mark {
+    width: 24px; height: 24px;
+    background: var(--content-default-level-5);
+    color: var(--content-default-level-0);
+    border-radius: var(--radius-4);
+    display: grid; place-items: center;
+    font-weight: 700;
+  }
+  .gnb__nav {
+    display: flex; align-items: center; gap: var(--spacing-24);
+    flex: 1;
+  }
+  .gnb__link {
+    color: var(--content-default-level-4);
+    font-size: 14px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: var(--spacing-4);
+  }
+  .gnb__link .caret { width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); margin-top: -3px; opacity: 0.7; }
+  /* Promotion link — same treatment as other GNB links per FDS (no special promo styling) */
+  .gnb__promo {
+    display: inline-flex; align-items: center; gap: var(--spacing-8);
+    color: var(--content-default-level-4);
+    font-size: 14px; font-weight: 600;
+  }
+  .gnb__promo .coin {
+    width: 16px; height: 16px;
+    border-radius: var(--radius-full);
+    background: radial-gradient(circle at 35% 35%, #ffd47a 0%, #ff9a3c 60%, #c46a14 100%);
+    flex-shrink: 0;
+  }
+  .gnb__actions { display: flex; align-items: center; gap: var(--spacing-8); }
+  .icon-btn {
+    width: 32px; height: 32px; border-radius: var(--radius-4);
+    background: var(--background-accent-secondary-tint);
+    color: var(--content-default-level-4);
+    display: inline-grid; place-items: center;
+    transition: background 120ms ease;
+  }
+  .icon-btn:hover { background: var(--background-interaction-hover); }
+  .icon-btn--ghost { background: transparent; }
+  .icon-btn--round { border-radius: var(--radius-full); }   /* for in-card nav chevrons */
+  .icon-btn svg { width: 16px; height: 16px; }
+  .user-chip {
+    height: 32px; padding: 0 var(--spacing-12);
+    display: inline-flex; align-items: center; gap: var(--spacing-8);
+    border-radius: var(--radius-4);
+    background: var(--background-accent-secondary-tint);
+    color: var(--content-default-level-4);
+    font-size: 13px; font-weight: 600;
+  }
+  .user-chip .dot { width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--content-accent-info); }
+
+  /* =====================================================================
+     Page container
+  ===================================================================== */
+  .page {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: var(--spacing-80) 120px var(--spacing-80);
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  /* =====================================================================
+     Page header — Affiliate title + referral chips
+  ===================================================================== */
+  .page-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: var(--spacing-32);
+  }
+  .page-header__title { color: var(--content-default-level-5); margin: 0; letter-spacing: -0.4px; }
+  .referral-bar {
+    display: inline-flex; align-items: center;
+    height: 40px; padding: var(--spacing-4);
+    border-radius: var(--radius-full);
+    background: var(--background-accent-secondary-tint);
+    gap: var(--spacing-4);
+  }
+  .referral-bar__item {
+    display: inline-flex; align-items: center; gap: var(--spacing-8);
+    height: 32px; padding: 0 var(--spacing-8) 0 var(--spacing-12);
+    color: var(--content-default-level-3);
+    font-size: 14px;
+  }
+  .referral-bar__item + .referral-bar__item { border-left: 1px solid var(--border-default-level-2); padding-left: var(--spacing-16); }
+  .referral-bar__code { color: var(--content-default-level-5); font-weight: 600; font-family: var(--font-mono); letter-spacing: 0.2px; }
+  .copy-btn {
+    width: 28px; height: 28px; border-radius: var(--radius-full);
+    color: var(--content-default-level-3);
+    display: inline-grid; place-items: center;
+  }
+  .copy-btn:hover { background: var(--background-interaction-hover); color: var(--content-default-level-5); }
+  .copy-btn svg { width: 14px; height: 14px; }
+
+  /* =====================================================================
+     Tabs (FDS Tabs, Scrollable, Large = 48px)
+  ===================================================================== */
+  .tabs {
+    display: flex; align-items: stretch;
+    border-bottom: 1px solid var(--border-default-level-1);
+    margin-bottom: var(--spacing-32);
+    position: relative;
+  }
+  .tabs__item {
+    height: 48px; padding: 0 var(--spacing-16);
+    display: inline-flex; align-items: center;
+    color: var(--content-default-level-2);
+    font-size: 16px; font-weight: 600;
+    position: relative;
+  }
+  .tabs__item:hover { color: var(--content-default-level-4); }
+  .tabs__item.is-selected { color: var(--content-default-level-5); }
+  .tabs__item.is-selected::after {
+    content: "";
+    position: absolute; left: var(--spacing-16); right: var(--spacing-16); bottom: -1px;
+    height: 2px;
+    background: var(--border-default-level-4);
+  }
+  .tabs__meta {
+    margin-left: auto; display: inline-flex; align-items: center; gap: var(--spacing-8);
+    color: var(--content-default-level-2); font-size: 12px;
+    align-self: center;
+  }
+
+  /* =====================================================================
+     Card primitive
+  ===================================================================== */
+  .card {
+    background: var(--background-default-level-1);
+    border-radius: var(--radius-12);
+    padding: var(--spacing-24);
+  }
+  .card--lg { padding: var(--spacing-32); }
+  .card-title { color: var(--content-default-level-5); margin: 0 0 var(--spacing-16); }
+  .card-label { color: var(--content-default-level-2); font-size: 14px; font-weight: 400; }
+
+  /* Pill badge (lime tint, used for percentages like 60% / 48%) — Tint variant */
+  .pct-badge {
+    display: inline-flex; align-items: center;
+    height: 20px; padding: 0 var(--spacing-8);
+    border-radius: var(--radius-full);
+    background: var(--background-accent-promotion-tint);
+    color: var(--content-accent-promotion);
+    font-family: var(--font-mono);
+    font-size: 12px; font-weight: 600;
+    line-height: 1;
+  }
+  /* Outline variant — used for neutral percentages (e.g. 60% / 40% in breakdown) */
+  .pct-badge--outline {
+    background: transparent;
+    color: var(--content-default-level-3);
+    border: 1px solid var(--border-default-level-2);
+  }
+
+  /* =====================================================================
+     Top row — Trading commission + Total USDT balance
+  ===================================================================== */
+  .top-grid {
+    display: grid;
+    grid-template-columns: 790px 1fr;
+    gap: var(--spacing-16);
+    margin-bottom: var(--spacing-40);
+  }
+  @media (max-width: 1200px) {
+    .top-grid { grid-template-columns: 1fr; }
+  }
+
+  /* — Trading commission — */
+  .commission__head {
+    display: flex; align-items: center; gap: var(--spacing-8);
+    margin-bottom: var(--spacing-24);
+  }
+  .commission__title { color: var(--content-default-level-3); font-size: 14px; font-weight: 400; }
+  .kpi-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-24);
+    margin-bottom: var(--spacing-32);
+  }
+  .kpi-row--4 { grid-template-columns: repeat(4, 1fr); }
+  .kpi__label { color: var(--content-default-level-2); font-size: 12px; margin-bottom: var(--spacing-8); display: flex; align-items: center; gap: var(--spacing-4); }
+  .kpi__value { color: var(--content-default-level-5); font-family: var(--font-mono); font-size: 24px; font-weight: 600; line-height: 112%; }
+  .kpi__delta { margin-top: var(--spacing-4); font-family: var(--font-mono); font-size: 12px; color: var(--content-state-positive); }
+  .kpi__delta--neg { color: var(--content-state-negative); }
+  .kpi__delta__suffix { color: var(--content-default-level-2); }
+
+  /* Rewards by referee type bar */
+  .breakdown__caption { color: var(--content-default-level-2); font-size: 12px; margin-bottom: var(--spacing-8); }
+  .breakdown__bar {
+    height: 8px; border-radius: var(--radius-full);
+    background: var(--palette-blue-100);
+    overflow: hidden;
+    display: flex;
+  }
+  .breakdown__bar > span:first-child { background: var(--palette-blue-500); }
+  .breakdown__bar > span:last-child  { background: var(--palette-lime-500); }
+  .breakdown__bar > span { display: block; height: 100%; }
+
+  .breakdown__table {
+    margin-top: var(--spacing-16);
+    font-size: 12px;
+  }
+  .breakdown__row {
+    display: grid;
+    grid-template-columns: 220px 1fr 1fr 1fr;
+    align-items: center;
+    padding: var(--spacing-8) 0;
+    color: var(--content-default-level-3);
+  }
+  .breakdown__row--head { color: var(--content-default-level-2); border-bottom: 1px solid var(--border-default-level-1); }
+  .breakdown__type { display: inline-flex; align-items: center; gap: var(--spacing-8); color: var(--content-default-level-4); }
+  .breakdown__dot { width: 8px; height: 8px; border-radius: var(--radius-full); }
+  .breakdown__dot--direct { background: var(--palette-blue-500); }
+  .breakdown__dot--sub    { background: var(--palette-lime-500); }
+  .breakdown__num { font-family: var(--font-mono); color: var(--content-default-level-4); text-align: right; }
+  .breakdown__num--with-pct { display: inline-flex; align-items: center; gap: var(--spacing-8); justify-content: flex-end; }
+
+  /* — Total USDT balance — */
+  .balance__amount { color: var(--content-default-level-5); font-family: var(--font-mono); font-size: 32px; font-weight: 700; letter-spacing: -0.3px; }
+  .balance__section-title { margin-top: var(--spacing-24); margin-bottom: var(--spacing-12); font-size: 14px; font-weight: 600; color: var(--content-default-level-4); }
+  .balance__list {
+    display: flex; flex-direction: column;
+    font-size: 12px;
+  }
+  .balance__list__head {
+    display: grid; grid-template-columns: 1fr auto;
+    color: var(--content-default-level-2);
+    padding-bottom: var(--spacing-8);
+    border-bottom: 1px solid var(--border-default-level-1);
+  }
+  .balance__row {
+    display: grid; grid-template-columns: 1fr auto;
+    padding: var(--spacing-10) 0;
+    color: var(--content-default-level-4);
+  }
+  .balance__row .mono { color: var(--content-default-level-5); }
+
+  .view-all {
+    margin-top: var(--spacing-16);
+    width: 100%;
+    height: 40px;
+    background: var(--background-accent-secondary-tint);
+    color: var(--content-default-level-5);
+    border-radius: var(--radius-8);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 120ms ease;
+  }
+  .view-all:hover { background: var(--background-interaction-hover); }
+
+  /* =====================================================================
+     Events section
+  ===================================================================== */
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: var(--spacing-16);
+  }
+  .section-head__title { color: var(--content-default-level-5); margin: 0; }
+  .text-btn {
+    color: var(--content-default-level-3);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-flex; align-items: center; gap: var(--spacing-4);
+  }
+  .text-btn:hover { color: var(--content-default-level-5); }
+
+  .events {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-16);
+    margin-bottom: var(--spacing-12);
+  }
+  .event-card {
+    position: relative;
+    height: 200px;
+    border-radius: var(--radius-12);
+    padding: var(--spacing-24);
+    overflow: hidden;
+    color: var(--content-default-level-5);
+    display: flex; flex-direction: column; justify-content: space-between;
+    isolation: isolate;
+  }
+  .event-card__eyebrow { font-size: 12px; opacity: 0.85; margin-bottom: var(--spacing-4); }
+  .event-card__title { font-size: 22px; font-weight: 700; line-height: 1.15; }
+  .event-card__cta {
+    font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+    align-self: flex-start;
+    opacity: 0.9;
+  }
+  .event-card__art {
+    position: absolute; right: -10px; bottom: -10px;
+    font-size: 80px;
+    line-height: 1;
+    opacity: 0.95;
+    pointer-events: none;
+    user-select: none;
+  }
+  .event-card--social { background: linear-gradient(135deg, #2c2454 0%, #1c1740 100%); }
+  .event-card--feature{ background: linear-gradient(135deg, #1a3b5c 0%, #0e2440 100%); }
+  .event-card--earn   { background: linear-gradient(135deg, #1f3a1f 0%, #0f2410 100%); }
+
+  .events-nav {
+    display: flex; justify-content: flex-end; gap: var(--spacing-8);
+    margin-bottom: var(--spacing-40);
+  }
+  .events-nav .icon-btn { width: 28px; height: 28px; }
+
+  /* =====================================================================
+     Rewards trend
+  ===================================================================== */
+  /* Two-row header: title on top, controls (chips + range) below */
+  .trend-head { margin-bottom: var(--spacing-16); }
+  .trend-head__title { color: var(--content-default-level-5); margin: 0 0 var(--spacing-16); }
+  .trend-head__controls {
+    display: flex; align-items: center; gap: var(--spacing-16);
+  }
+
+  .chip-group { display: inline-flex; gap: var(--spacing-8); align-items: center; }
+  /* Choice Chip per FDS: Desktop 36px, full radius, BG tint when unselected, white BG when selected */
+  .choice-chip {
+    height: 36px; padding: 0 var(--spacing-16);
+    border-radius: var(--radius-full);
+    background: var(--background-accent-secondary-tint);
+    color: var(--content-default-level-3);
+    font-size: 14px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: var(--spacing-8);
+    border: none;
+  }
+  .choice-chip:hover { color: var(--content-default-level-5); background: var(--background-interaction-hover); }
+  .choice-chip.is-selected {
+    background: var(--background-default-level-4);
+    color: var(--content-default-level-0);
+  }
+  .choice-chip--icon {
+    width: 36px; padding: 0;
+    justify-content: center;
+  }
+  .choice-chip svg { width: 16px; height: 16px; }
+
+  .trend-head__range {
+    margin-left: auto;
+    color: var(--content-default-level-2);
+    font-size: 13px;
+    font-family: var(--font-mono);
+  }
+
+  /* KPI card and chart card are two separate cards stacked */
+  .trend-card {
+    padding: var(--spacing-24);
+    border-radius: var(--radius-12);
+    background: var(--background-default-level-1);
+    margin-bottom: var(--spacing-16);
+  }
+  .trend-card__commission {
+    display: inline-flex; align-items: center; gap: var(--spacing-8);
+    margin-bottom: var(--spacing-24);
+  }
+  .trend-card__commission .label { color: var(--content-default-level-3); font-size: 14px; }
+  .chart-card {
+    padding: var(--spacing-24);
+    border-radius: var(--radius-12);
+    background: var(--background-default-level-1);
+  }
+  .chart {
+    background: transparent;
+    padding: 0;
+  }
+  .chart__legend {
+    display: flex; justify-content: center; gap: var(--spacing-24);
+    color: var(--content-default-level-2); font-size: 12px;
+    margin-top: var(--spacing-12);
+  }
+  .legend-item { display: inline-flex; align-items: center; gap: var(--spacing-8); }
+  .legend-line { width: 16px; height: 2px; background: var(--content-default-level-4); border-radius: 1px; }
+  .legend-line--dashed {
+    background: transparent;
+    border-top: 2px dashed var(--content-default-level-1);
+  }
+
+  /* =====================================================================
+     Mid grid — conversion + contributors
+  ===================================================================== */
+  .mid-grid {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: var(--spacing-16);
+    margin: var(--spacing-40) 0;
+  }
+
+  .funnel { display: flex; flex-direction: column; gap: var(--spacing-16); }
+  .funnel-row {
+    display: grid;
+    grid-template-columns: 80px 1fr auto auto;
+    align-items: center;
+    gap: var(--spacing-12);
+  }
+  .funnel-row__label { color: var(--content-default-level-3); font-size: 13px; }
+  .funnel-row__bar {
+    height: 6px; border-radius: var(--radius-full);
+    background: var(--background-default-level-2);
+    overflow: hidden;
+  }
+  .funnel-row__bar > span {
+    display: block; height: 100%;
+    background: var(--content-default-level-5);
+    border-radius: inherit;
+  }
+  .funnel-row__value { font-family: var(--font-mono); color: var(--content-default-level-5); font-weight: 600; }
+  /* Outline percentage badge (matches Direct/Sub-Affiliates breakdown) */
+  .funnel-row__pct {
+    font-family: var(--font-mono);
+    color: var(--content-default-level-3);
+    font-size: 12px; font-weight: 600;
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 20px; padding: 0 var(--spacing-8);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-default-level-2);
+    min-width: 44px;
+  }
+
+  .contributors__header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--spacing-16); }
+  .contributors__title { color: var(--content-default-level-5); margin: 0; }
+  .contributors__sub { color: var(--content-default-level-2); font-size: 12px; }
+  .contributors__nav { display: flex; gap: var(--spacing-4); }
+  .contributors__nav .icon-btn { width: 28px; height: 28px; background: transparent; }
+  .contributors__grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    column-gap: var(--spacing-24);
+  }
+  .contrib-row {
+    display: grid; grid-template-columns: 24px 1fr auto;
+    align-items: center;
+    gap: var(--spacing-12);
+    padding: var(--spacing-8) 0;
+    border-bottom: 1px solid var(--border-default-level-1);
+  }
+  .contrib-row:last-child { border-bottom: none; }
+  .contrib-row__rank { color: var(--content-default-level-2); font-family: var(--font-mono); font-size: 13px; text-align: center; }
+  .contrib-row__rank.is-top { color: transparent; position: relative; }
+  .contrib-row__rank.is-top::before {
+    content: "♛";
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    color: var(--content-accent-vip);
+    font-size: 18px;
+  }
+  .contrib-row__name { color: var(--content-default-level-4); font-size: 13px; line-height: 1.2; }
+  .contrib-row__name small { display: block; color: var(--content-default-level-2); font-size: 11px; margin-top: 2px; }
+  .contrib-row__amount { font-family: var(--font-mono); color: var(--content-default-level-5); font-weight: 600; font-size: 13px; }
+
+  /* =====================================================================
+     Referee history
+  ===================================================================== */
+  /* Two-row header: title on top, controls (calendar + search + CSV) below */
+  .history-head { margin-bottom: var(--spacing-16); }
+  .history-head__title { color: var(--content-default-level-5); margin: 0 0 var(--spacing-16); }
+  .history-head__controls {
+    display: flex; align-items: center; gap: var(--spacing-8);
+  }
+  .history-head__controls .secondary-btn { margin-left: auto; }
+  .search-input {
+    height: 36px;
+    border-radius: var(--radius-8);
+    background: var(--background-default-level-1);
+    border: 1px solid var(--border-default-level-1);
+    display: inline-flex; align-items: center; gap: var(--spacing-8);
+    padding: 0 var(--spacing-12);
+    color: var(--content-default-level-2);
+    font-size: 13px;
+    width: 280px;
+  }
+  .search-input input {
+    background: transparent; border: none; outline: none;
+    color: var(--content-default-level-5); font-family: var(--font-sans);
+    flex: 1; font-size: 13px;
+  }
+  .search-input input::placeholder { color: var(--content-default-level-2); }
+  .date-picker-btn {
+    width: 36px; height: 36px;
+    border-radius: var(--radius-8);
+    background: var(--background-default-level-1);
+    border: 1px solid var(--border-default-level-1);
+    color: var(--content-default-level-3);
+    display: inline-grid; place-items: center;
+  }
+  .secondary-btn {
+    height: 36px; padding: 0 var(--spacing-16);
+    border-radius: var(--radius-8);
+    background: var(--background-default-level-1);
+    border: 1px solid var(--border-default-level-2);
+    color: var(--content-default-level-4);
+    font-family: var(--font-mono);
+    font-weight: 600; font-size: 13px;
+    display: inline-flex; align-items: center; gap: var(--spacing-8);
+  }
+  .secondary-btn:hover { border-color: var(--border-default-level-3); }
+  .secondary-btn svg { width: 14px; height: 14px; }
+
+  .history-table { font-size: 13px; }
+  .history-table thead th {
+    color: var(--content-default-level-2);
+    font-weight: 400;
+    text-align: right;
+    padding: var(--spacing-12) var(--spacing-16);
+    border-bottom: 1px solid var(--border-default-level-1);
+  }
+  .history-table thead th:first-child { text-align: left; }
+  .history-table thead th:nth-child(2) { text-align: left; padding-left: 0; }
+  .history-table tbody td {
+    padding: var(--spacing-16) var(--spacing-16);
+    border-bottom: 1px solid var(--border-default-level-1);
+    color: var(--content-default-level-5);
+    font-family: var(--font-mono);
+    text-align: right;
+  }
+  .history-table tbody td:first-child { text-align: left; color: var(--content-default-level-4); }
+  .history-table tbody td:nth-child(2) { padding-left: 0; }
+
+  .row-toggle {
+    display: inline-flex; align-items: center; gap: var(--spacing-8);
+    color: var(--content-default-level-4);
+  }
+  .row-toggle .chev { color: var(--content-default-level-2); transition: transform 120ms ease; }
+  .row-toggle.is-open .chev { transform: rotate(180deg); }
+
+  .history-table tbody tr.parent { background: var(--background-default-level-1); }
+  .history-table tbody tr.parent td { border-bottom-color: transparent; }
+  .history-table tbody tr.parent.is-open td { border-bottom-color: var(--border-default-level-1); }
+  .history-table tbody tr.parent + tr.detail td { background: var(--background-default-level-1); }
+
+  .subtable-wrap {
+    padding: 0;
+  }
+  .subtable {
+    width: 100%; border-collapse: collapse;
+    background: var(--background-default-level-0);
+    border-radius: var(--radius-8);
+    overflow: hidden;
+    font-size: 12px;
+  }
+  .subtable thead th {
+    color: var(--content-default-level-2);
+    font-weight: 400;
+    padding: var(--spacing-12) var(--spacing-16);
+    text-align: right;
+    border-bottom: 1px solid var(--border-default-level-1);
+  }
+  .subtable thead th:first-child { text-align: left; }
+  .subtable tbody td {
+    padding: var(--spacing-12) var(--spacing-16);
+    color: var(--content-default-level-4);
+    font-family: var(--font-mono);
+    text-align: right;
+  }
+  .subtable tbody td:first-child { text-align: left; }
+  .subtable tbody td:nth-child(4) { color: var(--content-default-level-2); }
+
+  .username-cell {
+    display: flex; flex-direction: column;
+    gap: 2px;
+  }
+  .username-cell .uid { color: var(--content-default-level-2); font-size: 10px; }
+  .copy-inline {
+    color: var(--content-default-level-2);
+    margin-left: var(--spacing-4);
+  }
+
+  .vip-badge {
+    display: inline-flex; align-items: center; gap: var(--spacing-4);
+    height: 20px; padding: 0 var(--spacing-8);
+    border-radius: var(--radius-full);
+    background: var(--gradient-vip);
+    color: var(--content-default-level-0);
+    font-family: var(--font-mono); font-weight: 700; font-size: 11px;
+  }
+  .fee-cell {
+    display: inline-flex; align-items: center; gap: var(--spacing-8);
+    justify-content: flex-end;
+  }
+
+  .pagination {
+    display: flex; gap: var(--spacing-8); margin-top: var(--spacing-24);
+  }
+
+  /* small text utilities */
+  .muted { color: var(--content-default-level-2); }
+  .strong { color: var(--content-default-level-5); }
+
+  /* =====================================================================
+     Payback banner (inside Trading commission card)
+  ===================================================================== */
+  .payback-banner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--spacing-12) var(--spacing-16);
+    border-radius: var(--radius-8);
+    background: rgba(207, 230, 0, 0.06);
+    border: 1px solid rgba(207, 230, 0, 0.12);
+    margin-bottom: var(--spacing-24);
+    color: var(--content-default-level-4);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 120ms ease;
+  }
+  .payback-banner:hover { background: rgba(207, 230, 0, 0.10); }
+  .payback-banner__left { display: inline-flex; align-items: center; gap: var(--spacing-10); }
+  .payback-banner__icon { font-size: 14px; flex-shrink: 0; }
+  .payback-banner__caret {
+    color: var(--content-default-level-3);
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+  }
+
+  /* =====================================================================
+     Manage Users tab panel
+  ===================================================================== */
+  .mu-topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: var(--spacing-24);
+  }
+  .mu-commission { display: inline-flex; align-items: baseline; gap: var(--spacing-8); }
+  .mu-commission__label { color: var(--content-default-level-3); font-size: 14px; }
+  .mu-commission__value { color: var(--content-default-level-5); font-size: 18px; font-weight: 700; }
+
+  .mu-search-row { margin-bottom: var(--spacing-16); }
+  .mu-search-input { width: 240px; }
+
+  .mu-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: auto; }
+  .mu-table thead th {
+    color: var(--content-default-level-2);
+    font-weight: 400; text-align: right;
+    padding: var(--spacing-12) var(--spacing-16);
+    border-bottom: 1px solid var(--border-default-level-1);
+    white-space: nowrap;
+  }
+  .mu-table thead th:first-child  { text-align: left; padding-left: 0; }
+  .mu-table thead th:nth-child(2) { text-align: left; }
+  .mu-th__sub { display: block; color: var(--content-default-level-2); font-size: 11px; font-weight: 400; margin-top: 1px; }
+  .mu-table tbody tr:hover td { background: var(--background-interaction-hover); }
+  .mu-table tbody td {
+    padding: var(--spacing-14, 14px) var(--spacing-16);
+    border-bottom: 1px solid var(--border-default-level-1);
+    color: var(--content-default-level-5);
+    font-family: var(--font-mono);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .mu-table tbody td:first-child  { text-align: left; padding-left: 0; }
+  .mu-table tbody td:nth-child(2) { text-align: left; font-family: var(--font-sans); color: var(--content-default-level-3); }
+  .mu-td--vip { }
+  .mu-vip-cell { display: inline-flex; align-items: center; gap: var(--spacing-8); }
+  .mu-dash { color: var(--content-default-level-2); }
+  .mu-fee-rate { color: var(--content-default-level-4); font-family: var(--font-mono); font-size: 12px; }
+  .mu-td--dim { color: var(--content-default-level-2) !important; }
+
+  .mu-username { display: flex; flex-direction: column; gap: 2px; }
+  .mu-username__name {
+    color: var(--content-default-level-5);
+    font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .mu-username__uid { color: var(--content-default-level-2); font-family: var(--font-mono); font-size: 11px; }
+
+  .vip-badge__icon {
+    width: 13px; height: 13px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, #e46c10 0%, #ff9a3c 100%);
+    color: #fff;
+    font-size: 8px; font-weight: 900;
+    display: inline-grid; place-items: center;
+    flex-shrink: 0;
+    font-family: var(--font-sans);
+    line-height: 1;
+  }
+</style>
+</head>
+<body>
+
+<!-- ────────────────────────────  GNB  ──────────────────────────── -->
+<header class="gnb">
+  <a href="#" class="gnb__logo">
+    <span class="gnb__logo-mark">F</span>
+    <span>Flipster</span>
+  </a>
+  <nav class="gnb__nav">
+    <a class="gnb__link" href="#">Trade <span class="caret"></span></a>
+    <a class="gnb__link" href="#">Market</a>
+    <a class="gnb__link" href="#">Insights</a>
+    <a class="gnb__link" href="#">Earn+ <span class="caret"></span></a>
+    <a class="gnb__link" href="#">Assets</a>
+    <a class="gnb__link" href="#">History <span class="caret"></span></a>
+    <a class="gnb__link" href="#">More <span class="caret"></span></a>
+    <a href="#" class="gnb__promo">
+      <span class="coin" aria-hidden="true"></span>
+      Promotion title
+    </a>
+  </nav>
+  <div class="gnb__actions">
+    <button class="icon-btn" aria-label="Gift">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+    </button>
+    <button class="icon-btn" aria-label="Notifications">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg>
+    </button>
+    <button class="icon-btn" aria-label="Globe">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
+    </button>
+    <button class="user-chip">
+      <span class="dot"></span>
+      Basic
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="page">
+  <div class="container">
+
+    <!-- ──────────────  Page header: Affiliate + referral  ────────────── -->
+    <div class="page-header">
+      <h1 class="page-header__title display-l">Affiliate</h1>
+      <div class="referral-bar">
+        <div class="referral-bar__item">
+          Your referral link
+          <button class="copy-btn" aria-label="Copy referral link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+        </div>
+        <div class="referral-bar__item">
+          Your referral code
+          <span class="referral-bar__code">FLIPSTER2</span>
+          <button class="copy-btn" aria-label="Copy referral code">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────────────  Tabs  ────────────── -->
+    <div class="tabs">
+      <a href="#" class="tabs__item is-selected" data-panel="overview">Overview</a>
+      <a href="#" class="tabs__item" data-panel="user-list">User List</a>
+      <a href="#" class="tabs__item" data-panel="my-referee-group">My referee group</a>
+      <a href="#" class="tabs__item" data-panel="event-center">Event center</a>
+      <div class="tabs__meta">
+        <span>Latest update: 25.01.23, 09:00:00 UTC</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+    </div>
+
+    <!-- ══════════════  PANEL: Overview  ══════════════ -->
+    <div id="panel-overview" class="tab-panel">
+
+    <!-- ──────────────  Top row  ────────────── -->
+    <div class="top-grid">
+
+      <!-- Trading commission -->
+      <section class="card">
+        <div class="commission__head">
+          <span class="commission__title">Trading commission</span>
+          <span class="pct-badge mono">60%</span>
+        </div>
+
+        <div class="payback-banner">
+          <span class="payback-banner__left">
+            <span class="payback-banner__icon">🚀</span>
+            <span>10% payback ongoing, create more to drive more trades</span>
+          </span>
+          <svg class="payback-banner__caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </div>
+
+        <div class="kpi-row">
+          <div>
+            <div class="kpi__label">Total rewards (USDT)</div>
+            <div class="kpi__value mono">17,190.32</div>
+          </div>
+          <div>
+            <div class="kpi__label">Referee count</div>
+            <div class="kpi__value mono">46</div>
+          </div>
+          <div>
+            <div class="kpi__label">Avg. reward per referee (USDT)</div>
+            <div class="kpi__value mono" style="text-align:right">373.70</div>
+          </div>
+        </div>
+
+        <div class="breakdown__caption">Rewards by referee type</div>
+        <div class="breakdown__bar">
+          <span style="width: 40%"></span>
+          <span style="width: 60%"></span>
+        </div>
+
+        <div class="breakdown__table">
+          <div class="breakdown__row breakdown__row--head">
+            <span>Referee type</span>
+            <span style="text-align:right">Total rewards (USDT)</span>
+            <span style="text-align:right">Referee count</span>
+            <span style="text-align:right">Avg. reward per referee (USDT)</span>
+          </div>
+          <div class="breakdown__row">
+            <span class="breakdown__type"><span class="breakdown__dot breakdown__dot--direct"></span>Direct referees</span>
+            <span class="breakdown__num breakdown__num--with-pct"><span class="mono">10,296.02</span><span class="pct-badge pct-badge--outline mono">60%</span></span>
+            <span class="breakdown__num">41</span>
+            <span class="breakdown__num">251.12</span>
+          </div>
+          <div class="breakdown__row">
+            <span class="breakdown__type"><span class="breakdown__dot breakdown__dot--sub"></span>Sub-Affiliates</span>
+            <span class="breakdown__num breakdown__num--with-pct"><span class="mono">6,894.30</span><span class="pct-badge pct-badge--outline mono">40%</span></span>
+            <span class="breakdown__num">5</span>
+            <span class="breakdown__num">1,396.86</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Total USDT balance -->
+      <section class="card">
+        <div class="commission__title" style="margin-bottom: var(--spacing-8)">Total USDT balance</div>
+        <div class="balance__amount mono">53,534.32</div>
+
+        <h3 class="balance__section-title">Reward history</h3>
+        <div class="balance__list">
+          <div class="balance__list__head">
+            <span>Date</span>
+            <span>Amount (USDT)</span>
+          </div>
+          <div class="balance__row"><span>2025.08.25</span><span class="mono">434.92</span></div>
+          <div class="balance__row"><span>2025.08.24</span><span class="mono">355.40</span></div>
+          <div class="balance__row"><span>2025.08.23</span><span class="mono">483.67</span></div>
+          <div class="balance__row"><span>2025.08.22</span><span class="mono">316.13</span></div>
+        </div>
+
+        <button class="view-all">View all</button>
+      </section>
+    </div>
+
+    <!-- ──────────────  Events  ────────────── -->
+    <div class="section-head">
+      <h2 class="section-head__title title-m">Events</h2>
+      <a href="#" class="text-btn">View all
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+    </div>
+
+    <div class="events">
+      <article class="event-card event-card--social">
+        <div>
+          <div class="event-card__eyebrow">Social Trading</div>
+          <div class="event-card__title">Win up to 3K<br/>USDT Bonus</div>
+        </div>
+        <a href="#" class="event-card__cta">Learn more →</a>
+        <div class="event-card__art" aria-hidden="true">🎁</div>
+      </article>
+
+      <article class="event-card event-card--feature">
+        <div>
+          <div class="event-card__eyebrow">New Trading Feature</div>
+          <div class="event-card__title">Win up to 10K<br/>USDT airdrops</div>
+        </div>
+        <a href="#" class="event-card__cta">Learn more →</a>
+        <div class="event-card__art" aria-hidden="true">🚀</div>
+      </article>
+
+      <article class="event-card event-card--earn">
+        <div>
+          <div class="event-card__eyebrow">Flipster Earn</div>
+          <div class="event-card__title">Earn 20% APR</div>
+        </div>
+        <a href="#" class="event-card__cta">Learn more →</a>
+        <div class="event-card__art" aria-hidden="true">💎</div>
+      </article>
+    </div>
+
+    <div class="events-nav">
+      <button class="icon-btn icon-btn--ghost" aria-label="Previous">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </button>
+      <button class="icon-btn icon-btn--ghost" aria-label="Next">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- ──────────────  Rewards trend  ────────────── -->
+    <div class="trend-head">
+      <h2 class="trend-head__title title-m">Rewards trend</h2>
+      <div class="trend-head__controls">
+        <div class="chip-group" role="tablist" aria-label="Time range">
+          <button class="choice-chip choice-chip--icon" aria-label="Pick date">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </button>
+          <button class="choice-chip is-selected">Last 7 days</button>
+          <button class="choice-chip">Last 30 days</button>
+          <button class="choice-chip">All time</button>
+        </div>
+        <div class="trend-head__range">Jul 14, 2025 — Jul 20, 2025</div>
+      </div>
+    </div>
+
+    <section class="trend-card">
+      <div class="trend-card__commission">
+        <span class="label">Effective trading commission</span>
+        <span class="pct-badge mono">48%</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--content-default-level-2)"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+
+      <div class="kpi-row kpi-row--4">
+        <div>
+          <div class="kpi__label">Total rewards (USDT)</div>
+          <div class="kpi__value mono">2,190.32</div>
+          <div class="kpi__delta">+460.84 <span class="kpi__delta__suffix">vs previous 7 days</span></div>
+        </div>
+        <div>
+          <div class="kpi__label">Active referees</div>
+          <div class="kpi__value mono">24</div>
+          <div class="kpi__delta">+4 <span class="kpi__delta__suffix">vs previous 7 days</span></div>
+        </div>
+        <div>
+          <div class="kpi__label">Total trading volume (USDT)</div>
+          <div class="kpi__value mono">9,126,340.67</div>
+          <div class="kpi__delta">+1,921,612.09 <span class="kpi__delta__suffix">vs previous 7 days</span></div>
+        </div>
+        <div>
+          <div class="kpi__label">Total trading fee (USDT) <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+          <div class="kpi__value mono">4,563.17</div>
+          <div class="kpi__delta">+960.09 <span class="kpi__delta__suffix">vs previous 7 days</span></div>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="chart-card">
+      <div class="chart">
+        <svg viewBox="0 0 1100 260" preserveAspectRatio="none" style="width:100%; height:260px;">
+          <!-- y-axis labels -->
+          <g font-family="var(--font-mono)" fill="#959595" font-size="10">
+            <text x="0"  y="20">1,500</text>
+            <text x="0"  y="70">1,200</text>
+            <text x="0"  y="120">900</text>
+            <text x="0"  y="170">800</text>
+            <text x="0"  y="220">500</text>
+          </g>
+          <!-- grid lines -->
+          <g stroke="#222222" stroke-width="1">
+            <line x1="45" y1="20"  x2="1080" y2="20" />
+            <line x1="45" y1="70"  x2="1080" y2="70" />
+            <line x1="45" y1="120" x2="1080" y2="120" />
+            <line x1="45" y1="170" x2="1080" y2="170" />
+            <line x1="45" y1="220" x2="1080" y2="220" />
+          </g>
+          <!-- previous 7 days (dashed) -->
+          <path d="M45,180 L220,175 L400,178 L580,165 L760,170 L930,168 L1080,160"
+                fill="none" stroke="#3a3a3a" stroke-width="1.5" stroke-dasharray="5 5"/>
+          <!-- last 7 days (solid white) -->
+          <path d="M45,170 L220,168 L400,165 L580,150 L760,140 L930,125 L1080,90"
+                fill="none" stroke="#eeeeee" stroke-width="2"/>
+          <!-- last point marker tooltip -->
+          <g transform="translate(1080, 90)">
+            <circle r="4" fill="#eeeeee"/>
+            <g transform="translate(-110, -34)">
+              <rect width="100" height="26" rx="4" fill="#2a2a2a"/>
+              <text x="50" y="17" text-anchor="middle" fill="#ffffff" font-family="var(--font-mono)" font-size="12" font-weight="600">1,734.92</text>
+              <text x="90" y="17" text-anchor="end" fill="#959595" font-family="var(--font-mono)" font-size="10">USDT</text>
+            </g>
+          </g>
+          <!-- x-axis labels -->
+          <g font-family="var(--font-mono)" fill="#7b7b7b" font-size="11">
+            <text x="45" y="252">Jul 14</text>
+            <text x="1050" y="252">Jul 20</text>
+          </g>
+        </svg>
+        <div class="chart__legend">
+          <span class="legend-item"><span class="legend-line"></span>Last 7 days</span>
+          <span class="legend-item"><span class="legend-line legend-line--dashed"></span>Previous last 7 days</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────  Conversion + Contributors  ────────────── -->
+    <div class="mid-grid">
+      <section class="card">
+        <h3 class="card-title title-s" style="margin-bottom: var(--spacing-24)">New referee conversion</h3>
+        <div class="funnel">
+          <div class="funnel-row">
+            <div class="funnel-row__label">Sign ups</div>
+            <div class="funnel-row__bar"><span style="width: 100%"></span></div>
+            <div class="funnel-row__value mono">30</div>
+            <div class="funnel-row__pct">100%</div>
+          </div>
+          <div class="funnel-row">
+            <div class="funnel-row__label">KYCs</div>
+            <div class="funnel-row__bar"><span style="width: 50%"></span></div>
+            <div class="funnel-row__value mono">15</div>
+            <div class="funnel-row__pct">50%</div>
+          </div>
+          <div class="funnel-row">
+            <div class="funnel-row__label">First deposit</div>
+            <div class="funnel-row__bar"><span style="width: 40%"></span></div>
+            <div class="funnel-row__value mono">12</div>
+            <div class="funnel-row__pct">40%</div>
+          </div>
+          <div class="funnel-row">
+            <div class="funnel-row__label">First trade</div>
+            <div class="funnel-row__bar"><span style="width: 10%"></span></div>
+            <div class="funnel-row__value mono">3</div>
+            <div class="funnel-row__pct">10%</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="contributors__header">
+          <div>
+            <h3 class="contributors__title title-s" style="margin-bottom: var(--spacing-4)">Top 30 contributors</h3>
+            <div class="contributors__sub">Referees who brought most rewards (USDT)</div>
+          </div>
+          <div class="contributors__nav">
+            <button class="icon-btn" aria-label="Previous">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button class="icon-btn" aria-label="Next">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="contributors__grid">
+          <div>
+            <div class="contrib-row">
+              <span class="contrib-row__rank is-top"></span>
+              <div class="contrib-row__name">Flipster_test1<small>Sub-Affiliates</small></div>
+              <span class="contrib-row__amount mono">523.23</span>
+            </div>
+            <div class="contrib-row">
+              <span class="contrib-row__rank is-top"></span>
+              <div class="contrib-row__name">Flipster_test2<small>Sub-Affiliates</small></div>
+              <span class="contrib-row__amount mono">327.99</span>
+            </div>
+            <div class="contrib-row">
+              <span class="contrib-row__rank is-top"></span>
+              <div class="contrib-row__name">Flipster_test2<small>Direct referee</small></div>
+              <span class="contrib-row__amount mono">142.07</span>
+            </div>
+          </div>
+          <div>
+            <div class="contrib-row">
+              <span class="contrib-row__rank">4</span>
+              <div class="contrib-row__name">Flipster_test4</div>
+              <span class="contrib-row__amount mono">93.10</span>
+            </div>
+            <div class="contrib-row">
+              <span class="contrib-row__rank">5</span>
+              <div class="contrib-row__name">Flipster_test5</div>
+              <span class="contrib-row__amount mono">83.28</span>
+            </div>
+            <div class="contrib-row">
+              <span class="contrib-row__rank">6</span>
+              <div class="contrib-row__name">Flipster_test6</div>
+              <span class="contrib-row__amount mono">75.32</span>
+            </div>
+            <div class="contrib-row">
+              <span class="contrib-row__rank">7</span>
+              <div class="contrib-row__name">Flipster_test7</div>
+              <span class="contrib-row__amount mono">60.72</span>
+            </div>
+            <div class="contrib-row">
+              <span class="contrib-row__rank">8</span>
+              <div class="contrib-row__name">Flipster_test8</div>
+              <span class="contrib-row__amount mono">51.34</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ──────────────  Referee history  ────────────── -->
+    <div class="history-head">
+      <h2 class="history-head__title title-m">Referee history</h2>
+      <div class="history-head__controls">
+        <button class="date-picker-btn" aria-label="Pick date">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </button>
+        <div class="search-input">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Search Username" />
+        </div>
+        <button class="secondary-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download CSV
+        </button>
+      </div>
+    </div>
+
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Date</th>
+          <th>Total rewards (USDT)</th>
+          <th>Active referees</th>
+          <th>Total trading volume (USDT)</th>
+          <th>Total trading fee (USDT)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="parent is-open">
+          <td style="width: 32px;"></td>
+          <td>
+            <span class="row-toggle is-open">
+              <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              2025.08.25
+            </span>
+          </td>
+          <td>434.92</td>
+          <td>17</td>
+          <td>1,812,160.73</td>
+          <td>906.08</td>
+        </tr>
+        <tr class="detail">
+          <td colspan="6" class="subtable-wrap">
+            <table class="subtable">
+              <thead>
+                <tr>
+                  <th>Username<br/><span style="font-weight:400; color: var(--content-default-level-1); font-size:10px;">UID</span></th>
+                  <th>Reward (USDT)</th>
+                  <th>Trading volume (USDT)</th>
+                  <th>VIP tier / Taker fee</th>
+                  <th>Trading fee (USDT)</th>
+                  <th>Effective commission rate</th>
+                  <th>Referee type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="username-cell">
+                      <span>Flipster_test1 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                      <span class="uid">2BSD14E0</span>
+                    </div>
+                  </td>
+                  <td>121.31</td>
+                  <td>2,695,766.93</td>
+                  <td style="text-align:left;">—</td>
+                  <td>808.73</td>
+                  <td>15%</td>
+                  <td style="text-align:right;">Sub-Affiliates</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="username-cell">
+                      <span>Flipster_test2 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                      <span class="uid">2E5D2KG</span>
+                    </div>
+                  </td>
+                  <td>78.24</td>
+                  <td>782,400.67</td>
+                  <td style="text-align:left;">—</td>
+                  <td>312.96</td>
+                  <td>25%</td>
+                  <td style="text-align:right;">Sub-Affiliates</td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="username-cell">
+                      <span>Flipster_test3 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                      <span class="uid">2BD02KG</span>
+                    </div>
+                  </td>
+                  <td>36.42</td>
+                  <td>134,888.89</td>
+                  <td style="text-align:left;">
+                    <span class="fee-cell">
+                      <span class="vip-badge">♛ VIP 4</span>
+                      <span class="mono">0.03%</span>
+                    </span>
+                  </td>
+                  <td>60.70</td>
+                  <td>60%</td>
+                  <td style="text-align:right;">Direct referee</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+
+        <tr class="parent">
+          <td></td>
+          <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.24</span></td>
+          <td>355.40</td><td>15</td><td>1,480,840.43</td><td>740.42</td>
+        </tr>
+        <tr class="parent">
+          <td></td>
+          <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.23</span></td>
+          <td>483.67</td><td>19</td><td>2,016,120.81</td><td>1,008.06</td>
+        </tr>
+        <tr class="parent">
+          <td></td>
+          <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.22</span></td>
+          <td>316.13</td><td>13</td><td>1,317,200.38</td><td>658.60</td>
+        </tr>
+        <tr class="parent">
+          <td></td>
+          <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.21</span></td>
+          <td>235.62</td><td>11</td><td>981,760.99</td><td>490.88</td>
+        </tr>
+        <tr class="parent">
+          <td></td>
+          <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.20</span></td>
+          <td>205.17</td><td>9</td><td>854,860.46</td><td>427.43</td>
+        </tr>
+        <tr class="parent">
+          <td></td>
+          <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.19</span></td>
+          <td>159.21</td><td>10</td><td>663,380.06</td><td>331.69</td>
+        </tr>
+        <tr class="parent">
+          <td></td>
+          <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.18</span></td>
+          <td>183.37</td><td>12</td><td>764,040.29</td><td>382.02</td>
+        </tr>
+        <tr class="parent">
+          <td></td>
+          <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.17</span></td>
+          <td>258.90</td><td>13</td><td>1,078,740.21</td><td>539.37</td>
+        </tr>
+        <tr class="parent">
+          <td></td>
+          <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.16</span></td>
+          <td>353.22</td><td>16</td><td>1,471,740.65</td><td>735.87</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <button class="icon-btn" aria-label="Previous page">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Next page">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+
+    </div><!-- /panel-overview -->
+
+    <!-- ══════════════  PANEL: Manage Users  ══════════════ -->
+    <div id="panel-user-list" class="tab-panel" hidden>
+
+      <!-- Top bar: filter chips left, commission right -->
+      <div class="mu-topbar">
+        <div class="chip-group">
+          <button class="choice-chip is-selected" data-mu-chip="referee">Referee</button>
+          <button class="choice-chip" data-mu-chip="sub-affiliate">Sub-Affiliate</button>
+        </div>
+        <div class="mu-commission">
+          <span class="mu-commission__label">Trading commission</span>
+          <span class="mu-commission__value">0.5%</span>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="mu-search-row">
+        <div class="search-input mu-search-input">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" placeholder="Search Username" />
+        </div>
+      </div>
+
+      <!-- Users table -->
+      <table class="mu-table">
+        <thead>
+          <tr>
+            <th>Username<span class="mu-th__sub">UID</span></th>
+            <th>Referee type</th>
+            <th>Total rewards (USDT)</th>
+            <th>Total trading volume (USDT)</th>
+            <th>VIP tier/ Taker fee</th>
+            <th class="mu-td--dim">Total trading fee (USDT)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Row 1 — Sub-Affiliate -->
+          <tr>
+            <td>
+              <div class="mu-username">
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__uid">ZE019XG</span>
+              </div>
+            </td>
+            <td>Sub-Affiliate</td>
+            <td>121.31</td>
+            <td>2,695,766.93</td>
+            <td class="mu-td--vip"><span class="mu-dash">—</span></td>
+            <td class="mu-td--dim">808.73</td>
+          </tr>
+          <!-- Row 2 — Direct referee, VIP 4 -->
+          <tr>
+            <td>
+              <div class="mu-username">
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__uid">ZE019XG</span>
+              </div>
+            </td>
+            <td>Direct referee</td>
+            <td>121.31</td>
+            <td>2,695,766.93</td>
+            <td class="mu-td--vip">
+              <span class="mu-vip-cell">
+                <span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span>
+                <span class="mu-fee-rate">0.03%</span>
+              </span>
+            </td>
+            <td class="mu-td--dim">808.73</td>
+          </tr>
+          <!-- Row 3 — Direct referee, VIP 4 -->
+          <tr>
+            <td>
+              <div class="mu-username">
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__uid">ZE019XG</span>
+              </div>
+            </td>
+            <td>Direct referee</td>
+            <td>121.31</td>
+            <td>2,695,766.93</td>
+            <td class="mu-td--vip">
+              <span class="mu-vip-cell">
+                <span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span>
+                <span class="mu-fee-rate">0.03%</span>
+              </span>
+            </td>
+            <td class="mu-td--dim">808.73</td>
+          </tr>
+          <!-- Row 4 — Direct referee, no VIP -->
+          <tr>
+            <td>
+              <div class="mu-username">
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__uid">ZE019XG</span>
+              </div>
+            </td>
+            <td>Direct referee</td>
+            <td>121.31</td>
+            <td>2,695,766.93</td>
+            <td class="mu-td--vip"><span class="mu-dash">—</span></td>
+            <td class="mu-td--dim">808.73</td>
+          </tr>
+          <!-- Row 5 — Direct referee, VIP 4 -->
+          <tr>
+            <td>
+              <div class="mu-username">
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__uid">ZE019XG</span>
+              </div>
+            </td>
+            <td>Direct referee</td>
+            <td>121.31</td>
+            <td>2,695,766.93</td>
+            <td class="mu-td--vip">
+              <span class="mu-vip-cell">
+                <span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span>
+                <span class="mu-fee-rate">0.03%</span>
+              </span>
+            </td>
+            <td class="mu-td--dim">808.73</td>
+          </tr>
+          <!-- Row 6 — Direct referee, VIP 4 -->
+          <tr>
+            <td>
+              <div class="mu-username">
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__uid">ZE019XG</span>
+              </div>
+            </td>
+            <td>Direct referee</td>
+            <td>121.31</td>
+            <td>2,695,766.93</td>
+            <td class="mu-td--vip">
+              <span class="mu-vip-cell">
+                <span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span>
+                <span class="mu-fee-rate">0.03%</span>
+              </span>
+            </td>
+            <td class="mu-td--dim">808.73</td>
+          </tr>
+          <!-- Row 7 — Direct referee, VIP 4 -->
+          <tr>
+            <td>
+              <div class="mu-username">
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__uid">ZE019XG</span>
+              </div>
+            </td>
+            <td>Direct referee</td>
+            <td>121.31</td>
+            <td>2,695,766.93</td>
+            <td class="mu-td--vip">
+              <span class="mu-vip-cell">
+                <span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span>
+                <span class="mu-fee-rate">0.03%</span>
+              </span>
+            </td>
+            <td class="mu-td--dim">808.73</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button class="icon-btn" aria-label="Previous page">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Next page">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+
+    </div><!-- /panel-user-list -->
+
+  </div>
+</div>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.tabs__item[data-panel]').forEach(tab => {
+    tab.addEventListener('click', e => {
+      e.preventDefault();
+      const panelId = 'panel-' + tab.dataset.panel;
+      document.querySelectorAll('.tabs__item').forEach(t => t.classList.remove('is-selected'));
+      tab.classList.add('is-selected');
+      document.querySelectorAll('.tab-panel').forEach(p => { p.hidden = true; });
+      const panel = document.getElementById(panelId);
+      if (panel) panel.hidden = false;
+    });
+  });
+
+  // Toggle expand/collapse on parent rows (simple progressive enhancement)
+  document.querySelectorAll('.history-table .row-toggle').forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+      const parent = toggle.closest('tr.parent');
+      const next   = parent && parent.nextElementSibling;
+      if (!parent) return;
+      const isOpen = parent.classList.toggle('is-open');
+      toggle.classList.toggle('is-open', isOpen);
+      if (next && next.classList.contains('detail')) {
+        next.style.display = isOpen ? '' : 'none';
+      }
+    });
+  });
+  // Hide detail rows by default unless parent is .is-open
+  document.querySelectorAll('.history-table tr.detail').forEach(detail => {
+    const prev = detail.previousElementSibling;
+    if (prev && !prev.classList.contains('is-open')) detail.style.display = 'none';
+  });
+</script>
+
+</body>
+</html>

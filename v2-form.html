@@ -1,0 +1,72 @@
+<div class="inner-sheet">
+
+  <!-- Trigger price field (Trigger mode only) -->
+  <div class="price-field" id="triggerPriceField" style="display:none">
+    <div class="price-field-label-row">
+      <span class="price-field-label">Trigger price</span>
+    </div>
+    <div class="price-value-row">
+      <div class="price-value-wrap">
+        <span class="price-value">122,016</span>
+        <div class="cursor-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Execute / Limit price field -->
+  <div class="price-field">
+    <!-- Label row: segment toggled here (same line as label) -->
+    <div class="price-field-label-row">
+      <span class="price-field-label" id="executePriceLabel">Limit price</span>
+      <div class="exec-type-tabs" id="execTypeTabs" style="display:none">
+        <div class="exec-tab active" id="execTabMarket" onclick="selectExecType('Market')">Market</div>
+        <div class="exec-tab" id="execTabLimit" onclick="selectExecType('Limit')">Limit</div>
+      </div>
+    </div>
+    <!-- Price value row: BBO removed from here -->
+    <div class="price-value-row">
+      <div class="price-value-wrap">
+        <span class="price-value" id="execPriceActive">122,016</span>
+        <div class="cursor-line" id="execPriceCursor"></div>
+        <span class="price-placeholder" id="execPriceMarket" style="display:none">Market price</span>
+        <span class="price-best-counterparty" id="execPriceBBO" style="display:none">Best counterparty</span>
+      </div>
+    </div>
+    <!-- BBO as separate row below input -->
+    <div class="bbo-row" id="bboRow" style="display:none">
+      <div class="checkbox-box" id="bboCheckbox" onclick="toggleBBO()"></div>
+      <div class="bbo-label-row">
+        <span class="bbo-text">BBO</span>
+        <div class="bbo-icon-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="7" stroke="#959595" stroke-width="1.2"/>
+            <text x="8" y="12" text-anchor="middle" font-size="9" fill="#959595" font-family="sans-serif" font-weight="600">?</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USDT margin -->
+  <div class="margin-section">
+    <div class="margin-top-row">
+      <span class="margin-title">USDT margin</span>
+      <div class="position-size-btn">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M2 10H18M2 10L6 6M2 10L6 14M18 10L14 6M18 10L14 14" stroke="#959595" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="pos-size-label">Position size</span>
+      </div>
+    </div>
+    <div class="margin-bottom-row">
+      <span class="available-text">Available funds: 345.69 USDT</span>
+      <div class="add-btn">
+        <span class="add-label">Add</span>
+        <div class="add-underline"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="cta-wrap">
+  <button class="continue-btn">Continue</button>
+</div>

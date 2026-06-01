@@ -1,0 +1,2228 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=375, initial-scale=1.0" />
+  <title>Order Form – Chart</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    button, input, select, textarea { font-family: inherit; }
+
+    body {
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .screen {
+      width: 375px;
+      height: 812px;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── Status Bar ── */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      height: 34px;
+      flex-shrink: 0;
+    }
+    .status-time { font-size: 12px; color: #fff; font-weight: 400; }
+    .status-icons { display: flex; align-items: center; gap: 6px; }
+    .status-icons svg { display: block; }
+
+    /* ── Top App Bar ── */
+    .top-app-bar {
+      display: flex;
+      align-items: center;
+      height: 42px;
+      padding: 8px 12px;
+      flex-shrink: 0;
+    }
+    .app-bar-back {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .app-bar-center { flex: 1; }
+    .app-bar-trailing {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .trail-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── Coin Header ── */
+    .coin-header {
+      padding: 8px 16px 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .coin-name-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .coin-logo {
+      width: 20px; height: 20px;
+      background: #f7931a;
+      border-radius: 1000px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .coin-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #eee;
+      letter-spacing: -0.24px;
+    }
+    .icon-btn-sm {
+      width: 24px; height: 24px;
+      background: #1c1c1c;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .price-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+    }
+    .price-large {
+      font-size: 24px;
+      font-weight: 600;
+      color: #eee;
+      letter-spacing: -0.48px;
+      font-feature-settings: 'lnum' 1, 'tnum' 1;
+      line-height: 1.12;
+    }
+    .price-pct {
+      font-size: 14px;
+      font-weight: 600;
+      color: #34c759;
+      letter-spacing: -0.21px;
+      font-feature-settings: 'lnum' 1, 'tnum' 1;
+      padding-bottom: 2px;
+    }
+    .stats-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .stat-pill {
+      background: #1c1c1c;
+      border-radius: 4px;
+      padding: 0 8px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .stat-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #959595;
+      letter-spacing: -0.18px;
+      white-space: nowrap;
+    }
+    .stat-value {
+      font-size: 12px;
+      font-weight: 400;
+      color: #eee;
+      letter-spacing: -0.18px;
+      font-feature-settings: 'lnum' 1, 'tnum' 1;
+      white-space: nowrap;
+    }
+    .stat-funding {
+      text-decoration: underline;
+    }
+    .stat-timer {
+      color: #eee;
+      font-size: 12px;
+      font-feature-settings: 'lnum' 1, 'tnum' 1;
+    }
+
+    /* ── Tabs ── */
+    .tabs-bar {
+      border-bottom: 1px solid #2a2a2a;
+      display: flex;
+      align-items: center;
+      padding-top: 8px;
+      flex-shrink: 0;
+    }
+    .tab-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 9px 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #7b7b7b;
+      letter-spacing: -0.21px;
+      cursor: pointer;
+      white-space: nowrap;
+      position: relative;
+      font-feature-settings: 'lnum' 1, 'tnum' 1;
+    }
+    .tab-item.active { color: #eee; }
+    .tab-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 2px;
+      background: #b4b4b4;
+    }
+
+    /* ── Chart Content Area ── */
+    .chart-area {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #111;
+    }
+
+    /* timeframe bar */
+    .tf-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 8px 0 8px;
+      flex-shrink: 0;
+    }
+    .tf-tabs {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-left: 8px;
+    }
+    .tf-tab {
+      font-size: 13px;
+      font-weight: 400;
+      color: #959595;
+      letter-spacing: 0.26px;
+      cursor: pointer;
+      font-family: 'Pretendard', -apple-system, sans-serif;
+    }
+    .tf-tab.active { color: #0a84ff; }
+    .tf-icons {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tf-icon-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 4px;
+    }
+
+    /* chart canvas */
+    .chart-canvas {
+      height: 284px;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      margin: 0;
+    }
+    .chart-canvas img {
+      width: 102.67%;
+      height: 103.75%;
+      position: absolute;
+      top: -2.5%;
+      left: -1.33%;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* OHLC label overlay */
+    .ohlc-label {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(17,17,17,0.8);
+      padding: 2px 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .ohlc-ticker {
+      font-size: 12px;
+      color: #7b7b7b;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      white-space: nowrap;
+    }
+    .ohlc-price-row {
+      display: flex;
+      gap: 8px;
+    }
+    .ohlc-val {
+      font-size: 12px;
+      color: #34c759;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* current/mark legend */
+    .chart-legend {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .legend-label { font-size: 12px; font-weight: 600; color: #959595; white-space: nowrap; }
+    .legend-sep { width: 1px; height: 10px; background: #3a3a3a; }
+    .legend-mark { font-size: 12px; font-weight: 600; color: #0a84ff; white-space: nowrap; }
+
+    /* % / auto row */
+    .chart-axis-hint {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .axis-pct { font-size: 13px; color: #959595; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: 0.26px; }
+    .axis-auto { font-size: 9px; color: #0a84ff; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: 0.18px; }
+
+    /* ── Bid / Ask mini bar ── */
+    .bid-ask-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 8px 16px;
+      flex-shrink: 0;
+    }
+    .ba-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #959595;
+    }
+    .ba-header span { flex: 1; }
+    .ba-header span:nth-child(2) { text-align: center; }
+    .ba-header span:last-child { text-align: right; }
+    .ba-row {
+      display: flex;
+      height: 28px;
+    }
+    .ba-bid, .ba-ask {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 8px;
+    }
+    .ba-bid { background: rgba(52,199,89,0.2); border-radius: 4px 0 0 4px; }
+    .ba-ask { background: rgba(255,65,65,0.2); border-radius: 0 4px 4px 0; }
+    .ba-amount { font-size: 14px; color: #eee; }
+    .ba-bid-price { font-size: 14px; font-weight: 600; color: #34c759; }
+    .ba-ask-price { font-size: 14px; font-weight: 600; color: #ff3b30; }
+
+    /* ── Order book section (hidden by default) ── */
+    .orderbook-section { display: none; flex-direction: column; flex: 1; overflow: hidden; }
+    .ob-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 16px 4px;
+      font-size: 11px; color: #959595;
+    }
+    .ob-header span { flex: 1; }
+    .ob-header span:nth-child(2) { text-align: center; }
+    .ob-header span:last-child { text-align: right; }
+    .ob-rows { display: flex; flex-direction: column; gap: 4px; padding: 0 16px 12px; }
+    .ob-row { display: flex; height: 28px; align-items: center; }
+    .ob-bid, .ob-ask {
+      flex: 1; display: flex; align-items: center; justify-content: space-between;
+      height: 24px; padding: 6px 8px; position: relative;
+    }
+    .ob-bid { border-radius: 4px 0 0 4px; }
+    .ob-ask { border-radius: 0 4px 4px 0; }
+    .ob-amount { font-size: 11px; color: #eee; font-feature-settings: 'lnum' 1,'tnum' 1; z-index: 1; }
+    .ob-bid-price { font-size: 12px; font-weight: 600; color: #34c759; letter-spacing: -0.18px; text-align: right; z-index: 1; font-feature-settings: 'lnum' 1,'tnum' 1; }
+    .ob-ask-price { font-size: 12px; font-weight: 600; color: #ff3b30; letter-spacing: -0.18px; z-index: 1; font-feature-settings: 'lnum' 1,'tnum' 1; }
+    .bid-bar { position: absolute; top: -2px; right: -0.5px; height: 28px; background: rgba(52,199,89,0.12); border-radius: 4px 0 0 4px; }
+    .ask-bar { position: absolute; top: -2px; left: 0.5px; height: 28px; background: rgba(255,59,48,0.12); border-radius: 0 4px 4px 0; }
+
+    /* ── Bottom Sheet ── */
+    .bottom-sheet {
+      background: #1c1c1c;
+      border-radius: 8px 8px 0 0;
+      box-shadow: 0px -8px 8px rgba(0,0,0,0.2);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+    }
+    .drag-handle-wrap {
+      display: flex; justify-content: center; align-items: center;
+      padding: 4px 16px 0;
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .drag-handle-wrap:active { cursor: grabbing; }
+    .drag-handle { width: 36px; height: 5px; background: #484848; border-radius: 1000px; }
+
+    /* chips */
+    .chips-row {
+      display: flex; align-items: center;
+      padding: 8px 16px;
+      height: 48px;
+    }
+    .chips-left { display: flex; align-items: center; gap: 6px; flex: 1; }
+    .chip {
+      display: flex; align-items: center; gap: 4px;
+      background: rgba(238,238,238,0.1);
+      border-radius: 1000px;
+      padding: 0 16px;
+      height: 32px;
+      font-size: 14px; color: #eee; font-weight: 400;
+      letter-spacing: -0.21px; cursor: pointer; white-space: nowrap;
+    }
+    .chip svg { flex-shrink: 0; }
+    .chip-dropdown-wrap { position: relative; }
+    .chip-menu {
+      display: none; position: absolute; top: calc(100% + 6px); left: 0;
+      background: #2a2a2a; border-radius: 8px; border: 1px solid #3a3a3a;
+      overflow: hidden; z-index: 100; min-width: 200px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .chip-menu.open { display: block; }
+    .chip-menu-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; font-size: 14px; color: #eee; font-weight: 400;
+      letter-spacing: -0.21px; cursor: pointer; white-space: nowrap;
+    }
+    .chip-menu-item:hover { background: rgba(255,255,255,0.06); }
+    .chip-menu-item.selected { font-weight: 600; }
+    /* no dividers between items */
+    .chip-menu-check { display: none; }
+    .chip-menu-item.selected .chip-menu-check { display: flex; }
+
+    .positions-btn { display: flex; flex-direction: column; align-items: center; gap: 1px; height: 22px; cursor: pointer; }
+    .positions-label { font-size: 14px; font-weight: 600; color: #0a84ff; letter-spacing: -0.21px; white-space: nowrap; }
+    .positions-underline { height: 0.5px; width: 100%; background: #0a84ff; }
+
+    /* ── Market bottom sheet body ── */
+    .market-body { display: flex; flex-direction: column; gap: 0; }
+    .margin-section {
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 4px 16px 8px;
+    }
+    .margin-top-row { display: flex; align-items: center; justify-content: space-between; }
+    .margin-title { font-size: 24px; font-weight: 600; color: #7b7b7b; letter-spacing: -0.48px; flex: 1; }
+    .position-size-btn { display: flex; align-items: center; gap: 2px; }
+    .pos-size-label { font-size: 14px; font-weight: 600; color: #959595; letter-spacing: -0.21px; white-space: nowrap; }
+    .margin-bottom-row { display: flex; align-items: center; gap: 8px; }
+    .available-text { font-size: 14px; color: #959595; letter-spacing: -0.21px; white-space: nowrap; }
+    .add-btn { display: flex; flex-direction: column; align-items: center; gap: 1px; height: 22px; cursor: pointer; }
+    .add-label { font-size: 14px; font-weight: 600; color: #959595; letter-spacing: -0.21px; font-feature-settings: 'lnum' 1,'tnum' 1; }
+    .add-underline { height: 0.5px; width: 100%; background: #959595; }
+
+    /* % quick buttons */
+    .pct-row {
+      display: flex;
+      gap: 6px;
+      padding: 8px 16px 4px;
+    }
+    .pct-btn {
+      flex: 1;
+      height: 32px;
+      background: #2a2a2a;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 600; color: #959595;
+      letter-spacing: -0.18px; cursor: pointer;
+    }
+
+    /* Buy/Sell CTA */
+    .cta-pair {
+      display: flex;
+      gap: 8px;
+      padding: 8px 16px;
+    }
+    .btn-buy, .btn-sell {
+      flex: 1;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      gap: 2px;
+    }
+    .btn-buy { background: #34c759; }
+    .btn-sell { background: #ff3b30; }
+    .btn-main-label { font-size: 16px; font-weight: 700; font-family: 'Pretendard', sans-serif; color: #fff; letter-spacing: -0.24px; }
+    .btn-sub-label { font-size: 12px; font-weight: 400; font-family: 'Pretendard', sans-serif; color: rgba(255,255,255,0.7); letter-spacing: -0.18px; font-feature-settings: 'lnum' 1,'tnum' 1; }
+
+    /* ── Limit/Trigger bottom sheet body ── */
+    .limit-body { display: none; flex-direction: column; }
+    .inner-sheet { background: #1c1c1e; border-radius: 8px 8px 0 0; box-shadow: 0px -8px 8px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 0; }
+    .price-field { background: #2a2a2a; padding: 8px 16px 0; display: flex; flex-direction: column; gap: 4px; }
+    .price-field-label-row { display: flex; align-items: center; justify-content: space-between; }
+    .price-field-label { font-size: 14px; color: #eee; font-weight: 400; letter-spacing: -0.21px; }
+    .exec-type-tabs { display: flex; background: rgba(255,255,255,0.06); border-radius: 6px; padding: 2px; }
+    .exec-tab { padding: 3px 10px; font-size: 12px; font-weight: 400; color: #959595; border-radius: 4px; cursor: pointer; letter-spacing: -0.18px; white-space: nowrap; }
+    .exec-tab.active { background: #484848; color: #eee; font-weight: 600; }
+    .price-value-row { display: flex; align-items: center; justify-content: space-between; padding-bottom: 8px; padding-top: 0; }
+    .price-value-wrap { flex: 1; display: flex; align-items: center; }
+    .price-value { font-size: 24px; font-weight: 600; color: #eee; letter-spacing: -0.48px; font-feature-settings: 'lnum' 1,'tnum' 1; }
+    .price-placeholder { font-size: 24px; font-weight: 600; color: #484848; letter-spacing: -0.48px; }
+    .price-best-counterparty { font-size: 24px; font-weight: 600; color: #eee; letter-spacing: -0.48px; }
+    .cursor-line { width: 2px; height: 34px; background: #0a84ff; margin-left: 1px; animation: blink 1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .bbo-wrap { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+
+    /* Trigger price — "from market" indicator */
+    .trigger-from-market {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+      padding-bottom: 8px;
+    }
+    .trigger-pct {
+      font-size: 14px;
+      font-weight: 600;
+      color: #ff3b30;
+      letter-spacing: -0.21px;
+      font-feature-settings: 'lnum' 1, 'tnum' 1;
+    }
+    .trigger-pct.positive { color: #34c759; }
+    .trigger-from-label-wrap { display: flex; flex-direction: column; gap: 0; }
+    .trigger-from-text {
+      font-size: 14px;
+      font-weight: 400;
+      color: #eee;
+      letter-spacing: -0.21px;
+      line-height: 1.2;
+    }
+    .trigger-from-underline { height: 0.5px; background: #959595; }
+    .checkbox-box { width: 16px; height: 16px; border: 1px solid #b4b4b4; border-radius: 4px; flex-shrink: 0; cursor: pointer; }
+    .bbo-label-row { display: flex; align-items: center; }
+    .bbo-text { font-size: 16px; font-weight: 600; color: #eee; letter-spacing: -0.24px; }
+    .bbo-icon-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+    .cta-wrap { background: #1c1c1c; padding: 8px 16px; }
+    .continue-btn {
+      width: 100%; height: 48px; background: #0a84ff; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; font-weight: 700; font-family: 'Pretendard', sans-serif; color: #fff; letter-spacing: -0.24px;
+      cursor: pointer; border: none; outline: none;
+    }
+
+    /* safe area */
+    .safe-area { height: 34px; background: #1c1c1c; flex-shrink: 0; }
+
+    /* ── BBO Row (v2/v3) ── */
+    .bbo-row {
+      display: flex; align-items: center;
+      gap: 10px;
+      padding: 4px 16px 8px;
+    }
+
+    /* ── v4: "Order at · market price" label row ── */
+    .v4-order-left {
+      display: flex; align-items: center; gap: 0;
+    }
+    .v4-market-label {
+      font-size: 14px; font-weight: 400; color: #7b7b7b; letter-spacing: -0.21px;
+    }
+
+    /* ── v1 exec-type toggle (replaces segment control) ── */
+    .exec-type-toggle {
+      display: flex; align-items: center; gap: 2px;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .exec-type-toggle-label {
+      font-size: 14px; font-weight: 600; color: #959595;
+      letter-spacing: -0.21px; white-space: nowrap;
+    }
+
+    /* ── v2 exec-type label + switch ── */
+    .v2-exec-type-label {
+      font-size: 14px; font-weight: 400; color: #7b7b7b; letter-spacing: -0.21px;
+    }
+    .v2-exec-switch {
+      display: flex; align-items: center; gap: 4px;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .v2-exec-switch span {
+      font-size: 14px; font-weight: 600; color: #959595; letter-spacing: -0.21px;
+    }
+    /* When price row is hidden (Trigger + Market exec), give label row its own bottom padding */
+    .v2-order-label-row { padding-bottom: 0; }
+
+    /* ── v3 radio button exec-type selector ── */
+    .v3-radio-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .v3-radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;      /* minimum touch target */
+      padding-right: 20px;
+      cursor: pointer;
+      -webkit-user-select: none;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .v3-radio-label {
+      font-size: 14px;
+      font-weight: 400;
+      color: #eee;
+      letter-spacing: -0.21px;
+    }
+
+    /* ── Dev Version Switcher ── */
+    .dev-switcher {
+      align-self: center;
+      margin: 2px 0 4px;
+      background: rgba(18,18,18,0.95);
+      border: 1px solid #3a3a3a;
+      border-radius: 100px;
+      display: flex; align-items: center;
+      padding: 3px; gap: 2px;
+    }
+    .sw-btn {
+      padding: 5px 13px;
+      font-size: 12px; font-weight: 600;
+      font-family: 'Pretendard', sans-serif;
+      letter-spacing: -0.18px;
+      color: #959595;
+      background: transparent;
+      border: none; border-radius: 100px;
+      cursor: pointer; white-space: nowrap;
+    }
+    .sw-btn.active { background: #0a84ff; color: #fff; }
+
+    /* ── Outer version switcher (below phone frame) ── */
+    .vs-outer { display: flex; gap: 8px; padding-top: 20px; }
+    .vs-pill {
+      display: flex; align-items: center; gap: 2px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid #2e2e2e;
+      border-radius: 100px;
+      padding: 3px 3px 3px 10px;
+    }
+    .vs-group-label {
+      font-size: 11px; font-weight: 600; letter-spacing: -0.1px;
+      color: #6a6a6a; font-family: 'Pretendard', sans-serif;
+      white-space: nowrap; margin-right: 2px;
+    }
+
+    /* ── Keypad Section (built-in, always shown in Limit/Trigger) ── */
+    .keypad-panel {
+      background: #1c1c1c;
+      flex-shrink: 0;
+      flex-direction: column;
+    }
+    .kp-shortcuts {
+      display: flex; align-items: center;
+      gap: 6px;
+      height: 44px;
+      padding: 0 16px;
+    }
+    .kp-shortcut {
+      flex: 1; height: 32px;
+      background: #2a2a2a;
+      border-radius: 4px; border: none;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 14px; font-weight: 600;
+      color: #959595; letter-spacing: -0.21px;
+      cursor: pointer;
+      transition: color 0.12s;
+    }
+    .kp-shortcut.kp-active { color: #eee; }
+    .kp-continue-wrap { padding: 8px 16px 8px; }
+    .kp-continue-btn {
+      width: 100%; height: 48px;
+      background: #0a84ff; border-radius: 8px; border: none;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 17px; font-weight: 700; color: #fff;
+      letter-spacing: -0.24px; cursor: pointer;
+    }
+    .kp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      padding: 12px 6px 7px;
+    }
+    .kp-key {
+      height: 46px;
+      background: #1c1c1c; border: none; border-radius: 4.6px;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 26px; font-weight: 400; color: #eee;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .kp-key:active { background: #2a2a2a; }
+    .kp-del svg { pointer-events: none; }
+
+    /* Margin section inside limit/trigger form */
+    .inner-sheet .margin-section { padding-top: 12px; }
+
+    /* Compact state buttons */
+    .compact-continue-wrap {
+      padding: 8px 16px 0;
+      background: #1c1c1c;
+    }
+    /* compact-ls-wrap: cta-pair inside already has its own padding */
+    .compact-ls-wrap {
+      background: #1c1c1c;
+    }
+    /* Compact pct-row: shown in Market compact above L/S buttons */
+    .compact-pct-row {
+      display: flex;
+      gap: 6px;
+      padding: 8px 16px 8px;
+      background: #1c1c1c;
+    }
+    .margin-value-wrap { display: flex; align-items: center; flex: 1; }
+    .margin-title.entered { color: #eee; }
+
+    /* Pushes keypad to sticky-bottom when sheet is expanded */
+    .sheet-spacer { flex: 1; }
+  </style>
+</head>
+<body>
+<div class="screen">
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="status-time">09:30 PM</span>
+    <div class="status-icons">
+      <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
+        <path d="M1 3.5L8.5 10.5L5 14V0L8.5 3.5L1 10.5" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg width="15" height="11" viewBox="0 0 15 11" fill="none">
+        <path d="M7.5 8.5C8.05 8.5 8.5 8.95 8.5 9.5C8.5 10.05 8.05 10.5 7.5 10.5C6.95 10.5 6.5 10.05 6.5 9.5C6.5 8.95 6.95 8.5 7.5 8.5Z" fill="white"/>
+        <path d="M4.17 6.83C5.02 6.1 6.21 5.67 7.5 5.67C8.79 5.67 9.98 6.1 10.83 6.83" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M1.5 4.17C3.08 2.82 5.19 2 7.5 2C9.81 2 11.92 2.82 13.5 4.17" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="none">
+        <rect x="0" y="8" width="3" height="4" rx="0.5" fill="white"/>
+        <rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5" fill="white"/>
+        <rect x="9" y="3" width="3" height="9" rx="0.5" fill="white"/>
+        <rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="white"/>
+      </svg>
+      <svg width="22" height="11" viewBox="0 0 22 11" fill="none">
+        <rect x="0.5" y="0.5" width="18" height="10" rx="2.5" stroke="white" stroke-opacity="0.5"/>
+        <rect x="19.5" y="3.5" width="2" height="4" rx="1" fill="white" fill-opacity="0.5"/>
+        <rect x="2" y="2" width="14" height="7" rx="1.5" fill="white"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Top App Bar -->
+  <div class="top-app-bar">
+    <div class="app-bar-back" onclick="return false;" style="cursor:pointer;">
+      <svg width="9" height="16" viewBox="0 0 9 16" fill="none">
+        <path d="M8 1L1 8L8 15" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="app-bar-center"></div>
+    <div class="app-bar-trailing">
+      <div class="trail-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C8.13 2 5 5.13 5 9V16H3V18H21V16H19V9C19 5.13 15.87 2 12 2ZM12 22C13.1 22 14 21.1 14 20H10C10 21.1 10.9 22 12 22Z" fill="white"/>
+        </svg>
+      </div>
+      <div class="trail-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="5" r="1.5" fill="white"/>
+          <circle cx="12" cy="12" r="1.5" fill="white"/>
+          <circle cx="12" cy="19" r="1.5" fill="white"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coin Header -->
+  <div class="coin-header">
+    <div class="coin-name-row">
+      <div class="coin-logo">
+        <img src="https://www.figma.com/api/mcp/asset/ba024d73-9ea0-40fd-a03e-a79c2b3348fb" width="14" height="14" style="object-fit:contain" alt="BTC" />
+      </div>
+      <span class="coin-name">BTC</span>
+      <div class="icon-btn-sm">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="6" cy="6" r="4.5" stroke="#959595" stroke-width="1.2"/>
+          <path d="M10 10L14 14" stroke="#959595" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+    <div class="price-row">
+      <span class="price-large">93,636.0</span>
+      <span class="price-pct">+38.20%</span>
+    </div>
+    <div class="stats-row">
+      <div class="icon-btn-sm">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 1.5L9.8 5.8L14.5 6.3L11 9.5L12.1 14.2L8 11.8L3.9 14.2L5 9.5L1.5 6.3L6.2 5.8L8 1.5Z" stroke="#959595" stroke-width="1.2" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-label">Mark</span>
+        <span class="stat-value">63,624.9</span>
+      </div>
+      <div class="stat-pill" style="gap:4px">
+        <span class="stat-label stat-funding">Funding/8h</span>
+        <span class="stat-value">0.0100%</span>
+        <span class="stat-label">in</span>
+        <span class="stat-timer">00:16:23</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs-bar" id="mainTabsBar">
+    <div class="tab-item active" id="tabChart" onclick="switchTab('chart')">Chart</div>
+    <div class="tab-item" id="tabOrderbook" onclick="switchTab('orderbook')">Order book</div>
+    <div class="tab-item" id="tabSocial">Social</div>
+    <div class="tab-item" id="tabStats">Stats</div>
+  </div>
+
+  <!-- Chart Area -->
+  <div class="chart-area" id="chartContent">
+    <!-- Timeframe bar -->
+    <div class="tf-bar">
+      <div class="tf-tabs">
+        <span class="tf-tab active">1m</span>
+        <span class="tf-tab">5m</span>
+        <span class="tf-tab">15m</span>
+        <span class="tf-tab">1h</span>
+        <span class="tf-tab">4h</span>
+        <span class="tf-tab">D</span>
+      </div>
+      <div class="tf-icons">
+        <!-- filter icon -->
+        <div class="tf-icon-btn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 5h14M5 10h10M7 15h6" stroke="#959595" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <!-- expand icon -->
+        <div class="tf-icon-btn">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 3h5M3 3v5M17 3h-5M17 3v5M3 17h5M3 17v-5M17 17h-5M17 17v-5" stroke="#959595" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart canvas -->
+    <div class="chart-canvas">
+      <img src="https://www.figma.com/api/mcp/asset/86e48393-f0a0-447d-8a35-7b6bc9e84e3b" alt="chart" />
+      <div class="ohlc-label">
+        <span class="ohlc-ticker">1000PEPRUSDT.PERP · 1D. Flipster</span>
+        <div class="ohlc-price-row">
+          <span class="ohlc-val">0.0009178</span>
+          <span class="ohlc-val">+0.000005 (+0.05%)</span>
+        </div>
+      </div>
+      <div class="chart-legend">
+        <span class="legend-label">Current</span>
+        <div class="legend-sep"></div>
+        <span class="legend-mark">Mark</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="7" stroke="#959595" stroke-width="1.2"/>
+          <text x="8" y="12" text-anchor="middle" font-size="9" fill="#959595" font-family="sans-serif" font-weight="600">?</text>
+        </svg>
+      </div>
+      <div class="chart-axis-hint">
+        <span class="axis-pct">%</span>
+        <span class="axis-auto">auto</span>
+      </div>
+    </div>
+
+    <!-- Bid / Ask mini bar -->
+    <div class="bid-ask-bar">
+      <div class="ba-header">
+        <span>Amount(USDT)</span>
+        <span>Bid/Ask</span>
+        <span>Amount(USDT)</span>
+      </div>
+      <div class="ba-row">
+        <div class="ba-bid">
+          <span class="ba-amount">3.26m</span>
+          <span class="ba-bid-price">27,636.4</span>
+        </div>
+        <div class="ba-ask">
+          <span class="ba-ask-price">27,636.4</span>
+          <span class="ba-amount">3.22m</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Book Area (hidden by default) -->
+  <div class="orderbook-section" id="orderbookContent">
+    <div class="ob-header">
+      <span>Amount(USDT)</span><span>Bid/Ask</span><span>Amount(USDT)</span>
+    </div>
+    <div class="ob-rows">
+      <div class="ob-row"><div class="ob-bid"><div class="bid-bar" style="width:22px"></div><span class="ob-amount">2.48K</span><span class="ob-bid-price">122,023</span></div><div class="ob-ask"><div class="ask-bar" style="width:24px"></div><span class="ob-ask-price">122,024</span><span class="ob-amount">2.48K</span></div></div>
+      <div class="ob-row"><div class="ob-bid"><div class="bid-bar" style="width:53px"></div><span class="ob-amount">431.85</span><span class="ob-bid-price">122,020</span></div><div class="ob-ask"><div class="ask-bar" style="width:8px"></div><span class="ob-ask-price">122,026</span><span class="ob-amount">431.85</span></div></div>
+      <div class="ob-row"><div class="ob-bid"><div class="bid-bar" style="width:12px"></div><span class="ob-amount">6.47K</span><span class="ob-bid-price">122,018</span></div><div class="ob-ask"><div class="ask-bar" style="width:14px"></div><span class="ob-ask-price">122,028</span><span class="ob-amount">6.47K</span></div></div>
+      <div class="ob-row"><div class="ob-bid"><div class="bid-bar" style="width:43px"></div><span class="ob-amount">215.95</span><span class="ob-bid-price">122,016</span></div><div class="ob-ask"><div class="ask-bar" style="width:63px"></div><span class="ob-ask-price">122,029</span><span class="ob-amount">215.95</span></div></div>
+      <div class="ob-row"><div class="ob-bid"><div class="bid-bar" style="width:60px"></div><span class="ob-amount">323.82</span><span class="ob-bid-price">122,015</span></div><div class="ob-ask"><div class="ask-bar" style="width:14px"></div><span class="ob-ask-price">122,032</span><span class="ob-amount">323.82</span></div></div>
+      <div class="ob-row"><div class="ob-bid"><div class="bid-bar" style="width:28px"></div><span class="ob-amount">6.04K</span><span class="ob-bid-price">122,013</span></div><div class="ob-ask"><div class="ask-bar" style="width:14px"></div><span class="ob-ask-price">122,036</span><span class="ob-amount">6.04K</span></div></div>
+      <div class="ob-row"><div class="ob-bid"><div class="bid-bar" style="width:26px"></div><span class="ob-amount">788.95K</span><span class="ob-bid-price">122,012</span></div><div class="ob-ask"><div class="ask-bar" style="width:8px"></div><span class="ob-ask-price">122,038</span><span class="ob-amount">788.95K</span></div></div>
+      <div class="ob-row"><div class="ob-bid"><div class="bid-bar" style="width:63px"></div><span class="ob-amount">3.02K</span><span class="ob-bid-price">122,010</span></div><div class="ob-ask"><div class="ask-bar" style="width:5px"></div><span class="ob-ask-price">122,039</span><span class="ob-amount">3.02K</span></div></div>
+      <div class="ob-row"><div class="ob-bid"><div class="bid-bar" style="width:63px"></div><span class="ob-amount">3.02K</span><span class="ob-bid-price">122,009</span></div><div class="ob-ask"><div class="ask-bar" style="width:5px"></div><span class="ob-ask-price">122,040</span><span class="ob-amount">3.02K</span></div></div>
+      <div class="ob-row"><div class="ob-bid"><div class="bid-bar" style="width:63px"></div><span class="ob-amount">207.92</span><span class="ob-bid-price">122,008</span></div><div class="ob-ask"><div class="ask-bar" style="width:5px"></div><span class="ob-ask-price">122,041</span><span class="ob-amount">207.92</span></div></div>
+    </div>
+  </div>
+
+  <!-- Bottom Sheet -->
+  <div class="bottom-sheet">
+    <div class="drag-handle-wrap"><div class="drag-handle"></div></div>
+
+    <!-- Dev Switcher: shown only with ?dev=true -->
+    <div class="dev-switcher" id="devSwitcher" style="display:none">
+      <button class="sw-btn active" data-ver="1" onclick="switchVersion(1)">A</button>
+      <button class="sw-btn"        data-ver="4" onclick="switchVersion(4)">B</button>
+      <button class="sw-btn" data-ver="3" onclick="switchVersion(3)">C</button>
+      <button class="sw-btn" data-ver="5" onclick="switchVersion(5)">D</button>
+      <button class="sw-btn" data-ver="6" onclick="switchVersion(6)">E</button>
+    </div>
+
+    <!-- Chips Row -->
+    <div class="chips-row">
+      <div class="chips-left">
+        <div class="chip-dropdown-wrap" id="orderTypeWrap">
+          <div class="chip" onclick="toggleOrderTypeMenu()">
+            <span id="orderTypeLabel">Market</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M4 6L8 10L12 6" stroke="#eee" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="chip-menu" id="orderTypeMenu">
+            <div class="chip-menu-item selected" onclick="selectOrderType('Market')">
+              <span>Market order</span>
+              <span class="chip-menu-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.37 3.95C13.68 4.15 13.76 4.56 13.55 4.87L7.55 13.87C7.44 14.04 7.26 14.14 7.07 14.16C6.87 14.18 6.67 14.11 6.53 13.97L2.53 9.97C2.27 9.71 2.27 9.29 2.53 9.03C2.79 8.77 3.21 8.77 3.47 9.03L6.9 12.45L12.45 4.13C12.65 3.82 13.06 3.74 13.37 3.95Z" fill="#EEEEEE"/></svg></span>
+            </div>
+            <div class="chip-menu-item" onclick="selectOrderType('Limit')">
+              <span>Limit order</span>
+              <span class="chip-menu-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.37 3.95C13.68 4.15 13.76 4.56 13.55 4.87L7.55 13.87C7.44 14.04 7.26 14.14 7.07 14.16C6.87 14.18 6.67 14.11 6.53 13.97L2.53 9.97C2.27 9.71 2.27 9.29 2.53 9.03C2.79 8.77 3.21 8.77 3.47 9.03L6.9 12.45L12.45 4.13C12.65 3.82 13.06 3.74 13.37 3.95Z" fill="#EEEEEE"/></svg></span>
+            </div>
+            <div class="chip-menu-item" onclick="selectOrderType('Trigger')">
+              <span>Trigger order</span>
+              <span class="chip-menu-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.37 3.95C13.68 4.15 13.76 4.56 13.55 4.87L7.55 13.87C7.44 14.04 7.26 14.14 7.07 14.16C6.87 14.18 6.67 14.11 6.53 13.97L2.53 9.97C2.27 9.71 2.27 9.29 2.53 9.03C2.79 8.77 3.21 8.77 3.47 9.03L6.9 12.45L12.45 4.13C12.65 3.82 13.06 3.74 13.37 3.95Z" fill="#EEEEEE"/></svg></span>
+            </div>
+          </div>
+        </div>
+        <div class="chip">Isolated</div>
+        <div class="chip">1x</div>
+      </div>
+      <div class="positions-btn">
+        <span class="positions-label">Positions</span>
+        <div class="positions-underline"></div>
+      </div>
+    </div>
+
+    <!-- Form content wrapper: animated for compact↔compact transitions -->
+    <div id="formContent">
+
+    <!-- Market Body (margin input only) -->
+    <div class="market-body" id="marketBody">
+      <div class="margin-section" onclick="focusMarginField()">
+        <div class="margin-top-row">
+          <div class="margin-value-wrap">
+            <div class="cursor-line" id="marginCursor" style="visibility:hidden"></div>
+            <span class="margin-title" id="marginDisplay">USDT margin</span>
+          </div><!-- /margin-value-wrap -->
+          <div class="position-size-btn">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.2004 2.23966C12.9186 2.5432 12.9361 3.01775 13.2397 3.2996L15.3401 5.25L6.75 5.25C6.33579 5.25 6 5.58579 6 6C6 6.41422 6.33579 6.75 6.75 6.75L15.3401 6.75L13.2397 8.70041C12.9361 8.98226 12.9186 9.45681 13.2004 9.76034C13.4823 10.0639 13.9568 10.0815 14.2603 9.7996L17.7603 6.5496C17.9132 6.40769 18 6.20855 18 6C18 5.79145 17.9132 5.59232 17.7603 5.45041L14.2603 2.20041C13.9568 1.91856 13.4823 1.93613 13.2004 2.23966ZM6.79959 10.2397C6.51774 9.93613 6.04319 9.91856 5.73966 10.2004L2.23966 13.4504C2.08684 13.5923 2 13.7915 2 14C2 14.2086 2.08684 14.4077 2.23966 14.5496L5.73966 17.7996C6.04319 18.0815 6.51774 18.0639 6.79959 17.7603C7.08145 17.4568 7.06387 16.9823 6.76034 16.7004L4.6599 14.75H13.25C13.6642 14.75 14 14.4142 14 14C14 13.5858 13.6642 13.25 13.25 13.25H4.6599L6.76034 11.2996C7.06387 11.0177 7.08145 10.5432 6.79959 10.2397Z" fill="#959595"/></svg>
+            <span class="pos-size-label">Position size</span>
+          </div>
+        </div>
+        <div class="margin-bottom-row">
+          <span class="available-text">Available funds: 345.69 USDT</span>
+          <div class="add-btn">
+            <span class="add-label">Add</span>
+            <div class="add-underline"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Limit / Trigger Body (content injected from v{n}-form.html) -->
+    <div class="limit-body" id="limitBody"></div>
+
+    </div><!-- /#formContent -->
+
+    <!-- Compact pct-row: shown in Market/Trigger compact (above Continue or L/S) -->
+    <div class="compact-pct-row" id="compactPctRow" style="display:none">
+      <div class="pct-btn">25%</div>
+      <div class="pct-btn">50%</div>
+      <div class="pct-btn">75%</div>
+      <div class="pct-btn">100%</div>
+    </div>
+    <!-- Compact Continue button: shown in compact when order/trigger price was last focused -->
+    <div class="compact-continue-wrap" id="compactContinueWrap" style="display:none">
+      <button class="continue-btn" onclick="expandToKeypad()">Continue</button>
+    </div>
+    <!-- Compact Long/Short: shown in compact when USDT margin was last focused -->
+    <div class="compact-ls-wrap" id="compactLsWrap" style="display:none">
+      <div class="cta-pair">
+        <button class="btn-buy">
+          <span class="btn-main-label">Buy · Long</span>
+          <span class="btn-sub-label">17,333.8</span>
+        </button>
+        <button class="btn-sell">
+          <span class="btn-main-label">Sell · Short</span>
+          <span class="btn-sub-label">17,333.8</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Spacer: grows to push keypad to sticky-bottom when sheet is expanded -->
+    <div class="sheet-spacer"></div>
+
+    <!-- Keypad (shared: shown when expanded for Market / Limit / Trigger) -->
+    <div class="keypad-panel" id="keypadPanel" style="display:none">
+      <div class="kp-shortcuts">
+        <button class="kp-shortcut" onclick="keypadShortcut('-5',this)">-5%</button>
+        <button class="kp-shortcut" onclick="keypadShortcut('-1',this)">-1%</button>
+        <button class="kp-shortcut" onclick="keypadShortcut('+1',this)">+1%</button>
+        <button class="kp-shortcut" onclick="keypadShortcut('+5',this)">+5%</button>
+      </div>
+      <!-- Market: pct-row + Buy/Sell — shown above number grid -->
+      <div id="marketSticky">
+        <div class="pct-row">
+          <div class="pct-btn">25%</div>
+          <div class="pct-btn">50%</div>
+          <div class="pct-btn">75%</div>
+          <div class="pct-btn">100%</div>
+        </div>
+        <div class="cta-pair">
+          <button class="btn-buy">
+            <span class="btn-main-label">Buy · Long</span>
+            <span class="btn-sub-label">17,333.8</span>
+          </button>
+          <button class="btn-sell">
+            <span class="btn-main-label">Sell · Short</span>
+            <span class="btn-sub-label">17,333.8</span>
+          </button>
+        </div>
+      </div>
+      <div class="kp-continue-wrap" id="kpContinueWrap">
+        <button class="kp-continue-btn" onclick="dismissKeypad()">Continue</button>
+      </div>
+      <!-- Long/Short buttons: shown for Trigger/Limit expanded when margin focused -->
+      <div class="cta-pair" id="kpLsWrap" style="display:none">
+        <button class="btn-buy">
+          <span class="btn-main-label">Buy · Long</span>
+          <span class="btn-sub-label">17,333.8</span>
+        </button>
+        <button class="btn-sell">
+          <span class="btn-main-label">Sell · Short</span>
+          <span class="btn-sub-label">17,333.8</span>
+        </button>
+      </div>
+      <div class="kp-grid">
+        <button class="kp-key" onclick="keypadInput('1')">1</button>
+        <button class="kp-key" onclick="keypadInput('2')">2</button>
+        <button class="kp-key" onclick="keypadInput('3')">3</button>
+        <button class="kp-key" onclick="keypadInput('4')">4</button>
+        <button class="kp-key" onclick="keypadInput('5')">5</button>
+        <button class="kp-key" onclick="keypadInput('6')">6</button>
+        <button class="kp-key" onclick="keypadInput('7')">7</button>
+        <button class="kp-key" onclick="keypadInput('8')">8</button>
+        <button class="kp-key" onclick="keypadInput('9')">9</button>
+        <button class="kp-key" onclick="keypadInput('.')">.</button>
+        <button class="kp-key" onclick="keypadInput('0')">0</button>
+        <button class="kp-key kp-del" onclick="keypadInput('backspace')">
+          <svg width="26" height="18" viewBox="298 299 26 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M309.722 305.056C309.429 304.763 309.429 304.289 309.722 303.996C310.015 303.703 310.49 303.703 310.783 303.996L313.258 306.471L315.733 303.996C316.026 303.703 316.5 303.703 316.793 303.996C317.086 304.289 317.086 304.763 316.793 305.056L314.318 307.531L316.793 310.006C317.086 310.299 317.086 310.774 316.793 311.067C316.5 311.36 316.026 311.36 315.733 311.067L313.258 308.592L310.783 311.067C310.49 311.36 310.015 311.36 309.722 311.067C309.429 310.774 309.429 310.299 309.722 310.006L312.197 307.531L309.722 305.056Z" fill="#EEEEEE"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M306.629 299.91L299.008 307.531L306.629 315.153C307.192 315.715 307.955 316.031 308.75 316.031H319.008C320.665 316.031 322.008 314.688 322.008 313.031V302.031C322.008 300.374 320.665 299.031 319.008 299.031H308.75C307.955 299.031 307.192 299.347 306.629 299.91ZM319.008 314.731H308.75C308.3 314.731 307.867 314.552 307.548 314.233L300.846 307.531L307.548 300.829C307.867 300.51 308.3 300.331 308.75 300.331H319.008C319.947 300.331 320.708 301.092 320.708 302.031V313.031C320.708 313.97 319.947 314.731 319.008 314.731Z" fill="#EEEEEE"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="safe-area"></div>
+  </div>
+
+  <script>
+    // ── State ──
+    let orderType      = 'Market';
+    let execType       = 'Market';
+    let bboOn          = false;
+    let activeTab      = 'chart';
+    let currentVersion = 1;
+
+    // Reference market price for "from market" % indicator
+    const MARKET_REF_PRICE = 122016;
+
+    // ── Input state ──
+    let focusedField      = null;   // 'trigger' | 'execute' | null
+    let triggerPriceRaw   = '122016';
+    let executePriceRaw   = '122016';
+    let marketKeypadActive = false;
+    let marginRaw          = '';
+    let limitMarginRaw     = '';
+    // ── Sheet expansion state ──
+    // false = compact (Limit/Trigger selected but keypad hidden, auto height)
+    // true  = expanded (full height with keypad)
+    let sheetExpanded = false;
+
+    // ── Tab switching ──
+    function switchTab(tab) {
+      activeTab = tab;
+      document.getElementById('tabChart').classList.toggle('active', tab === 'chart');
+      document.getElementById('tabOrderbook').classList.toggle('active', tab === 'orderbook');
+      document.getElementById('chartContent').style.display     = tab === 'chart'      ? 'flex' : 'none';
+      document.getElementById('orderbookContent').style.display = tab === 'orderbook'  ? 'flex' : 'none';
+    }
+
+    // ── Order type dropdown ──
+    function toggleOrderTypeMenu() {
+      document.getElementById('orderTypeMenu').classList.toggle('open');
+    }
+
+    function selectOrderType(type) {
+      const prevExpanded = sheetExpanded;   // capture BEFORE mutation
+      orderType = type;
+      bboOn = false;
+      if (type === 'Market') {
+        focusedField = null;
+        marketKeypadActive = false;
+        sheetExpanded = false;
+      } else if (type === 'Trigger') {
+        // Trigger: auto-expand with trigger price focused
+        focusedField = 'trigger';
+        sheetExpanded = true;
+      } else {
+        // Limit: start compact
+        focusedField = null;
+        sheetExpanded = false;
+      }
+      document.getElementById('orderTypeLabel').textContent = type;
+      document.getElementById('orderTypeMenu').classList.remove('open');
+      document.querySelectorAll('.chip-menu-item').forEach(el => {
+        const label = el.querySelector('span:first-child')?.textContent.trim();
+        el.classList.toggle('selected', label === type + ' order');
+      });
+
+      if (prevExpanded && !sheetExpanded) {
+        // Was expanded → now compact: snap instantly so there's no
+        // "expanded-height with compact-content" flash during animation
+        const sheet = document.querySelector('.bottom-sheet');
+        clearTimeout(_sheetAnimTimeout);
+        sheet.style.transition = '';
+        sheet.style.overflow   = '';
+        sheet.style.height     = '';
+        applyState();
+      } else {
+        animateSheetChange();
+      }
+    }
+
+    // ── Price input helpers (v1) ──
+    function formatPrice(raw) {
+      if (!raw) return '';
+      const parts = raw.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return parts.join('.');
+    }
+
+    function focusField(field) {
+      if (currentVersion !== 1 && currentVersion !== 3 && currentVersion !== 4 && currentVersion !== 5 && currentVersion !== 6) return;
+      // Tapping the "Market price" placeholder in Trigger mode is a no-op —
+      // it is a display-only label, not an interactive field.
+      if (field === 'execute' && orderType === 'Trigger' && execType === 'Market') return;
+      focusedField = field;
+      marketKeypadActive = false;
+      if (orderType !== 'Market' && !sheetExpanded) {
+        sheetExpanded = true;
+        animateSheetChange();
+      } else {
+        applyState();
+      }
+    }
+
+    function expandToKeypad() {
+      // Continue button in compact state → expand to full keypad view
+      if (orderType === 'Market') return;
+      marketKeypadActive = false;
+      sheetExpanded = true;
+
+      if (orderType === 'Trigger') {
+        // Advance through Trigger fields:
+        // triggerCtx  → execute (if execType=Limit & BBO off) else limitMargin
+        // executeCtx  → limitMargin
+        // marginCtx   → stay (shouldn't reach here; margin shows L/S not Continue)
+        if (focusedField === 'trigger' || !focusedField) {
+          focusedField = (execType === 'Limit' && !bboOn) ? 'execute' : 'limitMargin';
+        } else if (focusedField === 'execute') {
+          focusedField = 'limitMargin';
+        }
+        // limitMargin → keep as-is
+      } else {
+        // Limit: always go straight to USDT margin
+        focusedField = 'limitMargin';
+      }
+      animateSheetChange();
+    }
+
+    function focusMarginField() {
+      if (orderType !== 'Market') return;
+      marketKeypadActive = true;
+      focusedField = null;
+      sheetExpanded = true;
+      const cursor = document.getElementById('marginCursor');
+      if (cursor) cursor.style.visibility = 'visible';
+      animateSheetChange();
+    }
+
+    function selectExecType(type) {
+      execType = type;
+      bboOn = false;
+      const tm = document.getElementById('execTabMarket');
+      const tl = document.getElementById('execTabLimit');
+      if (tm) tm.classList.toggle('active', type === 'Market');
+      if (tl) tl.classList.toggle('active',  type === 'Limit');
+      animateSheetChange();
+    }
+
+    function toggleBBO() {
+      bboOn = !bboOn;
+      animateSheetChange();
+    }
+
+    // Sync BBO checkbox SVG icons (checked ↔ unchecked)
+    function setBBOIcons(on) {
+      const uncheck = document.getElementById('bboIconUncheck');
+      const check   = document.getElementById('bboIconCheck');
+      if (uncheck) uncheck.style.display = on ? 'none' : '';
+      if (check)   check.style.display   = on ? ''     : 'none';
+    }
+
+    // ── Keypad ──
+    function _hideKeypadImmediate() {
+      sheetExpanded = false;
+      focusedField = null;
+      marketKeypadActive = false;
+      const mc = document.getElementById('marginCursor');
+      if (mc) mc.style.visibility = 'hidden';
+      const lmc = document.getElementById('limitMarginCursor');
+      if (lmc) lmc.style.visibility = 'hidden';
+    }
+
+    function dismissKeypad() {
+      // Continue on a price field → advance to next editable field
+      const onPriceField = focusedField === 'trigger' || focusedField === 'execute';
+      if (orderType !== 'Market' && onPriceField) {
+        if (orderType === 'Trigger' && focusedField === 'trigger' && execType === 'Limit' && !bboOn) {
+          // Trigger price → Order price (Limit exec, BBO off = editable)
+          focusedField = 'execute';
+        } else {
+          // execute → USDT margin, or trigger → USDT margin when exec is Market or BBO on
+          focusedField = 'limitMargin';
+        }
+        applyState();
+        return;
+      }
+      // Otherwise: collapse sheet
+      sheetExpanded = false;
+      focusedField = null;
+      marketKeypadActive = false;
+      const mc = document.getElementById('marginCursor');
+      if (mc) mc.style.visibility = 'hidden';
+      const lmc = document.getElementById('limitMarginCursor');
+      if (lmc) lmc.style.visibility = 'hidden';
+      animateSheetChange();
+    }
+
+    function keypadInput(key) {
+      // In Limit/Trigger mode, if no field focused, default to execute
+      if (!focusedField && !marketKeypadActive) {
+        if (orderType !== 'Market') {
+          focusedField = 'execute';
+          applyState();
+        } else {
+          return;
+        }
+      }
+
+      if (marketKeypadActive) {
+        if (key === 'backspace') marginRaw = marginRaw.slice(0, -1);
+        else if (key === '.' && marginRaw.includes('.')) return;
+        else marginRaw += key;
+        const el = document.getElementById('marginDisplay');
+        if (el) {
+          const fmt = formatPrice(marginRaw);
+          el.textContent = fmt || 'USDT margin';
+          el.classList.toggle('entered', !!fmt);
+        }
+        return;
+      }
+
+      // Limit/Trigger margin field
+      if (focusedField === 'limitMargin') {
+        if (key === 'backspace') limitMarginRaw = limitMarginRaw.slice(0, -1);
+        else if (key === '.' && limitMarginRaw.includes('.')) return;
+        else limitMarginRaw += key;
+        const el = document.getElementById('limitMarginDisplay');
+        if (el) {
+          const fmt = formatPrice(limitMarginRaw);
+          el.textContent = fmt || 'USDT margin';
+          el.classList.toggle('entered', !!fmt);
+        }
+        return;
+      }
+
+      const isTrigFld = focusedField === 'trigger';
+      let raw = isTrigFld ? triggerPriceRaw : executePriceRaw;
+      if (key === 'backspace')            raw = raw.slice(0, -1);
+      else if (key === '.' && raw.includes('.')) return;
+      else                                raw += key;
+
+      if (isTrigFld) {
+        triggerPriceRaw = raw;
+        const el = document.getElementById('triggerPriceDisplay');
+        if (el) el.textContent = formatPrice(raw);
+        updateTriggerPct();
+      } else {
+        executePriceRaw = raw;
+        const el = document.getElementById('execPriceActive');
+        if (el) el.textContent = formatPrice(raw);
+      }
+    }
+
+    function updateTriggerPct() {
+      const pctEl = document.getElementById('triggerPctDisplay');
+      if (!pctEl) return;
+      const trigger = parseFloat(triggerPriceRaw) || 0;
+      if (!trigger) { pctEl.textContent = '+0.00%'; return; }
+      const pct = ((trigger / MARKET_REF_PRICE) - 1) * 100;
+      const sign = pct >= 0 ? '+' : '';
+      pctEl.textContent = sign + pct.toFixed(2) + '%';
+      pctEl.classList.toggle('positive', pct > 0);
+    }
+
+    function keypadShortcut(shortcut, btn) {
+      if (!focusedField || focusedField === 'limitMargin') return;
+      const isTrigFld = focusedField === 'trigger';
+      let raw = isTrigFld ? triggerPriceRaw : executePriceRaw;
+      let val = parseFloat(raw.replace(/,/g, '')) || 0;
+      if      (shortcut === '-5') val = Math.round(val * 0.95);
+      else if (shortcut === '-1') val = Math.round(val * 0.99);
+      else if (shortcut === '+1') val = Math.round(val * 1.01);
+      else if (shortcut === '+5') val = Math.round(val * 1.05);
+      raw = String(val);
+      if (isTrigFld) {
+        triggerPriceRaw = raw;
+        const el = document.getElementById('triggerPriceDisplay');
+        if (el) el.textContent = formatPrice(raw);
+        updateTriggerPct();
+      } else {
+        executePriceRaw = raw;
+        const el = document.getElementById('execPriceActive');
+        if (el) el.textContent = formatPrice(raw);
+      }
+    }
+
+    // ── Sheet height animation ──
+    let _sheetAnimTimeout = null;
+
+    function getExpandedHeight() {
+      const screen = document.querySelector('.screen');
+      const topBar = document.querySelector('.top-app-bar');
+      return screen.offsetHeight - topBar.offsetTop - topBar.offsetHeight;
+    }
+
+    function animateSheetChange() {
+      const sheet       = document.querySelector('.bottom-sheet');
+      const formContent = document.getElementById('formContent');
+
+      // Detect previous expanded state from the inline style (callers already mutate sheetExpanded
+      // before calling here, so we cannot rely on sheetExpanded to know the "before" state).
+      // Expanded state always has an explicit pixel height on the sheet; compact is height:''.
+      const wasExpanded = sheet.style.height !== '' && parseInt(sheet.style.height) > 0;
+
+      // Capture heights before DOM change
+      const formBefore  = formContent ? formContent.offsetHeight : 0;
+      const sheetBefore = parseInt(sheet.style.height) || sheet.offsetHeight;
+
+      // Apply state (changes DOM)
+      applyState();
+
+      const isExpanded = sheetExpanded;
+
+      // ── compact ↔ compact: animate only formContent; buttons stay pinned ──
+      if (!wasExpanded && !isExpanded && formContent) {
+        formContent.style.height = '';
+        const formAfter = formContent.offsetHeight;
+
+        if (Math.abs(formBefore - formAfter) < 2) return;
+
+        formContent.style.overflow   = 'hidden';
+        formContent.style.transition = 'none';
+        formContent.style.height     = formBefore + 'px';
+        void formContent.offsetHeight;
+
+        // Short, no-spring ease-out — subtle height adjustment, buttons never move
+        const dur = 160;
+        formContent.style.transition = `height ${dur}ms ease-out`;
+        formContent.style.height     = formAfter + 'px';
+
+        clearTimeout(_sheetAnimTimeout);
+        _sheetAnimTimeout = setTimeout(() => {
+          formContent.style.transition = '';
+          formContent.style.overflow   = '';
+          formContent.style.height     = '';
+        }, dur + 20);
+        return;
+      }
+
+      // ── expanded ↔ compact or compact → expanded: animate whole sheet ──
+      let after;
+      if (!isExpanded) {
+        sheet.style.height = '';
+        after = sheet.offsetHeight;
+        sheet.style.height = sheetBefore + 'px';
+      } else {
+        after = getExpandedHeight();
+      }
+
+      if (Math.abs(sheetBefore - after) < 2) {
+        sheet.style.height = !isExpanded ? '' : after + 'px';
+        return;
+      }
+
+      sheet.style.overflow   = 'hidden';
+      sheet.style.transition = 'none';
+      sheet.style.height     = sheetBefore + 'px';
+      void sheet.offsetHeight;
+
+      // Expand: gentle ease-in-out (no spring); Collapse: ease-out
+      const curve = after > sheetBefore
+        ? 'cubic-bezier(0.4, 0, 0.2, 1)'   // expand: smooth ease-in-out
+        : 'cubic-bezier(0.4, 0, 0.2, 1)';   // collapse: ease out
+      sheet.style.transition = `height 0.28s ${curve}`;
+      sheet.style.height     = after + 'px';
+
+      clearTimeout(_sheetAnimTimeout);
+      _sheetAnimTimeout = setTimeout(() => {
+        sheet.style.transition = '';
+        sheet.style.overflow   = '';
+        if (!isExpanded) sheet.style.height = '';
+      }, 300);
+    }
+
+    // ── Drag handle to collapse ──
+    let drag = null;
+
+    function initDragHandle() {
+      const handle = document.querySelector('.drag-handle-wrap');
+      const sheet  = document.querySelector('.bottom-sheet');
+
+      // Primary target: the handle pill itself
+      handle.addEventListener('touchstart', onDragStart, { passive: false });
+      handle.addEventListener('mousedown',  onDragStart);
+
+      // Extended hit area: catch drags that start within 30px of the sheet's top edge
+      // (compensates for the reduced 4px top padding on the handle)
+      sheet.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.drag-handle-wrap')) return; // already handled above
+        const rect = sheet.getBoundingClientRect();
+        if (e.touches[0].clientY - rect.top <= 30) onDragStart(e);
+      }, { passive: false });
+      sheet.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.drag-handle-wrap')) return;
+        const rect = sheet.getBoundingClientRect();
+        if (e.clientY - rect.top <= 30) onDragStart(e);
+      });
+    }
+
+    function getEvtY(e) {
+      return e.touches ? e.touches[0].clientY : e.clientY;
+    }
+
+    function onDragStart(e) {
+      if (!sheetExpanded) return;
+      // Prevent page scroll while dragging the handle
+      if (e.cancelable) e.preventDefault();
+
+      const sheet = document.querySelector('.bottom-sheet');
+      // Freeze current height (stop any ongoing transition)
+      clearTimeout(_sheetAnimTimeout);
+      const currentH = parseInt(sheet.style.height) || sheet.offsetHeight;
+      sheet.style.transition = 'none';
+      sheet.style.height     = currentH + 'px';
+      sheet.style.overflow   = 'hidden';
+
+      const startY = getEvtY(e);
+      drag = { startY, initH: currentH, dy: 0, lastY: startY, lastT: Date.now(), vy: 0 };
+
+      document.addEventListener('touchmove', onDragMove, { passive: false });
+      document.addEventListener('touchend',  onDragEnd,  { once: true });
+      document.addEventListener('mousemove', onDragMove);
+      document.addEventListener('mouseup',   onDragEnd,  { once: true });
+    }
+
+    function onDragMove(e) {
+      if (!drag) return;
+      if (e.cancelable) e.preventDefault();
+
+      const now = Date.now();
+      const y   = getEvtY(e);
+      const dt  = now - drag.lastT;
+
+      // Track instantaneous velocity (px/ms, positive = downward = collapsing)
+      if (dt > 0) drag.vy = (y - drag.lastY) / dt;
+      drag.lastY = y;
+      drag.lastT = now;
+      drag.dy    = Math.max(0, y - drag.startY);
+
+      const sheet = document.querySelector('.bottom-sheet');
+      sheet.style.height = Math.max(80, drag.initH - drag.dy) + 'px';
+    }
+
+    function onDragEnd(e) {
+      document.removeEventListener('touchmove', onDragMove);
+      document.removeEventListener('mousemove', onDragMove);
+      if (!drag) return;
+
+      const { dy, initH, vy } = drag;
+      drag = null;
+      const sheet = document.querySelector('.bottom-sheet');
+
+      // Collapse if dragged far enough OR flicked down fast enough
+      const DIST_THRESHOLD = 50;   // px
+      const VEL_THRESHOLD  = 0.4;  // px/ms (~400px/s)
+      const shouldCollapse = dy > DIST_THRESHOLD || vy > VEL_THRESHOLD;
+
+      if (shouldCollapse) {
+        // Collapse to compact — preserve focusedField for compact context view
+        sheetExpanded = false;
+        applyState();
+
+        // Measure natural compact height
+        sheet.style.height = '';
+        const naturalH = sheet.offsetHeight;
+        void sheet.offsetHeight;
+
+        const fromH = Math.max(80, initH - dy);
+        sheet.style.height = fromH + 'px';
+        void sheet.offsetHeight;
+
+        // Faster collapse if velocity was high
+        const dur = vy > VEL_THRESHOLD ? 0.22 : 0.28;
+        sheet.style.transition = `height ${dur}s cubic-bezier(0.4, 0, 0.2, 1)`;
+        sheet.style.height = naturalH + 'px';
+
+        setTimeout(() => {
+          sheet.style.transition = '';
+          sheet.style.overflow   = '';
+          sheet.style.height     = '';  // back to auto
+        }, dur * 1000 + 30);
+
+      } else {
+        // Snap back to expanded height
+        const snapH = getExpandedHeight();
+        sheet.style.transition = 'height 0.25s cubic-bezier(0.4, 0, 0.2, 1)';
+        sheet.style.height = snapH + 'px';
+
+        setTimeout(() => {
+          sheet.style.transition = '';
+          sheet.style.overflow   = '';
+        }, 320);
+      }
+    }
+
+    // ── v1: BBO inline with price value row (baseline) ──
+    function applyStateV1(isTrigger) {
+      const triggerField    = document.getElementById('triggerPriceField');
+      const execLabel       = document.getElementById('executePriceLabel');
+      const execTabs        = document.getElementById('execTypeTabs');
+      const triggerCursorEl = document.getElementById('triggerPriceCursor');
+
+      // Trigger compact: three exclusive contexts based on last-focused field
+      //   triggerCtx  — null/'trigger' focused  → show trigger price only
+      //   executeCtx  — 'execute' focused        → show order price only
+      //   marginCtx   — 'limitMargin' focused    → show USDT margin only
+      const marginCtx  = isTrigger && !sheetExpanded && focusedField === 'limitMargin';
+      const executeCtx = isTrigger && !sheetExpanded && focusedField === 'execute';
+      const triggerCtx = isTrigger && !sheetExpanded && !marginCtx && !executeCtx;
+      const orderPriceField = document.getElementById('orderPriceField');
+      const innerMargin     = document.querySelector('.inner-sheet .margin-section');
+      // In trigger compact: show exactly one section
+      if (isTrigger && !sheetExpanded) {
+        if (triggerField)    triggerField.style.display    = triggerCtx  ? '' : 'none';
+        if (orderPriceField) orderPriceField.style.display = executeCtx  ? '' : 'none';
+        if (innerMargin)     innerMargin.style.display     = marginCtx   ? '' : 'none';
+      } else if (!isTrigger) {
+        if (triggerField) triggerField.style.display = 'none';
+        if (orderPriceField) orderPriceField.style.display = '';
+        if (innerMargin)     innerMargin.style.display     = '';
+      } else {
+        // Trigger expanded: show all
+        if (triggerField)    triggerField.style.display    = '';
+        if (orderPriceField) orderPriceField.style.display = '';
+        if (innerMargin)     innerMargin.style.display     = '';
+      }
+
+      // Cursors: only visible when sheet is expanded
+      const limitMarginCursorEl = document.getElementById('limitMarginCursor');
+      if (limitMarginCursorEl) {
+        limitMarginCursorEl.style.visibility = (sheetExpanded && focusedField === 'limitMargin') ? 'visible' : 'hidden';
+      }
+
+      if (execLabel) execLabel.textContent  = 'Order price';
+      if (execTabs)  execTabs.style.display = isTrigger ? '' : 'none';
+      // Keep toggle label pointing at the OTHER exec type (the one you'd switch TO)
+      const toggleLabel = document.getElementById('execTypeToggleLabel');
+      if (toggleLabel) toggleLabel.textContent = execType === 'Market' ? 'Limit' : 'Market';
+
+      // Trigger cursor: only when expanded AND focused
+      if (triggerCursorEl) {
+        triggerCursorEl.style.visibility = (sheetExpanded && isTrigger && focusedField === 'trigger') ? 'visible' : 'hidden';
+      }
+
+      const effectiveExec = isTrigger ? execType : 'Limit';
+      const activeEl  = document.getElementById('execPriceActive');
+      const cursorEl  = document.getElementById('execPriceCursor');
+      const marketEl  = document.getElementById('execPriceMarket');
+      const bboValEl  = document.getElementById('execPriceBBO');
+      const bboWrapEl = document.getElementById('bboWrap');
+      const bboChkEl  = document.getElementById('bboCheckbox');
+
+      // In compact Trigger mode, hide BBO regardless of execType
+      const hideBBO = isTrigger && !sheetExpanded;
+
+      if (effectiveExec === 'Market' || hideBBO) {
+        if (activeEl)  activeEl.style.display             = (effectiveExec === 'Market') ? 'none' : '';
+        if (cursorEl)  cursorEl.style.visibility          = 'hidden';
+        if (marketEl)  marketEl.style.display             = (effectiveExec === 'Market') ? '' : 'none';
+        if (bboValEl)  bboValEl.style.display             = 'none';
+        if (bboWrapEl) bboWrapEl.style.display            = 'none';
+      } else if (bboOn) {
+        if (activeEl)  activeEl.style.display             = 'none';
+        if (cursorEl)  cursorEl.style.visibility          = 'hidden';
+        if (marketEl)  marketEl.style.display             = 'none';
+        if (bboValEl)  bboValEl.style.display             = '';
+        if (bboWrapEl) bboWrapEl.style.display            = '';
+        setBBOIcons(true);
+      } else {
+        if (activeEl)  activeEl.style.display             = '';
+        // Execute cursor: only blink when focused
+        if (cursorEl)  cursorEl.style.visibility          = focusedField === 'execute' ? 'visible' : 'hidden';
+        if (marketEl)  marketEl.style.display             = 'none';
+        if (bboValEl)  bboValEl.style.display             = 'none';
+        if (bboWrapEl) bboWrapEl.style.display            = '';
+        setBBOIcons(false);
+      }
+    }
+
+    // ── v2: BBO as separate row below input ──
+    function applyStateV2(isTrigger) {
+      const triggerField = document.getElementById('triggerPriceField');
+      const execLabel    = document.getElementById('executePriceLabel');
+      const execTabs     = document.getElementById('execTypeTabs');
+      if (triggerField) triggerField.style.display = isTrigger ? '' : 'none';
+      if (execLabel)    execLabel.textContent       = 'Order price';
+      if (execTabs)     execTabs.style.display      = isTrigger ? '' : 'none';
+
+      const effectiveExec = isTrigger ? execType : 'Limit';
+      const activeEl = document.getElementById('execPriceActive');
+      const cursorEl = document.getElementById('execPriceCursor');
+      const marketEl = document.getElementById('execPriceMarket');
+      const bboValEl = document.getElementById('execPriceBBO');
+      const bboRow   = document.getElementById('bboRow');
+      const bboChkEl = document.getElementById('bboCheckbox');
+
+      if (effectiveExec === 'Market') {
+        if (activeEl) activeEl.style.display = 'none';
+        if (cursorEl) cursorEl.style.display = 'none';
+        if (marketEl) marketEl.style.display = '';
+        if (bboValEl) bboValEl.style.display = 'none';
+        if (bboRow)   bboRow.style.display   = 'none';
+      } else if (bboOn) {
+        if (activeEl) activeEl.style.display = 'none';
+        if (cursorEl) cursorEl.style.display = 'none';
+        if (marketEl) marketEl.style.display = 'none';
+        if (bboValEl) bboValEl.style.display = '';
+        if (bboRow)   bboRow.style.display   = 'flex';
+        setBBOIcons(true);
+      } else {
+        if (activeEl) activeEl.style.display = '';
+        if (cursorEl) cursorEl.style.display = '';
+        if (marketEl) marketEl.style.display = 'none';
+        if (bboValEl) bboValEl.style.display = 'none';
+        if (bboRow)   bboRow.style.display   = 'flex';
+        setBBOIcons(false);
+      }
+    }
+
+    // ── v3 (v2 UI): exec-type toggle in label row ──
+    // • Limit order: identical to v1 — plain "Order price" label, price input + BBO inline
+    // • Trigger order: "Order price · Market/Limit" label + ↔ switch, input shown only for Limit exec
+    function applyStateV3(isTrigger) {
+      const triggerField    = document.getElementById('triggerPriceField');
+      const orderPriceField = document.getElementById('orderPriceField');
+      const innerMargin     = document.querySelector('.inner-sheet .margin-section');
+      const triggerCursorEl = document.getElementById('triggerPriceCursor');
+      const limitMarginCursorEl = document.getElementById('limitMarginCursor');
+
+      // v3-form.html label row elements
+      const execTypeSub    = document.getElementById('execTypeSub');      // " · Market/Limit" part
+      const execTypeLabel  = document.getElementById('execTypeLabel');     // the type word
+      const execSwitchLabel = document.getElementById('execSwitchLabel'); // "Limit" / "Market"
+      const execTypeSwitch = document.getElementById('execTypeSwitch');   // ↔ button
+      const labelRow       = document.querySelector('.v2-order-label-row');
+
+      // Price row / BBO elements
+      const priceRow = document.getElementById('execPriceRow');
+      const activeEl = document.getElementById('execPriceActive');
+      const cursorEl = document.getElementById('execPriceCursor');
+      const bboValEl = document.getElementById('execPriceBBO');
+
+      if (isTrigger) {
+        // ── TRIGGER MODE ──
+        // Compact: show one section at a time based on last-focused field
+        const marginCtx  = !sheetExpanded && focusedField === 'limitMargin';
+        const executeCtx = !sheetExpanded && focusedField === 'execute';
+        const triggerCtx = !sheetExpanded && !marginCtx && !executeCtx;
+
+        if (!sheetExpanded) {
+          if (triggerField)    triggerField.style.display    = triggerCtx  ? '' : 'none';
+          if (orderPriceField) orderPriceField.style.display = executeCtx  ? '' : 'none';
+          if (innerMargin)     innerMargin.style.display     = marginCtx   ? '' : 'none';
+        } else {
+          if (triggerField)    triggerField.style.display    = '';
+          if (orderPriceField) orderPriceField.style.display = '';
+          if (innerMargin)     innerMargin.style.display     = '';
+        }
+
+        // Exec type label: "Order price · Market" or "Order price · Limit"
+        if (execTypeSub)    execTypeSub.style.display    = '';
+        if (execTypeLabel)  execTypeLabel.textContent    = execType;
+        if (execSwitchLabel) execSwitchLabel.textContent = execType === 'Market' ? 'Limit' : 'Market';
+        if (execTypeSwitch) execTypeSwitch.style.display = 'flex';
+
+        // Price input row: shown only for Limit exec
+        const showInput = execType === 'Limit';
+        if (priceRow) priceRow.style.display      = showInput ? '' : 'none';
+        if (labelRow) labelRow.style.paddingBottom = showInput ? '' : '8px';
+
+        if (showInput) {
+          const cursorHidden = !sheetExpanded;  // no cursor in compact
+          if (bboOn) {
+            if (activeEl) activeEl.style.display      = 'none';
+            if (cursorEl) cursorEl.style.visibility   = 'hidden';
+            if (bboValEl) bboValEl.style.display      = '';
+            setBBOIcons(true);
+          } else {
+            if (activeEl) activeEl.style.display      = '';
+            if (cursorEl) cursorEl.style.visibility   = (!cursorHidden && focusedField === 'execute') ? 'visible' : 'hidden';
+            if (bboValEl) bboValEl.style.display      = 'none';
+            setBBOIcons(false);
+          }
+        } else {
+          if (cursorEl) cursorEl.style.visibility = 'hidden';
+          if (bboValEl) bboValEl.style.display    = 'none';
+        }
+
+      } else {
+        // ── LIMIT ORDER MODE: identical layout to v1 ──
+        if (triggerField)    triggerField.style.display    = 'none';
+        if (orderPriceField) orderPriceField.style.display = '';
+        if (innerMargin)     innerMargin.style.display     = '';
+
+        // Plain "Order price" label — hide the " · type" sub and the ↔ switch
+        if (execTypeSub)    execTypeSub.style.display    = 'none';
+        if (execTypeSwitch) execTypeSwitch.style.display = 'none';
+        if (labelRow)       labelRow.style.paddingBottom = '';
+
+        // Price input always shown
+        if (priceRow) priceRow.style.display = '';
+        if (bboOn) {
+          if (activeEl) activeEl.style.display    = 'none';
+          if (cursorEl) cursorEl.style.visibility = 'hidden';
+          if (bboValEl) bboValEl.style.display    = '';
+          setBBOIcons(true);
+        } else {
+          if (activeEl) activeEl.style.display    = '';
+          if (cursorEl) cursorEl.style.visibility = focusedField === 'execute' ? 'visible' : 'hidden';
+          if (bboValEl) bboValEl.style.display    = 'none';
+          setBBOIcons(false);
+        }
+      }
+
+      // Cursors (always sync)
+      if (triggerCursorEl) {
+        triggerCursorEl.style.visibility = (isTrigger && focusedField === 'trigger') ? 'visible' : 'hidden';
+      }
+      if (limitMarginCursorEl) {
+        limitMarginCursorEl.style.visibility = focusedField === 'limitMargin' ? 'visible' : 'hidden';
+      }
+    }
+
+    // Toggle exec type in v2 (called from v3-form.html switch button)
+    function toggleExecTypeV2() {
+      selectExecType(execType === 'Market' ? 'Limit' : 'Market');
+    }
+
+    // ── v4 (v3 UI): radio button exec-type selector inside trigger price section ──
+    // • Trigger mode: trigger price + ⦿ Market / ○ Limit radio row; Limit exec reveals input below
+    // • Limit order:  plain "Order price" label + input + BBO (identical to v1)
+    function applyStateV4(isTrigger) {
+      const triggerField        = document.getElementById('triggerPriceField');
+      const innerMargin         = document.querySelector('.inner-sheet .margin-section');
+      const v4TriggerOnly       = document.getElementById('v4TriggerOnly');
+      const v4OrderLabel        = document.getElementById('v4OrderLabel');
+      const triggerCursorEl     = document.getElementById('triggerPriceCursor');
+      const limitMarginCursorEl = document.getElementById('limitMarginCursor');
+
+      // Radio SVGs
+      const rmOn  = document.getElementById('radioMarketOn');
+      const rmOff = document.getElementById('radioMarketOff');
+      const rlOn  = document.getElementById('radioLimitOn');
+      const rlOff = document.getElementById('radioLimitOff');
+
+      // Order price input elements
+      const radioRow = document.getElementById('execRadioRow');
+      const priceRow = document.getElementById('execPriceRow');
+      const activeEl = document.getElementById('execPriceActive');
+      const cursorEl = document.getElementById('execPriceCursor');
+      const bboValEl = document.getElementById('execPriceBBO');
+
+      if (isTrigger) {
+        // ── TRIGGER MODE ──
+        if (v4TriggerOnly) v4TriggerOnly.style.display = '';
+        if (v4OrderLabel)  v4OrderLabel.style.display  = 'none';
+
+        // Compact context: marginCtx hides the whole trigger block
+        if (!sheetExpanded) {
+          const marginCtx = focusedField === 'limitMargin';
+          if (triggerField) triggerField.style.display = marginCtx ? 'none' : '';
+          if (innerMargin)  innerMargin.style.display  = marginCtx ? '' : 'none';
+        } else {
+          if (triggerField) triggerField.style.display = '';
+          if (innerMargin)  innerMargin.style.display  = '';
+        }
+
+        // Radio state
+        const isMarketExec = execType === 'Market';
+        if (rmOn)  rmOn.style.display  = isMarketExec ? '' : 'none';
+        if (rmOff) rmOff.style.display = isMarketExec ? 'none' : '';
+        if (rlOn)  rlOn.style.display  = isMarketExec ? 'none' : '';
+        if (rlOff) rlOff.style.display = isMarketExec ? '' : 'none';
+
+        // Order price input: shown only for Limit exec
+        const showInput = !isMarketExec;
+        if (priceRow) priceRow.style.display      = showInput ? '' : 'none';
+        // Give radio row bottom padding when input is hidden (last element in section)
+        if (radioRow) radioRow.style.paddingBottom = showInput ? '0' : '8px';
+
+        if (showInput) {
+          const compactNoFocus = !sheetExpanded;
+          if (bboOn) {
+            if (activeEl) activeEl.style.display    = 'none';
+            if (cursorEl) cursorEl.style.visibility = 'hidden';
+            if (bboValEl) bboValEl.style.display    = '';
+            setBBOIcons(true);
+          } else {
+            if (activeEl) activeEl.style.display    = '';
+            if (cursorEl) cursorEl.style.visibility = (!compactNoFocus && focusedField === 'execute') ? 'visible' : 'hidden';
+            if (bboValEl) bboValEl.style.display    = 'none';
+            setBBOIcons(false);
+          }
+        } else {
+          if (cursorEl) cursorEl.style.visibility = 'hidden';
+          if (bboValEl) bboValEl.style.display    = 'none';
+        }
+
+      } else {
+        // ── LIMIT ORDER MODE: identical to v1 ──
+        if (v4TriggerOnly) v4TriggerOnly.style.display = 'none';
+        if (v4OrderLabel)  v4OrderLabel.style.display  = '';
+        if (triggerField)  triggerField.style.display  = '';
+        if (innerMargin)   innerMargin.style.display   = '';
+
+        if (priceRow) priceRow.style.display = '';
+        if (bboOn) {
+          if (activeEl) activeEl.style.display    = 'none';
+          if (cursorEl) cursorEl.style.visibility = 'hidden';
+          if (bboValEl) bboValEl.style.display    = '';
+          setBBOIcons(true);
+        } else {
+          if (activeEl) activeEl.style.display    = '';
+          if (cursorEl) cursorEl.style.visibility = focusedField === 'execute' ? 'visible' : 'hidden';
+          if (bboValEl) bboValEl.style.display    = 'none';
+          setBBOIcons(false);
+        }
+      }
+
+      // Cursors (always sync)
+      if (triggerCursorEl) {
+        triggerCursorEl.style.visibility = (isTrigger && focusedField === 'trigger') ? 'visible' : 'hidden';
+      }
+      if (limitMarginCursorEl) {
+        limitMarginCursorEl.style.visibility = focusedField === 'limitMargin' ? 'visible' : 'hidden';
+      }
+    }
+
+    // ── v5 (v4 UI): "Order at · market price" toggle — based on v1 ──
+    // • Market exec (Trigger): label row shows "Order at · market price" + ↔ toggle; no input row
+    // • Limit exec (Trigger):  label row shows "Order at" + ↔ toggle; input row + BBO appear below
+    // • Limit order (non-Trigger): plain "Order at" + input row + BBO (same as v1)
+    function applyStateV5(isTrigger) {
+      const triggerField    = document.getElementById('triggerPriceField');
+      const execTabs        = document.getElementById('execTypeTabs');
+      const triggerCursorEl = document.getElementById('triggerPriceCursor');
+
+      // Compact-trigger context detection (same three-context logic as v1)
+      const marginCtx  = isTrigger && !sheetExpanded && focusedField === 'limitMargin';
+      const executeCtx = isTrigger && !sheetExpanded && focusedField === 'execute';
+      const triggerCtx = isTrigger && !sheetExpanded && !marginCtx && !executeCtx;
+      const orderPriceField = document.getElementById('orderPriceField');
+      const innerMargin     = document.querySelector('.inner-sheet .margin-section');
+
+      if (isTrigger && !sheetExpanded) {
+        if (triggerField)    triggerField.style.display    = triggerCtx  ? '' : 'none';
+        if (orderPriceField) orderPriceField.style.display = executeCtx  ? '' : 'none';
+        if (innerMargin)     innerMargin.style.display     = marginCtx   ? '' : 'none';
+      } else if (!isTrigger) {
+        if (triggerField)    triggerField.style.display    = 'none';
+        if (orderPriceField) orderPriceField.style.display = '';
+        if (innerMargin)     innerMargin.style.display     = '';
+      } else {
+        if (triggerField)    triggerField.style.display    = '';
+        if (orderPriceField) orderPriceField.style.display = '';
+        if (innerMargin)     innerMargin.style.display     = '';
+      }
+
+      // limitMargin cursor
+      const limitMarginCursorEl = document.getElementById('limitMarginCursor');
+      if (limitMarginCursorEl) {
+        limitMarginCursorEl.style.visibility = (sheetExpanded && focusedField === 'limitMargin') ? 'visible' : 'hidden';
+      }
+
+      // ↔ toggle: shown in Trigger mode; label shows the OTHER exec type
+      if (execTabs) execTabs.style.display = isTrigger ? '' : 'none';
+      const toggleLabel = document.getElementById('execTypeToggleLabel');
+      if (toggleLabel) toggleLabel.textContent = execType === 'Market' ? 'Limit' : 'Market';
+
+      // Trigger cursor
+      if (triggerCursorEl) {
+        triggerCursorEl.style.visibility = (sheetExpanded && isTrigger && focusedField === 'trigger') ? 'visible' : 'hidden';
+      }
+
+      // "· market price" inline label: visible when Trigger + Market exec
+      const marketLabelEl = document.getElementById('v4MarketLabel');
+      const effectiveExec = isTrigger ? execType : 'Limit';
+      const showMarketLabel = effectiveExec === 'Market';
+      if (marketLabelEl) marketLabelEl.style.display = showMarketLabel ? '' : 'none';
+
+      // Price input row: hidden when Trigger + Market exec; shown otherwise
+      const priceRow  = document.getElementById('execPriceRow');
+      const activeEl  = document.getElementById('execPriceActive');
+      const cursorEl  = document.getElementById('execPriceCursor');
+      const bboValEl  = document.getElementById('execPriceBBO');
+      const bboWrapEl = document.getElementById('bboWrap');
+
+      const hideBBO = isTrigger && !sheetExpanded;  // BBO hidden in compact Trigger
+
+      // When only the label row is visible (Market exec), give the field its own 8px bottom padding.
+      // When the price input row is present, it already supplies padding-bottom via .price-value-row.
+      if (orderPriceField) orderPriceField.style.paddingBottom = showMarketLabel ? '8px' : '';
+
+      if (showMarketLabel) {
+        // Market exec: hide price input row entirely
+        if (priceRow)  priceRow.style.display  = 'none';
+      } else if (hideBBO) {
+        // Limit exec, compact Trigger: show price but hide BBO
+        if (priceRow)  priceRow.style.display  = '';
+        if (activeEl)  activeEl.style.display  = '';
+        if (cursorEl)  cursorEl.style.visibility = 'hidden';
+        if (bboValEl)  bboValEl.style.display  = 'none';
+        if (bboWrapEl) bboWrapEl.style.display = 'none';
+      } else if (bboOn) {
+        if (priceRow)  priceRow.style.display  = '';
+        if (activeEl)  activeEl.style.display  = 'none';
+        if (cursorEl)  cursorEl.style.visibility = 'hidden';
+        if (bboValEl)  bboValEl.style.display  = '';
+        if (bboWrapEl) bboWrapEl.style.display = '';
+        setBBOIcons(true);
+      } else {
+        if (priceRow)  priceRow.style.display  = '';
+        if (activeEl)  activeEl.style.display  = '';
+        if (cursorEl)  cursorEl.style.visibility = focusedField === 'execute' ? 'visible' : 'hidden';
+        if (bboValEl)  bboValEl.style.display  = 'none';
+        if (bboWrapEl) bboWrapEl.style.display = '';
+        setBBOIcons(false);
+      }
+    }
+
+    // ── v6 (E): "☐ Limit" checkbox expands price input — based on v5/B ──
+    // Trigger + Market exec: ☐ Limit checkbox only (no input row)
+    // Trigger + Limit exec:  ☑ Limit checkbox + price input + BBO
+    // Regular Limit order:   price input + BBO directly (checkbox hidden)
+    function applyStateV6(isTrigger) {
+      const triggerField    = document.getElementById('triggerPriceField');
+      const orderPriceField = document.getElementById('orderPriceField');
+      const innerMargin     = document.querySelector('.inner-sheet .margin-section');
+      const triggerCursorEl = document.getElementById('triggerPriceCursor');
+      const limitMarginCursorEl = document.getElementById('limitMarginCursor');
+
+      // Compact trigger context detection
+      const marginCtx  = isTrigger && !sheetExpanded && focusedField === 'limitMargin';
+      const executeCtx = isTrigger && !sheetExpanded && focusedField === 'execute';
+      const triggerCtx = isTrigger && !sheetExpanded && !marginCtx && !executeCtx;
+
+      if (isTrigger && !sheetExpanded) {
+        if (triggerField)    triggerField.style.display    = triggerCtx  ? '' : 'none';
+        if (orderPriceField) orderPriceField.style.display = executeCtx  ? '' : 'none';
+        if (innerMargin)     innerMargin.style.display     = marginCtx   ? '' : 'none';
+      } else if (!isTrigger) {
+        if (triggerField)    triggerField.style.display    = 'none';
+        if (orderPriceField) orderPriceField.style.display = '';
+        if (innerMargin)     innerMargin.style.display     = '';
+      } else {
+        if (triggerField)    triggerField.style.display    = '';
+        if (orderPriceField) orderPriceField.style.display = '';
+        if (innerMargin)     innerMargin.style.display     = '';
+      }
+
+      // Cursors
+      if (limitMarginCursorEl) {
+        limitMarginCursorEl.style.visibility = (sheetExpanded && focusedField === 'limitMargin') ? 'visible' : 'hidden';
+      }
+      if (triggerCursorEl) {
+        triggerCursorEl.style.visibility = (sheetExpanded && isTrigger && focusedField === 'trigger') ? 'visible' : 'hidden';
+      }
+
+      const effectiveExec = isTrigger ? execType : 'Limit';
+      const isLimitExec   = effectiveExec === 'Limit';
+
+      // Limit checkbox row
+      const execLimitRow    = document.getElementById('execLimitRow');
+      const execLimitUnchk  = document.getElementById('execLimitIconUncheck');
+      const execLimitChk    = document.getElementById('execLimitIconCheck');
+      if (execLimitRow) execLimitRow.style.display = isTrigger ? '' : 'none';
+      if (execLimitUnchk) execLimitUnchk.style.display = isLimitExec ? 'none' : '';
+      if (execLimitChk)   execLimitChk.style.display   = isLimitExec ? ''     : 'none';
+
+      // Bottom padding on orderPriceField: only when checkbox-only (Market exec, no input row)
+      if (orderPriceField) {
+        orderPriceField.style.paddingBottom = (isTrigger && !isLimitExec) ? '8px' : '';
+      }
+
+      // Price input row
+      const priceRow  = document.getElementById('execPriceRow');
+      const activeEl  = document.getElementById('execPriceActive');
+      const cursorEl  = document.getElementById('execPriceCursor');
+      const bboValEl  = document.getElementById('execPriceBBO');
+      const bboWrapEl = document.getElementById('bboWrap');
+      const hideBBO   = isTrigger && !sheetExpanded;
+
+      if (!isLimitExec) {
+        // Market exec: hide price row entirely
+        if (priceRow) priceRow.style.display = 'none';
+      } else if (hideBBO) {
+        // Limit exec, compact: show price but no BBO
+        if (priceRow)  priceRow.style.display    = '';
+        if (activeEl)  activeEl.style.display    = '';
+        if (cursorEl)  cursorEl.style.visibility = 'hidden';
+        if (bboValEl)  bboValEl.style.display    = 'none';
+        if (bboWrapEl) bboWrapEl.style.display   = 'none';
+      } else if (bboOn) {
+        if (priceRow)  priceRow.style.display    = '';
+        if (activeEl)  activeEl.style.display    = 'none';
+        if (cursorEl)  cursorEl.style.visibility = 'hidden';
+        if (bboValEl)  bboValEl.style.display    = '';
+        if (bboWrapEl) bboWrapEl.style.display   = '';
+        setBBOIcons(true);
+      } else {
+        if (priceRow)  priceRow.style.display    = '';
+        if (activeEl)  activeEl.style.display    = '';
+        if (cursorEl)  cursorEl.style.visibility = focusedField === 'execute' ? 'visible' : 'hidden';
+        if (bboValEl)  bboValEl.style.display    = 'none';
+        if (bboWrapEl) bboWrapEl.style.display   = '';
+        setBBOIcons(false);
+      }
+    }
+
+    // ── Main state dispatcher ──
+    function applyState() {
+      const isMarket  = orderType === 'Market';
+      const isTrigger = orderType === 'Trigger';
+
+      document.getElementById('marketBody').style.display = isMarket ? 'flex' : 'none';
+      document.getElementById('limitBody').style.display  = isMarket ? 'none' : 'flex';
+
+      // Market sticky (pct-row + cta-pair): shown above number grid, only in Market mode
+      const ms = document.getElementById('marketSticky');
+      if (ms) ms.style.display = isMarket ? '' : 'none';
+
+      // Compact buttons
+      // Market compact                                    → pct-row + Long/Short
+      // Trigger compact (triggerCtx / executeCtx)        → pct-row + Continue
+      // Trigger compact (marginCtx) / Limit compact + limitMargin → Long/Short (no pct-row)
+      // Limit compact + other focus                      → Continue
+      const ccw   = document.getElementById('compactContinueWrap');
+      const clsw  = document.getElementById('compactLsWrap');
+      const cprow = document.getElementById('compactPctRow');
+      const isTriggerCompact = orderType === 'Trigger' && !sheetExpanded;
+      const compactLS = !sheetExpanded && (isMarket || focusedField === 'limitMargin');
+      if (ccw)   ccw.style.display   = (!isMarket && !sheetExpanded && !compactLS) ? '' : 'none';
+      if (clsw)  clsw.style.display  = compactLS ? '' : 'none';
+      if (cprow) cprow.style.display = ((isMarket && !sheetExpanded) || isTriggerCompact) ? '' : 'none';
+
+      // Keypad: shown whenever sheet is expanded (Market OR Limit/Trigger)
+      const kp = document.getElementById('keypadPanel');
+      if (kp) {
+        kp.style.display = sheetExpanded ? 'flex' : 'none';
+        // Long/Short: ONLY when USDT margin is focused (any order type)
+        // Continue:   any other price field focused while expanded
+        // Hidden:     Market mode (marketSticky has Buy/Sell)
+        const kpContinueWrap = document.getElementById('kpContinueWrap');
+        const kpLsWrap       = document.getElementById('kpLsWrap');
+        const kpShortcuts    = document.querySelector('.kp-shortcuts');
+        const showLS       = sheetExpanded && !isMarket && focusedField === 'limitMargin';
+        const showContinue = sheetExpanded && !isMarket && !showLS;
+        if (kpContinueWrap) kpContinueWrap.style.display = showContinue ? '' : 'none';
+        if (kpLsWrap)       kpLsWrap.style.display       = showLS ? '' : 'none';
+        // Price-adjustment shortcuts (-5%/-1%/+1%/+5%) only apply to price fields, not margin
+        if (kpShortcuts)    kpShortcuts.style.display    = isMarket ? 'none' : '';
+      }
+
+      if (!isMarket) {
+        if      (currentVersion === 1) applyStateV1(isTrigger);
+        else if (currentVersion === 3) applyStateV3(isTrigger);
+        else if (currentVersion === 4) applyStateV4(isTrigger);
+        else if (currentVersion === 5) applyStateV5(isTrigger);
+        else if (currentVersion === 6) applyStateV6(isTrigger);
+      }
+    }
+
+    // ── Version switcher ──
+    async function switchVersion(v) {
+      currentVersion  = v;
+      focusedField    = null;
+      triggerPriceRaw = '122016';
+      executePriceRaw = '122016';
+      document.querySelectorAll('.sw-btn').forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.dataset.ver) === v);
+      });
+      try {
+        const resp = await fetch('v' + v + '-form.html');
+        const html = await resp.text();
+        document.getElementById('limitBody').innerHTML = html;
+      } catch(e) {
+        console.error('Failed to load v' + v + '-form.html', e);
+      }
+      // Auto-focus if already in expanded non-Market mode
+      if (orderType !== 'Market' && sheetExpanded) {
+        focusedField = orderType === 'Trigger' ? 'trigger' : 'execute';
+      }
+      if (orderType === 'Trigger') updateTriggerPct();
+      applyState();
+    }
+
+    // ── Physical keyboard passthrough ──
+    document.addEventListener('keydown', function(e) {
+      if (!focusedField && !marketKeypadActive) return;
+      let key = null;
+      if (e.key >= '0' && e.key <= '9') key = e.key;
+      else if (e.key === 'Backspace') key = 'backspace';
+      else if ((e.key === '.' || e.key === ',') && !( (focusedField ? (focusedField==='trigger'?triggerPriceRaw:executePriceRaw) : marginRaw).includes('.'))) key = '.';
+      if (!key) return;
+      e.preventDefault();
+      keypadInput(key);
+    });
+
+    // close dropdown on outside click; also blur price field
+    document.addEventListener('click', function(e) {
+      // Close order-type dropdown whenever clicking outside it
+      if (!document.getElementById('orderTypeWrap').contains(e.target)) {
+        document.getElementById('orderTypeMenu').classList.remove('open');
+      }
+
+      // Clicks outside the 375px screen (black surrounding area) → no action
+      if (!e.target.closest('.screen')) return;
+
+      // Don't blur when clicking inside keypad, form body, compact buttons, or order type menu
+      if (e.target.closest('#orderTypeWrap')) return;
+      if (e.target.closest('#keypadPanel')) return;
+      if (e.target.closest('#limitBody')) return;
+      if (e.target.closest('#marketSticky')) return;
+      if (e.target.closest('#compactContinueWrap')) return;
+      if (e.target.closest('#compactPctRow')) return;
+      if (e.target.closest('#compactLsWrap')) return;
+      if (e.target.closest('.price-value-wrap')) return;
+      if (e.target.closest('.margin-section') && orderType === 'Market') return;
+
+      // Clicks on the empty sheet-spacer (blank space inside expanded sheet) → no action
+      if (e.target.closest('.sheet-spacer')) return;
+
+      // Clicks on areas outside the bottom-sheet entirely (chart, header, etc.) → no action
+      if (!e.target.closest('.bottom-sheet')) return;
+
+      // Market expanded: no focus-out — keypad only closes via drag handle
+      if (orderType === 'Market') return;
+
+      if (focusedField || marketKeypadActive) {
+        _hideKeypadImmediate();
+        applyState();
+      }
+    });
+
+    // ── Init ──
+    const isDev = new URLSearchParams(window.location.search).get('dev') === 'true';
+    if (isDev) document.getElementById('devSwitcher').style.display = 'flex';
+    initDragHandle();
+    switchVersion(1);
+  </script>
+
+</div><!-- /.screen -->
+
+<!-- Version switcher: pinned below the phone frame, outside the 375px viewport -->
+<div class="vs-outer">
+  <div class="vs-pill">
+    <span class="vs-group-label">확장형</span>
+    <button class="sw-btn active" data-ver="1" onclick="switchVersion(1)">A</button>
+    <button class="sw-btn"        data-ver="4" onclick="switchVersion(4)">B</button>
+  </div>
+  <div class="vs-pill">
+    <span class="vs-group-label">축약형</span>
+    <button class="sw-btn" data-ver="3" onclick="switchVersion(3)">C</button>
+    <button class="sw-btn" data-ver="5" onclick="switchVersion(5)">D</button>
+    <button class="sw-btn" data-ver="6" onclick="switchVersion(6)">E</button>
+  </div>
+</div>
+
+</body>
+</html>
