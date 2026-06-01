@@ -1780,7 +1780,7 @@
   .mid-grid {
     display: grid; grid-template-columns: 1fr 1.4fr;
     gap: var(--spacing-16);
-    margin: var(--spacing-40) 0;
+    margin: 0 0 var(--spacing-40);
   }
   .mid-grid--single { grid-template-columns: 1fr; }
 
@@ -2182,15 +2182,19 @@
     display: flex; align-items: center;
     margin-top: var(--spacing-4);
   }
-  .commission-badge,
-  .greet__commission-row .commission-badge {
+  /* FDS Badge — promotion tint, 24px height, full radius (commission display) */
+  .commission-badge {
     display: inline-flex; align-items: center; gap: var(--spacing-6);
+    height: 24px; padding: 0 var(--spacing-10);
+    border-radius: var(--radius-full);
+    background: var(--background-accent-promotion-tint);
+    color: var(--content-accent-promotion);
+    font-family: var(--font-mono);
     font-size: 13px;
-    font-weight: 500;
-    padding: 2px var(--spacing-10);
-    height: auto;
+    line-height: 1;
   }
-  .commission-badge .mono { font-weight: 700; }
+  .commission-badge__label { font-weight: 500; }
+  .commission-badge__value { font-weight: 700; }
 
   /* Referral block — Referral code + Share link */
   .greet-referral {
@@ -2647,7 +2651,7 @@
           <div class="greet__text">
             <div class="greet__name">GateUser-18a77fca</div>
             <div class="greet__commission-row">
-              <span class="pct-badge commission-badge" style="gap:6px; display:inline-flex; height:auto; padding:2px 10px;"><span>Trading commission</span><span class="mono">60%</span></span>
+              <span class="commission-badge"><span class="commission-badge__label">Trading commission</span><span class="commission-badge__value mono">60%</span></span>
             </div>
           </div>
         </div>
@@ -4820,6 +4824,88 @@
   })();
 
   // ─────────────────────────────────────────────────────────────────
+  // User list — vary data so each row looks distinct
+  // ─────────────────────────────────────────────────────────────────
+  (function setupUserListVariedData() {
+    const panel = document.getElementById('panel-user-list');
+    if (!panel) return;
+    const rows = panel.querySelectorAll('.mu-view[data-view="referee"] tbody tr');
+    if (!rows.length) return;
+    const samples = [
+      { name: 'CryptoKing88',   uid: 'ZE019XG', rewards: '342.18',  volume: '2,695,766.93', taker: '0.04%', vip: 'VIP 2', fee: '808.73',   firstTrade: '2025.08.12', firstDeposit: '2025.07.30', lastLogin: '2025.08.25', kyc: 'L2', tier: 'VIP 2',  assets: '$10K-50K',  deposit: '$5K-10K' },
+      { name: 'TradePro_Alex',  uid: 'ZE019XH', rewards: '128.55',  volume: '985,221.40',   taker: null,    vip: null,    fee: '295.57',   firstTrade: '2025.08.18', firstDeposit: '2025.08.10', lastLogin: '2025.08.24', kyc: 'L2', tier: '—',       assets: '$1K-5K',    deposit: '$500-1K' },
+      { name: 'whale_2024',     uid: 'ZE019XI', rewards: '892.40',  volume: '8,141,229.10', taker: '0.02%', vip: 'VIP 4', fee: '2,442.37', firstTrade: '2025.07.02', firstDeposit: '2025.06.15', lastLogin: '2025.08.25', kyc: 'L3', tier: 'VIP 4',  assets: '$100K+',    deposit: '$50K+' },
+      { name: 'BTCfan_Sara',    uid: 'ZE019XJ', rewards: '56.21',   volume: '418,332.65',   taker: null,    vip: null,    fee: '125.50',   firstTrade: '2025.08.20', firstDeposit: '2025.08.15', lastLogin: '2025.08.23', kyc: 'L1', tier: '—',       assets: '<$1K',      deposit: '<$500' },
+      { name: 'eth_maxi',       uid: 'ZE019XK', rewards: '215.67',  volume: '1,743,892.05', taker: '0.03%', vip: 'VIP 3', fee: '523.17',   firstTrade: '2025.08.05', firstDeposit: '2025.07.28', lastLogin: '2025.08.25', kyc: 'L2', tier: 'VIP 3',  assets: '$50K-100K', deposit: '$10K-50K' },
+      { name: 'NewbieTrader',   uid: 'ZE019XL', rewards: '12.84',   volume: '95,440.20',    taker: null,    vip: null,    fee: '28.63',    firstTrade: '2025.08.22', firstDeposit: '2025.08.21', lastLogin: '2025.08.22', kyc: 'L1', tier: '—',       assets: '<$1K',      deposit: '<$500' },
+      { name: 'DCA_Andre',      uid: 'ZE019XM', rewards: '178.92',  volume: '1,287,455.78', taker: '0.04%', vip: 'VIP 1', fee: '386.24',   firstTrade: '2025.07.18', firstDeposit: '2025.07.10', lastLogin: '2025.08.24', kyc: 'L2', tier: 'VIP 1',  assets: '$5K-10K',   deposit: '$1K-5K' },
+    ];
+    rows.forEach((tr, i) => {
+      const d = samples[i % samples.length];
+      const nameEl = tr.querySelector('.mu-username__name');
+      const uidEl = tr.querySelector('.mu-username__uid');
+      if (nameEl) {
+        const svg = nameEl.querySelector('svg');
+        nameEl.textContent = d.name + ' ';
+        if (svg) nameEl.appendChild(svg);
+      }
+      if (uidEl) uidEl.textContent = d.uid;
+      const tds = tr.querySelectorAll('td');
+      if (tds[2]) tds[2].textContent = d.rewards;
+      if (tds[3]) tds[3].textContent = d.volume;
+      if (tds[4]) {
+        if (d.vip) {
+          tds[4].innerHTML = `<span class="fee-cell"><span class="vip-badge">♛ ${d.vip}</span><span class="mono">${d.taker}</span></span>`;
+        } else {
+          tds[4].innerHTML = '<span class="mu-dash">—</span>';
+        }
+      }
+      if (tds[5]) tds[5].textContent = d.fee;
+      if (tds[6]) tds[6].textContent = d.firstTrade;
+      if (tds[7]) tds[7].textContent = d.firstDeposit;
+      if (tds[8]) tds[8].textContent = d.lastLogin;
+      if (tds[9]) tds[9].textContent = d.kyc;
+      if (tds[10]) tds[10].textContent = d.tier;
+      if (tds[11]) tds[11].textContent = d.assets;
+      if (tds[12]) tds[12].textContent = d.deposit;
+    });
+  })();
+
+  // ─────────────────────────────────────────────────────────────────
+  // Date range buttons — default placeholder "Start date — End date"
+  // ─────────────────────────────────────────────────────────────────
+  (function setupDateRangePlaceholders() {
+    document.querySelectorAll('.date-range-btn span').forEach(span => {
+      span.textContent = 'Start date — End date';
+      span.style.color = 'var(--content-default-level-2)';
+    });
+    // When the calendar's Search runs, restore color (label text is updated by date-picker IIFE)
+    document.addEventListener('click', (e) => {
+      const searchBtn = e.target.closest('.drp-btn--search');
+      if (!searchBtn) return;
+      const popup = searchBtn.closest('.drp-popup');
+      const triggerBtn = popup?.parentElement?.querySelector('.date-range-btn');
+      const span = triggerBtn?.querySelector('span');
+      if (span && span.textContent !== 'Start date — End date') {
+        span.style.color = '';
+      }
+    });
+  })();
+
+  // ─────────────────────────────────────────────────────────────────
+  // Universal pagination — disable Previous on first page
+  // ─────────────────────────────────────────────────────────────────
+  (function setupPaginationStates() {
+    document.querySelectorAll('.pagination').forEach(pag => {
+      const prevBtn = pag.querySelectorAll('.icon-btn')[0];
+      if (!prevBtn) return;
+      prevBtn.disabled = true;
+      prevBtn.style.opacity = '0.4';
+      prevBtn.style.cursor = 'default';
+    });
+  })();
+
+  // ─────────────────────────────────────────────────────────────────
   // Referee history pagination — Next / Prev show different page of rows
   // ─────────────────────────────────────────────────────────────────
   (function setupHistoryPagination() {
@@ -4965,11 +5051,18 @@
     rmApply();
     showToast('Filters applied');
   });
+  function resetDateRangeBtn(scopeSelector) {
+    document.querySelectorAll(`${scopeSelector} .date-range-btn span`).forEach(span => {
+      span.textContent = 'Start date — End date';
+      span.style.color = 'var(--content-default-level-2)';
+    });
+  }
   document.getElementById('rm-reset')?.addEventListener('click', () => {
     rmResetDchip(document.querySelector('[data-dchip="rm-segment"]'), RM_DEFAULTS.segment);
     rmResetDchip(document.querySelector('[data-dchip="rm-status"]'),  RM_DEFAULTS.status);
     const uid = document.querySelector('.rm-page-filters .search-input input');
     if (uid) uid.value = RM_DEFAULTS.uid;
+    resetDateRangeBtn('.rm-page-filters');
     rmApply();
     showToast('Filters reset');
   });
@@ -5005,6 +5098,7 @@
   document.getElementById('ul-reset')?.addEventListener('click', () => {
     const input = document.getElementById('ul-uid');
     if (input) input.value = '';
+    resetDateRangeBtn('#panel-user-list .rm-page-filters');
     ulApply();
     showToast('Filters reset');
   });
@@ -5035,6 +5129,7 @@
   document.getElementById('ro-reset')?.addEventListener('click', () => {
     const input = document.getElementById('ro-uid');
     if (input) input.value = '';
+    resetDateRangeBtn('#panel-referral-overview .rm-page-filters');
     roApply();
     showToast('Filters reset');
   });
