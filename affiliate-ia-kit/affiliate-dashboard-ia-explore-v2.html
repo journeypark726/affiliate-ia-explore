@@ -2118,7 +2118,26 @@
     text-align: right;
   }
   .subtable tbody td:first-child { text-align: left; }
-  .subtable tbody td:nth-child(4) { color: var(--content-default-level-2); }
+  /* Payback (commission flowed back to referee) — amber/warning tint */
+  .subtable .gross-cell { color: var(--content-default-level-4); }
+  .subtable .payback-cell {
+    color: var(--content-state-warning);
+    white-space: nowrap;
+  }
+  .subtable .payback-rate {
+    color: var(--content-default-level-2);
+    font-size: 11px;
+    margin-left: var(--spacing-4);
+    font-family: var(--font-sans);
+  }
+  .subtable .net-cell {
+    font-weight: 600;
+    color: var(--content-default-level-5);
+  }
+  .history-table .history-payback {
+    color: var(--content-state-warning);
+    white-space: nowrap;
+  }
 
   .username-cell {
     display: flex; flex-direction: column;
@@ -3183,14 +3202,18 @@
         <tr>
           <th></th>
           <th>Date</th>
-          <th>Total rewards (USDT)</th>
+          <th>Total net rewards (USDT)</th>
+          <th>Total payback (USDT)</th>
           <th>Active referees</th>
           <th>Total trading volume (USDT)</th>
           <th>Total trading fee (USDT)</th>
         </tr>
       </thead>
       <tbody>
-        <tr class="parent is-open">
+        <!-- Each parent carries data-gross (gross commission, source of truth).
+             JS computes net & total payback from each row's sub-table and
+             writes them into the Total net / Total payback cells. -->
+        <tr class="parent is-open" data-gross="434.92">
           <td style="width: 32px;"></td>
           <td>
             <span class="row-toggle is-open">
@@ -3198,122 +3221,57 @@
               2025.08.25
             </span>
           </td>
-          <td>434.92</td>
+          <td>424.92</td>
+          <td class="history-payback">−10.00</td>
           <td>17</td>
           <td>1,812,160.73</td>
           <td>906.08</td>
         </tr>
-        <tr class="detail">
-          <td colspan="6" class="subtable-wrap">
-            <table class="subtable">
-              <thead>
-                <tr>
-                  <th>Username<br/><span style="font-weight:400; color: var(--content-default-level-1); font-size:10px;">UID</span></th>
-                  <th>Reward (USDT)</th>
-                  <th>Trading volume (USDT)</th>
-                  <th>VIP tier / Taker fee</th>
-                  <th>Trading fee (USDT)</th>
-                  <th>Effective commission rate</th>
-                  <th>Referee type</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="username-cell">
-                      <span>Flipster_test1 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
-                      <span class="uid">2BSD14E0</span>
-                    </div>
-                  </td>
-                  <td>121.31</td>
-                  <td>2,695,766.93</td>
-                  <td style="text-align:left;">—</td>
-                  <td>808.73</td>
-                  <td>15%</td>
-                  <td style="text-align:right;">Sub-Affiliates</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="username-cell">
-                      <span>Flipster_test2 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
-                      <span class="uid">2E5D2KG</span>
-                    </div>
-                  </td>
-                  <td>78.24</td>
-                  <td>782,400.67</td>
-                  <td style="text-align:left;">—</td>
-                  <td>312.96</td>
-                  <td>25%</td>
-                  <td style="text-align:right;">Sub-Affiliates</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="username-cell">
-                      <span>Flipster_test3 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
-                      <span class="uid">2BD02KG</span>
-                    </div>
-                  </td>
-                  <td>36.42</td>
-                  <td>134,888.89</td>
-                  <td style="text-align:left;">
-                    <span class="fee-cell">
-                      <span class="vip-badge">♛ VIP 4</span>
-                      <span class="mono">0.03%</span>
-                    </span>
-                  </td>
-                  <td>60.70</td>
-                  <td>60%</td>
-                  <td style="text-align:right;">Direct referee</td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
 
-        <tr class="parent">
+        <tr class="parent" data-gross="355.40">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.24</span></td>
-          <td>355.40</td><td>15</td><td>1,480,840.43</td><td>740.42</td>
+          <td>347.23</td><td class="history-payback">−8.17</td><td>15</td><td>1,480,840.43</td><td>740.42</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="483.67">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.23</span></td>
-          <td>483.67</td><td>19</td><td>2,016,120.81</td><td>1,008.06</td>
+          <td>472.55</td><td class="history-payback">−11.12</td><td>19</td><td>2,016,120.81</td><td>1,008.06</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="316.13">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.22</span></td>
-          <td>316.13</td><td>13</td><td>1,317,200.38</td><td>658.60</td>
+          <td>308.86</td><td class="history-payback">−7.27</td><td>13</td><td>1,317,200.38</td><td>658.60</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="235.62">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.21</span></td>
-          <td>235.62</td><td>11</td><td>981,760.99</td><td>490.88</td>
+          <td>230.20</td><td class="history-payback">−5.42</td><td>11</td><td>981,760.99</td><td>490.88</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="205.17">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.20</span></td>
-          <td>205.17</td><td>9</td><td>854,860.46</td><td>427.43</td>
+          <td>200.45</td><td class="history-payback">−4.72</td><td>9</td><td>854,860.46</td><td>427.43</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="159.21">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.19</span></td>
-          <td>159.21</td><td>10</td><td>663,380.06</td><td>331.69</td>
+          <td>155.55</td><td class="history-payback">−3.66</td><td>10</td><td>663,380.06</td><td>331.69</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="183.37">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.18</span></td>
-          <td>183.37</td><td>12</td><td>764,040.29</td><td>382.02</td>
+          <td>179.15</td><td class="history-payback">−4.22</td><td>12</td><td>764,040.29</td><td>382.02</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="258.90">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.17</span></td>
-          <td>258.90</td><td>13</td><td>1,078,740.21</td><td>539.37</td>
+          <td>252.95</td><td class="history-payback">−5.95</td><td>13</td><td>1,078,740.21</td><td>539.37</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="353.22">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.16</span></td>
-          <td>353.22</td><td>16</td><td>1,471,740.65</td><td>735.87</td>
+          <td>345.10</td><td class="history-payback">−8.12</td><td>16</td><td>1,471,740.65</td><td>735.87</td>
         </tr>
       </tbody>
     </table>
@@ -4628,28 +4586,53 @@
   (function setupHistoryRowToggle() {
     const table = document.querySelector('.history-table');
     if (!table) return;
-    // Build subtable HTML for a parent row using its totals
-    function buildSubtable(totalReward, refCount) {
-      const reward = parseFloat(String(totalReward).replace(/,/g, ''));
-      const ref = parseInt(refCount, 10) || 3;
-      // Pick 3 sample rows whose rewards roughly add up
+
+    // Sample referee pool — each user carries their own paybackRate (the
+    // campaign config that's been assigned to them). The renderer never
+    // branches on `type` to decide payback eligibility; it just reads
+    // `paybackRate`, so future changes (e.g. extending payback to
+    // sub-affiliates) only require flipping this field on the data.
+    const userPool = [
+      { name: 'Flipster_test1', uid: '2BSD14E0', type: 'Sub-Affiliates', rate: '15%', vip: null,    taker: '—',     paybackRate: null },
+      { name: 'Flipster_test2', uid: '2E5D2KG',  type: 'Sub-Affiliates', rate: '25%', vip: null,    taker: '—',     paybackRate: null },
+      { name: 'Flipster_test3', uid: '2BD02KG',  type: 'Direct referee', rate: '60%', vip: 'VIP 4', taker: '0.03%', paybackRate: 0.10 },
+      { name: 'Flipster_test4', uid: '2BD18WZ',  type: 'Direct referee', rate: '40%', vip: null,    taker: '—',     paybackRate: 0.10 },
+      { name: 'Flipster_test5', uid: '2BD18WY',  type: 'Sub-Affiliates', rate: '20%', vip: 'VIP 2', taker: '0.04%', paybackRate: null },
+    ];
+
+    const fmt = (n, d=2) => n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+    // Build subtable HTML for a parent row given its gross commission.
+    // Returns { html, sumPayback, sumNet } so the caller can write back
+    // matching totals to the parent row.
+    function buildSubtable(totalGross) {
+      const gross = parseFloat(String(totalGross).replace(/,/g, '')) || 0;
       const split = [0.46, 0.31, 0.23];
-      const userPool = [
-        { name: 'Flipster_test1', uid: '2BSD14E0', type: 'Sub-Affiliates', rate: '15%', vip: null, taker: '—' },
-        { name: 'Flipster_test2', uid: '2E5D2KG',  type: 'Sub-Affiliates', rate: '25%', vip: null, taker: '—' },
-        { name: 'Flipster_test3', uid: '2BD02KG',  type: 'Direct referee', rate: '60%', vip: 'VIP 4', taker: '0.03%' },
-        { name: 'Flipster_test4', uid: '2BD18WZ',  type: 'Direct referee', rate: '40%', vip: null, taker: '—' },
-        { name: 'Flipster_test5', uid: '2BD18WY',  type: 'Sub-Affiliates', rate: '20%', vip: 'VIP 2', taker: '0.04%' },
-      ];
-      const fmt = (n, d=2) => n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+      let sumPayback = 0;
+      let sumNet = 0;
+
       const rows = split.map((pct, i) => {
         const u = userPool[i % userPool.length];
-        const rw = reward * pct;
-        const vol = rw * 22000 * (0.8 + i*0.15);
-        const fee = rw * 7.5;
+        const rowGross = gross * pct;
+        const vol = rowGross * 22000 * (0.8 + i*0.15);
+        const fee = rowGross * 7.5;
+
+        // Payback derived from each row's own paybackRate (data-driven).
+        // Round to 2 decimals so the displayed sum stays consistent.
+        const rowPayback = u.paybackRate ? Math.round(rowGross * u.paybackRate * 100) / 100 : 0;
+        const rowNet = Math.round((rowGross - rowPayback) * 100) / 100;
+        sumPayback += rowPayback;
+        sumNet     += rowNet;
+
         const vipCell = u.vip
           ? `<td style="text-align:left;"><span class="fee-cell"><span class="vip-badge">♛ ${u.vip}</span><span class="mono">${u.taker}</span></span></td>`
           : `<td style="text-align:left;">—</td>`;
+
+        const paybackCell = u.paybackRate
+          ? `<td class="payback-cell">−${fmt(rowPayback)}<span class="payback-rate">(${Math.round(u.paybackRate*100)}%)</span></td>`
+          : `<td><span class="mu-dash">—</span></td>`;
+
         return `
           <tr>
             <td>
@@ -4658,43 +4641,68 @@
                 <span class="uid">${u.uid}</span>
               </div>
             </td>
-            <td>${fmt(rw)}</td>
             <td>${fmt(vol)}</td>
             ${vipCell}
             <td>${fmt(fee)}</td>
             <td>${u.rate}</td>
+            <td class="gross-cell">${fmt(rowGross)}</td>
+            ${paybackCell}
+            <td class="net-cell">${fmt(rowNet)}</td>
             <td style="text-align:right;">${u.type}</td>
           </tr>`;
       }).join('');
-      return `
+
+      const html = `
         <table class="subtable">
           <thead>
             <tr>
               <th>Username<br/><span style="font-weight:400; color: var(--content-default-level-1); font-size:10px;">UID</span></th>
-              <th>Reward (USDT)</th>
               <th>Trading volume (USDT)</th>
               <th>VIP tier / Taker fee</th>
               <th>Trading fee (USDT)</th>
               <th>Effective commission rate</th>
+              <th>Gross (USDT)</th>
+              <th>Payback (USDT)</th>
+              <th>Net reward (USDT)</th>
               <th>Referee type</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>`;
+
+      return { html, sumPayback: Math.round(sumPayback*100)/100, sumNet: Math.round(sumNet*100)/100 };
     }
-    // For each parent without a following detail row, inject one (hidden by default).
-    // Use style.display:none (not the [hidden] attribute) so the existing toggle handler
-    // upstream (which uses style.display = '') can show it correctly.
+
+    // Expose for the page-2 builder below so both paths share one source of truth.
+    window.__historyBuildSubtable = buildSubtable;
+
+    // For each parent, derive subtable + write back consistent totals to
+    // Total net rewards / Total payback cells. Detail row visibility
+    // mirrors the parent's `is-open` state.
     table.querySelectorAll('tbody tr.parent').forEach(parent => {
-      const next = parent.nextElementSibling;
-      if (next && next.classList.contains('detail')) return; // already has detail
+      const grossAttr = parent.dataset.gross;
+      if (!grossAttr) return; // page-2 rows handle themselves below
+
+      const { html, sumPayback, sumNet } = buildSubtable(grossAttr);
+
+      // Update Total net rewards (tds[2]) and Total payback (tds[3])
+      // so they always match the sum of the sub-rows below.
       const tds = parent.querySelectorAll('td');
-      const totalReward = tds[2]?.textContent.trim();
-      const refCount = tds[3]?.textContent.trim();
+      if (tds[2]) tds[2].textContent = fmt(sumNet);
+      if (tds[3]) {
+        tds[3].className = sumPayback > 0 ? 'history-payback' : '';
+        tds[3].innerHTML = sumPayback > 0
+          ? `−${fmt(sumPayback)}`
+          : '<span class="mu-dash">—</span>';
+      }
+
+      // Inject the detail row if one isn't already present.
+      const next = parent.nextElementSibling;
+      if (next && next.classList.contains('detail')) return;
       const detail = document.createElement('tr');
       detail.className = 'detail';
-      detail.style.display = 'none';
-      detail.innerHTML = `<td colspan="6" class="subtable-wrap">${buildSubtable(totalReward, refCount)}</td>`;
+      detail.style.display = parent.classList.contains('is-open') ? '' : 'none';
+      detail.innerHTML = `<td colspan="7" class="subtable-wrap">${html}</td>`;
       parent.after(detail);
     });
     // No separate toggle wiring needed — the pre-existing handler attached during
@@ -5079,40 +5087,37 @@
       ['2025.08.07', '359.62', 14, '1,498,420.65', 749.21],
       ['2025.08.06', '210.45', 10, '876,876.85',   438.44],
     ];
+    const fmt2 = (n) => Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
     page2Data.forEach(([date, rew, ref, vol, fee]) => {
       const tr = document.createElement('tr');
       tr.className = 'parent';
       tr.dataset.page = '2';
+      tr.dataset.gross = String(rew);
       tr.style.display = 'none';
+
+      // Build the subtable through the shared builder so net/payback maths
+      // (and the column layout) match page 1 exactly.
+      const build = (window.__historyBuildSubtable || (() => ({ html: '', sumPayback: 0, sumNet: parseFloat(String(rew).replace(/,/g,''))||0 })));
+      const { html, sumPayback, sumNet } = build(rew);
+
+      const paybackTd = sumPayback > 0
+        ? `<td class="history-payback">−${fmt2(sumPayback)}</td>`
+        : `<td><span class="mu-dash">—</span></td>`;
+
       tr.innerHTML = `
         <td></td>
         <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>${date}</span></td>
-        <td>${rew}</td><td>${ref}</td><td>${vol}</td><td>${Number(fee).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+        <td>${fmt2(sumNet)}</td>${paybackTd}<td>${ref}</td><td>${vol}</td><td>${fmt2(fee)}</td>
       `;
       tbody.appendChild(tr);
-      // Detail row will be auto-generated by setupHistoryRowToggle? It already ran. Generate manually:
+
       const detail = document.createElement('tr');
       detail.className = 'detail';
       detail.dataset.page = '2';
       detail.style.display = 'none';
-      const subRows = [0.46, 0.31, 0.23].map((pct, i) => {
-        const rw = parseFloat(String(rew).replace(/,/g,'')) * pct;
-        const users = [
-          { name: 'Flipster_test4', uid: '2BD18WZ', type: 'Direct referee', rate: '40%' },
-          { name: 'Flipster_test5', uid: '2BD18WY', type: 'Sub-Affiliates', rate: '20%' },
-          { name: 'Flipster_test6', uid: '2BD18WX', type: 'Direct referee', rate: '30%' },
-        ];
-        const u = users[i];
-        const vol2 = rw * 22000 * (0.8 + i*0.15);
-        const fee2 = rw * 7.5;
-        const fmt = (n) => n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-        return `<tr>
-          <td><div class="username-cell"><span>${u.name} <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span><span class="uid">${u.uid}</span></div></td>
-          <td>${fmt(rw)}</td><td>${fmt(vol2)}</td><td style="text-align:left;">—</td><td>${fmt(fee2)}</td><td>${u.rate}</td><td style="text-align:right;">${u.type}</td>
-        </tr>`;
-      }).join('');
-      detail.innerHTML = `<td colspan="6" class="subtable-wrap"><table class="subtable"><thead><tr><th>Username<br/><span style="font-weight:400; color: var(--content-default-level-1); font-size:10px;">UID</span></th><th>Reward (USDT)</th><th>Trading volume (USDT)</th><th>VIP tier / Taker fee</th><th>Trading fee (USDT)</th><th>Effective commission rate</th><th>Referee type</th></tr></thead><tbody>${subRows}</tbody></table></td>`;
+      detail.innerHTML = `<td colspan="7" class="subtable-wrap">${html}</td>`;
       tbody.appendChild(detail);
+
       // Wire toggle for new parent
       tr.querySelector('.row-toggle').addEventListener('click', () => {
         const isOpen = tr.classList.toggle('is-open');
