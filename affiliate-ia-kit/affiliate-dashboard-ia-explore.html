@@ -4330,6 +4330,12 @@
       .forEach(n => n.classList.remove('is-active'));
     const navEl = document.querySelector(`.side-nav [data-route="${route}"]`);
     if (navEl) navEl.classList.add('is-active');
+    // If the target is a sub-item, open its parent group so the active item
+    // stays visible in the sidebar
+    if (navEl && navEl.classList.contains('side-nav__subitem')) {
+      const group = navEl.closest('.side-nav__group');
+      if (group && !group.classList.contains('is-open')) group.classList.add('is-open');
+    }
     document.body.classList.toggle('no-sidebar', !!r.noSidebar);
     window.scrollTo(0, 0);
   }
