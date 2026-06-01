@@ -165,10 +165,15 @@
     align-items: center;
     padding: 0 var(--spacing-24);
     gap: var(--spacing-24);
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 20;
   }
+  /* Account for the fixed GNB so content/sidebar start below it */
+  body { padding-top: 60px; }
+  .side-nav { top: 60px; }
   .gnb__logo {
     display: flex; align-items: center; gap: var(--spacing-8);
     font-weight: 700; font-size: 18px; color: var(--content-default-level-5);
@@ -2485,7 +2490,7 @@
     <div class="side-nav__sub">
       <div class="side-nav__subitem" data-route="referral-overview">Referee overview</div>
       <div class="side-nav__subitem" data-route="user-list">User list</div>
-      <div class="side-nav__subitem" data-route="affiliate-management">Affiliate management</div>
+      <div class="side-nav__subitem" data-route="affiliate-management">Affiliate list</div>
     </div>
   </div>
 
@@ -2693,7 +2698,6 @@
             <div class="balance__row"><span>2025.08.24</span><span class="mono" data-rh="amount" data-rh-base="355.40">355.40</span></div>
             <div class="balance__row"><span>2025.08.23</span><span class="mono" data-rh="amount" data-rh-base="483.67">483.67</span></div>
             <div class="balance__row"><span>2025.08.22</span><span class="mono" data-rh="amount" data-rh-base="316.13">316.13</span></div>
-            <div class="balance__row"><span>2025.08.21</span><span class="mono" data-rh="amount" data-rh-base="235.62">235.62</span></div>
           </div>
           <button class="greet-share greet-view-all fds-btn fds-btn--secondary fds-btn--neutral" data-route="rh-asis">View all</button>
         </div>
@@ -3862,7 +3866,7 @@
 
     <!-- ══════════════  PANEL: Affiliate Management  ══════════════ -->
     <div id="panel-affiliate-management" class="tab-panel" hidden>
-      <h2 class="panel-title title-l">Affiliate management</h2>
+      <h2 class="panel-title title-l">Affiliate list</h2>
 
       <div class="am-view-tabs" role="tablist">
         <button class="choice-chip is-selected" data-am-view="list">List view</button>
@@ -4321,7 +4325,7 @@
     'home':                  { panel: 'panel-overview',              title: 'Affiliate' },
     'user-list':             { panel: 'panel-user-list',             title: 'User list' },
     'referral-overview':     { panel: 'panel-referral-overview',     title: 'Referee overview' },
-    'affiliate-management':  { panel: 'panel-affiliate-management',  title: 'Affiliate management' },
+    'affiliate-management':  { panel: 'panel-affiliate-management',  title: 'Affiliate list' },
     'referee-history':       { panel: ['panel-rewards-trend', 'panel-referee-history'], title: 'Rewards management' },
     'rewards-trend':         { panel: ['panel-rewards-trend', 'panel-referee-history'], title: 'Rewards management' },
     'payback-campaign':      { panel: 'panel-payback-campaign',      title: 'Payback campaign' },
