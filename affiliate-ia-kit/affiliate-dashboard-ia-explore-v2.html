@@ -839,12 +839,14 @@
   /* =====================================================================
      Page container
   ===================================================================== */
+  /* Min content width 1280px — content area itself is 1000px */
+  body { min-width: 1280px; }
   .page {
     max-width: 1440px;
     margin: 0 auto;
     padding: var(--spacing-80) 120px var(--spacing-80) calc(280px + var(--spacing-40));
   }
-  .container { max-width: 1200px; margin: 0 auto; }
+  .container { max-width: 1000px; margin: 0 auto; }
 
   /* No-sidebar mode (as-is view): hide side-nav and expand content */
   body.no-sidebar .side-nav { display: none; }
@@ -2255,6 +2257,17 @@
     display: flex; align-items: center; justify-content: space-between;
     margin-bottom: var(--spacing-24);
   }
+  .mu-topbar--single { justify-content: flex-end; }
+
+  /* Affiliate management — List/Tree view tabs */
+  .am-view-tabs {
+    display: flex; gap: var(--spacing-8);
+    margin: var(--spacing-16) 0 var(--spacing-24);
+  }
+  .am-list-view { overflow-x: auto; }
+  .am-list-view::-webkit-scrollbar { height: 8px; }
+  .am-list-view::-webkit-scrollbar-thumb { background: var(--border-default-level-2); border-radius: var(--radius-full); }
+  .am-list-view::-webkit-scrollbar-track { background: transparent; }
   .mu-commission { display: inline-flex; align-items: baseline; gap: var(--spacing-8); }
   .mu-commission__label { color: var(--content-default-level-3); font-size: 14px; }
   .mu-commission__value { color: var(--content-default-level-5); font-size: 18px; font-weight: 700; }
@@ -2451,7 +2464,7 @@
       <path d="M5 10.5V20h14v-9.5"/>
       <path d="M10 20v-5h4v5"/>
     </svg>
-    <span class="label">Home</span>
+    <span class="label">Overview</span>
   </div>
 
   <div class="side-nav__group">
@@ -2599,9 +2612,8 @@
       <section class="card kpi-section__breakdown">
         <div class="breakdown__caption">Total rewards breakdown <span class="breakdown__caption-sub">by referee type</span></div>
         <div class="breakdown__bar">
-          <span class="bar--direct" style="width: 54%"></span>
-          <span class="bar--sub"    style="width: 36%"></span>
-          <span class="bar--self"   style="width: 10%"></span>
+          <span class="bar--direct" style="width: 60%"></span>
+          <span class="bar--sub"    style="width: 40%"></span>
         </div>
 
         <div class="breakdown__table">
@@ -2622,12 +2634,6 @@
             <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="sub">6,188.52</span><span class="pct-badge pct-badge--outline mono">36%</span></span>
             <span class="breakdown__num" data-bd="sub-ref">5</span>
             <span class="breakdown__num" data-bd="sub-avg">1,237.70</span>
-          </div>
-          <div class="breakdown__row">
-            <span class="breakdown__type"><span class="breakdown__dot breakdown__dot--self"></span>Self-rebate</span>
-            <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="self">1,719.03</span><span class="pct-badge pct-badge--outline mono">10%</span></span>
-            <span class="breakdown__num">—</span>
-            <span class="breakdown__num">—</span>
           </div>
         </div>
       </section>
@@ -3662,12 +3668,8 @@
         </div>
       </div>
 
-      <!-- Top bar: filter chips left, commission right -->
-      <div class="mu-topbar">
-        <div class="chip-group">
-          <button class="choice-chip is-selected" data-mu-chip="referee">Referee</button>
-          <button class="choice-chip" data-mu-chip="sub-affiliate">Sub-Affiliate</button>
-        </div>
+      <!-- Top bar: commission only (chip toggle moved to Affiliate management) -->
+      <div class="mu-topbar mu-topbar--single">
         <div class="mu-commission">
           <span class="mu-commission__label">Trading commission</span>
           <span class="mu-commission__value">0.5%</span>
@@ -3846,8 +3848,32 @@
       </table>
       </div><!-- /mu-view referee -->
 
-      <!-- Users table — Sub-Affiliate view -->
-      <div class="mu-view" data-view="sub-affiliate" hidden>
+      <!-- Pagination -->
+      <div class="pagination">
+        <button class="icon-btn" aria-label="Previous page">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Next page">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+
+    </div><!-- /panel-user-list -->
+
+    <!-- ══════════════  PANEL: Affiliate Management  ══════════════ -->
+    <div id="panel-affiliate-management" class="tab-panel" hidden>
+      <h2 class="panel-title title-l">Affiliate management</h2>
+
+      <div class="am-view-tabs" role="tablist">
+        <button class="choice-chip is-selected" data-am-view="list">List view</button>
+        <button class="choice-chip" data-am-view="tree">Tree view</button>
+      </div>
+
+      <div class="am-view" data-am-view-panel="list">
+
+
+      <!-- List view — extracted from User list -->
+      <div class="am-list-view">
       <table class="mu-table mu-table--sa">
         <thead>
           <tr>
@@ -3959,23 +3985,10 @@
           </tr>
         </tbody>
       </table>
-      </div><!-- /mu-view sub-affiliate -->
-
-      <!-- Pagination -->
-      <div class="pagination">
-        <button class="icon-btn" aria-label="Previous page">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="icon-btn" aria-label="Next page">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
-        </button>
+      </div><!-- /am-list-view -->
       </div>
 
-    </div><!-- /panel-user-list -->
-
-    <!-- ══════════════  PANEL: Affiliate Management  ══════════════ -->
-    <div id="panel-affiliate-management" class="tab-panel" hidden>
-      <h2 class="panel-title title-l">Affiliate management</h2>
+      <div class="am-view" data-am-view-panel="tree" hidden>
 
       <!-- Level 0 -->
       <div class="am-section-head">
@@ -4104,6 +4117,7 @@
         </article>
       </div>
 
+          </div><!-- /am-view tree -->
     </div><!-- /panel-affiliate-management -->
 
     <!-- ══════════════  PANEL: General Events  ══════════════ -->
@@ -4371,13 +4385,13 @@
     });
   });
 
-  // User list: Referee / Sub-Affiliate chip toggle
-  document.querySelectorAll('[data-mu-chip]').forEach(chip => {
+  // Affiliate management: List / Tree view toggle
+  document.querySelectorAll('[data-am-view]').forEach(chip => {
     chip.addEventListener('click', (e) => {
       e.preventDefault();
-      const view = chip.dataset.muChip;
-      document.querySelectorAll('[data-mu-chip]').forEach(c => c.classList.toggle('is-selected', c === chip));
-      document.querySelectorAll('.mu-view').forEach(v => { v.hidden = v.dataset.view !== view; });
+      const view = chip.dataset.amView;
+      document.querySelectorAll('[data-am-view]').forEach(c => c.classList.toggle('is-selected', c === chip));
+      document.querySelectorAll('[data-am-view-panel]').forEach(p => { p.hidden = p.dataset.amViewPanel !== view; });
     });
   });
 
