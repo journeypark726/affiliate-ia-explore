@@ -4998,8 +4998,9 @@
       if (tds[2]) tds[2].textContent = d.rewards;
       if (tds[3]) tds[3].textContent = d.volume;
       if (tds[4]) {
-        if (d.vip) {
-          tds[4].innerHTML = `<span class="fee-cell"><span class="vip-badge">♛ ${d.vip}</span><span class="mono">${d.taker}</span></span>`;
+        // Taker fee column — fee value only (no VIP badge)
+        if (d.taker) {
+          tds[4].innerHTML = `<span class="mu-fee-rate mono">${d.taker}</span>`;
         } else {
           tds[4].innerHTML = '<span class="mu-dash">—</span>';
         }
@@ -5009,7 +5010,14 @@
       if (tds[7]) tds[7].textContent = d.firstDeposit;
       if (tds[8]) tds[8].textContent = d.lastLogin;
       if (tds[9]) tds[9].textContent = d.kyc;
-      if (tds[10]) tds[10].textContent = d.tier;
+      if (tds[10]) {
+        // VIP Tier column — render as FDS vip-badge (or dash when no tier)
+        if (d.vip) {
+          tds[10].innerHTML = `<span class="vip-badge"><span class="vip-badge__icon">F</span>${d.vip}</span>`;
+        } else {
+          tds[10].innerHTML = '<span class="mu-dash">—</span>';
+        }
+      }
       if (tds[11]) tds[11].textContent = d.assets;
       if (tds[12]) tds[12].textContent = d.deposit;
     });
