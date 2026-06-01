@@ -4749,7 +4749,10 @@
       popup.querySelector('.drp-btn--search').addEventListener('click', () => {
         if (state.start && state.end) {
           const label = btn.querySelector('span');
-          if (label) label.textContent = `${fmt(state.start)} — ${fmt(state.end)}`;
+          if (label) {
+            label.textContent = `${fmt(state.start)} — ${fmt(state.end)}`;
+            label.style.color = 'var(--content-default-level-4)';
+          }
         }
         popup.hidden = true;
       });
@@ -4888,20 +4891,11 @@
   // Date range buttons — default placeholder "Start date — End date"
   // ─────────────────────────────────────────────────────────────────
   (function setupDateRangePlaceholders() {
+    // Placeholder text + muted (level-2) color until user picks a range.
+    // When picked, the date-picker IIFE sets the label to level-4 directly.
     document.querySelectorAll('.date-range-btn span').forEach(span => {
       span.textContent = 'Start date — End date';
       span.style.color = 'var(--content-default-level-2)';
-    });
-    // When the calendar's Search runs, restore color (label text is updated by date-picker IIFE)
-    document.addEventListener('click', (e) => {
-      const searchBtn = e.target.closest('.drp-btn--search');
-      if (!searchBtn) return;
-      const popup = searchBtn.closest('.drp-popup');
-      const triggerBtn = popup?.parentElement?.querySelector('.date-range-btn');
-      const span = triggerBtn?.querySelector('span');
-      if (span && span.textContent !== 'Start date — End date') {
-        span.style.color = '';
-      }
     });
   })();
 
