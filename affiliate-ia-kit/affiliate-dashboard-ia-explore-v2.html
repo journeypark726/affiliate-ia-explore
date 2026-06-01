@@ -890,16 +890,17 @@
   /* =====================================================================
      Page container
   ===================================================================== */
-  /* Min viewport 1280px. Sidebar (280px, fixed) takes the left; the
-     remaining area centers a 1000px content column with equal margin
-     when room allows. At very narrow widths the container shrinks. */
+  /* Min viewport 1280px (smallest supported). Sidebar (280px, fixed)
+     takes the left; .page reserves 40px gap left of content and 40px
+     on the right. .container fluidly grows up to 1200px so content
+     gains real estate as the viewport widens, while always leaving
+     40px breathing space on both sides. */
   body { min-width: 1280px; }
   .page {
-    max-width: 1440px;
     margin: 0 auto;
     padding: var(--spacing-80) var(--spacing-40) var(--spacing-80) calc(280px + var(--spacing-40));
   }
-  .container { max-width: 1000px; margin: 0 auto; }
+  .container { width: 100%; max-width: 1200px; margin: 0 auto; }
 
   /* No-sidebar mode (as-is view): hide side-nav and expand content */
   body.no-sidebar .side-nav { display: none; }
