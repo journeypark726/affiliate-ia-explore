@@ -2065,19 +2065,38 @@
   .row-toggle .chev { color: var(--content-default-level-2); transition: transform 120ms ease; }
   .row-toggle.is-open .chev { transform: rotate(180deg); }
 
-  .history-table tbody tr.parent { background: var(--background-default-level-1); }
-  .history-table tbody tr.parent td { border-bottom-color: transparent; }
-  .history-table tbody tr.parent.is-open td { border-bottom-color: var(--border-default-level-1); }
-  .history-table tbody tr.parent + tr.detail td { background: var(--background-default-level-1); }
-
-  .subtable-wrap {
+  /* Flat rows — match the standard table view (no per-row card fill) */
+  .history-table tbody tr.parent { background: transparent; }
+  .history-table tbody tr.parent td { border-bottom: 1px solid var(--border-default-level-1); }
+  /* Open parent row: subtle level-1 fill that connects to the subtable below */
+  .history-table tbody tr.parent.is-open td {
+    background: var(--background-default-level-1);
+    border-top: 1px solid var(--border-default-level-1);
+    border-bottom-color: transparent;
+  }
+  .history-table tbody tr.parent.is-open td:first-child {
+    border-left: 1px solid var(--border-default-level-1);
+    border-top-left-radius: var(--radius-8);
+  }
+  .history-table tbody tr.parent.is-open td:last-child {
+    border-right: 1px solid var(--border-default-level-1);
+    border-top-right-radius: var(--radius-8);
+  }
+  /* Expanded detail — level-1 fill + 3-sided stroke + rounded bottom, connected to the open row */
+  .history-table tbody tr.detail td {
     padding: 0;
+    background: var(--background-default-level-1);
+    border-bottom: 1px solid var(--border-default-level-1);
+    border-left: 1px solid var(--border-default-level-1);
+    border-right: 1px solid var(--border-default-level-1);
+    border-radius: 0 0 var(--radius-8) var(--radius-8);
+  }
+  .subtable-wrap {
+    padding: 0 var(--spacing-16) var(--spacing-16);
   }
   .subtable {
-    width: 100%; border-collapse: collapse;
-    background: var(--background-default-level-0);
-    border-radius: var(--radius-8);
-    overflow: hidden;
+    width: 100%; border-collapse: separate; border-spacing: 0;
+    background: transparent;
     font-size: 12px;
   }
   .subtable thead th {
@@ -2132,6 +2151,7 @@
     background: var(--gradient-vip);
     color: var(--content-default-level-0);
     font-family: var(--font-mono); font-weight: 700; font-size: 11px;
+    white-space: nowrap;
   }
   .fee-cell {
     display: inline-flex; align-items: center; gap: var(--spacing-8);
@@ -2206,7 +2226,7 @@
   }
   .greet-campaign__link {
     display: inline-flex; align-items: center;
-    color: var(--content-accent-promotion);
+    color: var(--content-default-level-5);
     font-size: 14px; font-weight: 600;
     text-decoration: underline; text-underline-offset: 2px;
   }
@@ -2333,21 +2353,60 @@
   .mu-search-row { margin-bottom: var(--spacing-16); }
   .mu-search-input { width: 240px; }
 
-  /* Sub-Affiliate view variant */
-  .mu-table--sa tbody tr {
-    background: var(--background-default-level-1);
-    border-radius: var(--radius-8);
-  }
-  .mu-table--sa tbody tr td:first-child { border-top-left-radius: var(--radius-8); border-bottom-left-radius: var(--radius-8); }
-  .mu-table--sa tbody tr td:last-child  { border-top-right-radius: var(--radius-8); border-bottom-right-radius: var(--radius-8); }
-  .mu-table--sa { border-spacing: 0 var(--spacing-8); border-collapse: separate; }
-  .mu-table--sa tbody td { border-bottom: 0; }
+  /* Sub-Affiliate / Affiliate list view — flat rows (match the standard table) */
+  .mu-table--sa { border-collapse: collapse; }
   .mu-sa-th-toggle { width: 24px; }
   .mu-sa-toggle {
     width: 24px;
     color: var(--content-default-level-3);
     text-align: center;
     cursor: pointer;
+  }
+  .mu-sa-toggle .chev { display: inline-block; transition: transform 120ms ease; }
+  .mu-sa-row.is-open .mu-sa-toggle .chev { transform: rotate(180deg); }
+
+  /* Open parent row: subtle level-1 fill that connects to the detail panel below */
+  .mu-table--sa tbody tr.mu-sa-row.is-open > td {
+    background: var(--background-default-level-1);
+    border-top: 1px solid var(--border-default-level-1);
+    border-bottom-color: transparent;
+  }
+  .mu-table--sa tbody tr.mu-sa-row.is-open > td:first-child {
+    background: var(--background-default-level-1);
+    box-shadow: none;
+    border-left: 1px solid var(--border-default-level-1);
+    border-top-left-radius: var(--radius-8);
+  }
+  .mu-table--sa tbody tr.mu-sa-row.is-open > td:last-child {
+    border-right: 1px solid var(--border-default-level-1);
+    border-top-right-radius: var(--radius-8);
+  }
+
+  /* Expanded detail panel — level-1 fill + 3-sided stroke + rounded bottom */
+  .mu-table--sa tbody tr.mu-sa-detail > td {
+    padding: 0;
+    position: static;
+    background: var(--background-default-level-1);
+    box-shadow: none;
+    border-left: 1px solid var(--border-default-level-1);
+    border-right: 1px solid var(--border-default-level-1);
+    border-bottom: 1px solid var(--border-default-level-1);
+    border-radius: 0 0 var(--radius-8) var(--radius-8);
+  }
+  .mu-sa-panel { padding: var(--spacing-20) 0 var(--spacing-24); }
+  .mu-sa-panel__row { display: flex; padding: 0 var(--spacing-24); }
+  .mu-sa-panel__row > span { flex: 1 1 0; min-width: 0; }
+  .mu-sa-panel__row--labels {
+    color: var(--content-default-level-2);
+    font-size: 12px;
+    padding-bottom: var(--spacing-16);
+    border-bottom: 1px solid var(--border-default-level-1);
+  }
+  .mu-sa-panel__row--values {
+    padding-top: var(--spacing-16);
+    color: var(--content-default-level-5);
+    font-family: var(--font-mono);
+    font-size: 14px;
   }
   .mu-sa-edit { display: inline-flex; align-items: center; gap: var(--spacing-4); }
   .mu-sa-edit--disabled { opacity: 0.45; }
@@ -2433,10 +2492,10 @@
 
   .vip-badge__icon {
     width: 13px; height: 13px;
-    border-radius: var(--radius-full);
-    background: linear-gradient(135deg, #e46c10 0%, #ff9a3c 100%);
-    color: #fff;
-    font-size: 8px; font-weight: 900;
+    border-radius: var(--radius-4);
+    background: var(--content-default-level-0);
+    color: var(--content-default-level-5);
+    font-size: 9px; font-weight: 700;
     display: inline-grid; place-items: center;
     flex-shrink: 0;
     font-family: var(--font-sans);
@@ -2490,7 +2549,7 @@
             <span class="gnb-profile__uid">
               <span>UID</span>
               <span class="mono">21236578</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-copy="21236578"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" data-copy="21236578"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg>
             </span>
           </span>
           <svg class="gnb-profile__caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
@@ -2753,7 +2812,7 @@
           <div class="mrl-stack__code-row">
             <span class="mono mrl-stack__code-text">VFJGVFAMVA</span>
             <button class="copy-btn copy-btn--inline" aria-label="Copy referral code" data-copy="VFJGVFAMVA">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg>
             </button>
           </div>
         </div>
@@ -3677,7 +3736,7 @@
           <tr>
             <td>
               <div class="mu-username">
-                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
             </td>
@@ -3698,7 +3757,7 @@
           <tr>
             <td>
               <div class="mu-username">
-                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
             </td>
@@ -3719,7 +3778,7 @@
           <tr>
             <td>
               <div class="mu-username">
-                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
             </td>
@@ -3740,7 +3799,7 @@
           <tr>
             <td>
               <div class="mu-username">
-                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
             </td>
@@ -3761,7 +3820,7 @@
           <tr>
             <td>
               <div class="mu-username">
-                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
             </td>
@@ -3782,7 +3841,7 @@
           <tr>
             <td>
               <div class="mu-username">
-                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
             </td>
@@ -3803,7 +3862,7 @@
           <tr>
             <td>
               <div class="mu-username">
-                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
             </td>
@@ -3865,10 +3924,10 @@
         </thead>
         <tbody>
           <tr class="mu-sa-row">
-            <td class="mu-sa-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
+            <td class="mu-sa-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
             <td>
               <div class="mu-username">
-                <span class="mu-username__name">Mark_Trades <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span class="mu-username__name">Mark_Trades <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE001XG</span>
               </div>
             </td>
@@ -3880,8 +3939,8 @@
             <td class="mu-sa-note">Registered by Flipster <button class="mu-sa-edit-btn" aria-label="Edit note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></td>
           </tr>
           <tr class="mu-sa-row">
-            <td class="mu-sa-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
-            <td><div class="mu-username"><span class="mu-username__name">crypto_jin <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span><span class="mu-username__uid">ZE044QP</span></div></td>
+            <td class="mu-sa-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
+            <td><div class="mu-username"><span class="mu-username__name">crypto_jin <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span><span class="mu-username__uid">ZE044QP</span></div></td>
             <td>Level 2</td>
             <td><span class="mu-sa-edit"><span class="mono">1.00%</span><button class="mu-sa-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></span></td>
             <td class="mono">8K47M19TXP</td>
@@ -3890,8 +3949,8 @@
             <td class="mu-sa-note"><button class="mu-sa-edit-btn mu-sa-edit-btn--alone" aria-label="Edit note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></td>
           </tr>
           <tr class="mu-sa-row">
-            <td class="mu-sa-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
-            <td><div class="mu-username"><span class="mu-username__name">whale_07 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span><span class="mu-username__uid">ZE128LM</span></div></td>
+            <td class="mu-sa-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
+            <td><div class="mu-username"><span class="mu-username__name">whale_07 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span><span class="mu-username__uid">ZE128LM</span></div></td>
             <td>Level 3</td>
             <td><span class="mu-sa-edit mu-sa-edit--disabled"><span class="mono">1.00%</span><button class="mu-sa-edit-btn" aria-label="Edit" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></span></td>
             <td class="mono">2W63H58BLD</td>
@@ -3900,8 +3959,8 @@
             <td class="mu-sa-note"><button class="mu-sa-edit-btn mu-sa-edit-btn--alone" aria-label="Edit note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></td>
           </tr>
           <tr class="mu-sa-row">
-            <td class="mu-sa-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
-            <td><div class="mu-username"><span class="mu-username__name">alpha_min <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span><span class="mu-username__uid">ZE205RT</span></div></td>
+            <td class="mu-sa-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
+            <td><div class="mu-username"><span class="mu-username__name">alpha_min <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span><span class="mu-username__uid">ZE205RT</span></div></td>
             <td>Level 2</td>
             <td><span class="mu-sa-edit"><span class="mono">1.00%</span><button class="mu-sa-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></span></td>
             <td class="mono">9N21C84RQK</td>
@@ -3910,8 +3969,8 @@
             <td class="mu-sa-note"><button class="mu-sa-edit-btn mu-sa-edit-btn--alone" aria-label="Edit note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></td>
           </tr>
           <tr class="mu-sa-row">
-            <td class="mu-sa-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
-            <td><div class="mu-username"><span class="mu-username__name">tradergpt <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span><span class="mu-username__uid">ZE319BW</span></div></td>
+            <td class="mu-sa-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
+            <td><div class="mu-username"><span class="mu-username__name">tradergpt <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span><span class="mu-username__uid">ZE319BW</span></div></td>
             <td>Level 4</td>
             <td><span class="mu-sa-edit"><span class="mono">1.00%</span><button class="mu-sa-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></span></td>
             <td class="mono">6F38J72VWM</td>
@@ -3920,8 +3979,8 @@
             <td class="mu-sa-note">Registered by Flipster <button class="mu-sa-edit-btn" aria-label="Edit note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></td>
           </tr>
           <tr class="mu-sa-row">
-            <td class="mu-sa-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
-            <td><div class="mu-username"><span class="mu-username__name">seoul_bull <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span><span class="mu-username__uid">ZE402KD</span></div></td>
+            <td class="mu-sa-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
+            <td><div class="mu-username"><span class="mu-username__name">seoul_bull <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span><span class="mu-username__uid">ZE402KD</span></div></td>
             <td>Level 2</td>
             <td><span class="mu-sa-edit"><span class="mono">1.00%</span><button class="mu-sa-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></span></td>
             <td class="mono">3D95L46YPN</td>
@@ -3930,8 +3989,8 @@
             <td class="mu-sa-note">Sub-affiliate registration <button class="mu-sa-edit-btn" aria-label="Edit note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></td>
           </tr>
           <tr class="mu-sa-row">
-            <td class="mu-sa-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
-            <td><div class="mu-username"><span class="mu-username__name">nova_fx <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span><span class="mu-username__uid">ZE517NH</span></div></td>
+            <td class="mu-sa-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
+            <td><div class="mu-username"><span class="mu-username__name">nova_fx <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span><span class="mu-username__uid">ZE517NH</span></div></td>
             <td>Level 2</td>
             <td><span class="mu-sa-edit"><span class="mono">1.00%</span><button class="mu-sa-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></span></td>
             <td class="mono">7B12X63KHC</td>
@@ -3940,8 +3999,8 @@
             <td class="mu-sa-note">Registered by Flipster <button class="mu-sa-edit-btn" aria-label="Edit note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></td>
           </tr>
           <tr class="mu-sa-row">
-            <td class="mu-sa-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
-            <td><div class="mu-username"><span class="mu-username__name">kai_invests <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span><span class="mu-username__uid">ZE630YV</span></div></td>
+            <td class="mu-sa-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
+            <td><div class="mu-username"><span class="mu-username__name">kai_invests <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span><span class="mu-username__uid">ZE630YV</span></div></td>
             <td>Level 2</td>
             <td><span class="mu-sa-edit"><span class="mono">1.00%</span><button class="mu-sa-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></span></td>
             <td class="mono">4G80T27DRS</td>
@@ -3950,8 +4009,8 @@
             <td class="mu-sa-note">Sub-affiliate registration <button class="mu-sa-edit-btn" aria-label="Edit note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></td>
           </tr>
           <tr class="mu-sa-row">
-            <td class="mu-sa-toggle"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
-            <td><div class="mu-username"><span class="mu-username__name">luna_quant <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span><span class="mu-username__uid">ZE748CF</span></div></td>
+            <td class="mu-sa-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
+            <td><div class="mu-username"><span class="mu-username__name">luna_quant <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span><span class="mu-username__uid">ZE748CF</span></div></td>
             <td>Level 2</td>
             <td><span class="mu-sa-edit"><span class="mono">1.00%</span><button class="mu-sa-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></span></td>
             <td class="mono">1M59P34WBF</td>
@@ -4004,7 +4063,7 @@
             <div class="am-input am-input--link">
               <span class="mono">https://stg.prex.run/signin?referral_code=MLRSROOTT</span>
               <button class="copy-btn" aria-label="Copy referral link" data-copy="https://stg.prex.run/signin?referral_code=MLRSROOTT">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg>
               </button>
             </div>
           </div>
@@ -4013,7 +4072,7 @@
             <div class="am-input">
               <span class="mono">MLRSROOTT</span>
               <button class="copy-btn" aria-label="Copy referral code" data-copy="MLRSROOTT">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg>
               </button>
             </div>
           </div>
@@ -4321,6 +4380,48 @@
     if (prev && !prev.classList.contains('is-open')) detail.style.display = 'none';
   });
 
+  // Affiliate list view — expand/collapse detail panel (lazy-built)
+  (function () {
+    const fmt = (n) => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const stats = [
+      { rewards: 12334.00, referees: 128, active: 34,  volume: 4821560.73,  fee: 808.73 },
+      { rewards: 8740.55,  referees: 96,  active: 27,  volume: 3120480.18,  fee: 612.40 },
+      { rewards: 21560.12, referees: 213, active: 71,  volume: 9842110.66,  fee: 1452.90 },
+      { rewards: 5210.80,  referees: 64,  active: 19,  volume: 1872330.05,  fee: 388.21 },
+      { rewards: 33120.47, referees: 305, active: 102, volume: 14233900.41, fee: 2210.65 },
+      { rewards: 9430.33,  referees: 110, active: 31,  volume: 3540120.77,  fee: 668.55 },
+      { rewards: 15720.90, referees: 158, active: 48,  volume: 6120440.29,  fee: 1024.18 },
+      { rewards: 4015.27,  referees: 52,  active: 14,  volume: 1340220.60,  fee: 295.04 },
+      { rewards: 18250.66, referees: 184, active: 59,  volume: 7430880.12,  fee: 1188.37 },
+    ];
+    document.querySelectorAll('.mu-table--sa tbody tr.mu-sa-row').forEach((row, i) => {
+      const toggle = row.querySelector('.mu-sa-toggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', () => {
+        const isOpen = row.classList.toggle('is-open');
+        let detail = row.nextElementSibling;
+        if (!detail || !detail.classList.contains('mu-sa-detail')) {
+          const s = stats[i % stats.length];
+          detail = document.createElement('tr');
+          detail.className = 'mu-sa-detail';
+          detail.innerHTML =
+            '<td colspan="8"><div class="mu-sa-panel">' +
+              '<div class="mu-sa-panel__row mu-sa-panel__row--labels">' +
+                '<span>Total rewards (USDT)</span><span>Referees</span><span>Active referees</span>' +
+                '<span>Total trading volume (USDT)</span><span>Total trading fee (USDT)</span>' +
+              '</div>' +
+              '<div class="mu-sa-panel__row mu-sa-panel__row--values">' +
+                '<span>' + fmt(s.rewards) + '</span><span>' + s.referees + '</span><span>' + s.active + '</span>' +
+                '<span>' + fmt(s.volume) + '</span><span>' + fmt(s.fee) + '</span>' +
+              '</div>' +
+            '</div></td>';
+          row.after(detail);
+        }
+        detail.style.display = isOpen ? '' : 'none';
+      });
+    });
+  })();
+
   // Side-nav: collapse/expand groups
   document.querySelectorAll('.side-nav__group > .side-nav__item').forEach(head => {
     head.addEventListener('click', () => {
@@ -4597,7 +4698,7 @@
           <tr>
             <td>
               <div class="username-cell">
-                <span>${u.name} <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
+                <span>${u.name} <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="uid">${u.uid}</span>
               </div>
             </td>
@@ -4865,7 +4966,7 @@
   (function setupReferralOverviewCopy() {
     const panel = document.getElementById('panel-referral-overview');
     if (!panel) return;
-    const copyIconHTML = ' <svg class="copy-inline copy-username" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer; color: var(--content-default-level-2); vertical-align: middle;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>';
+    const copyIconHTML = ' <svg class="copy-inline copy-username" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="cursor:pointer; color: var(--content-default-level-2); vertical-align: middle;"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg>';
     panel.querySelectorAll('.mu-username__name').forEach(span => {
       if (span.querySelector('.copy-username')) return;
       const name = span.textContent.trim();
