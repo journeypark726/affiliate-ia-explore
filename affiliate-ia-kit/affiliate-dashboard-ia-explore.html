@@ -160,16 +160,20 @@
   ===================================================================== */
   .gnb {
     height: 60px;
-    border-bottom: 1px solid var(--border-default-level-1);
     background: var(--background-default-level-0);
     display: flex;
     align-items: center;
     padding: 0 var(--spacing-24);
     gap: var(--spacing-24);
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 20;
   }
+  /* Account for the fixed GNB so content/sidebar start below it */
+  body { padding-top: 60px; }
+  .side-nav { top: 60px; }
   .gnb__logo {
     display: flex; align-items: center; gap: var(--spacing-8);
     font-weight: 700; font-size: 18px; color: var(--content-default-level-5);
@@ -313,16 +317,15 @@
     height: calc(100vh - 60px);
     padding: var(--spacing-24);
     display: flex; flex-direction: column;
-    gap: var(--spacing-4);
-    background: var(--background-default-level-0);
-    border-right: 1px solid var(--border-default-level-1);
+    gap: var(--spacing-10);
+    background: var(--background-default-level-1);
     overflow-y: auto;
     z-index: 5;
   }
   .side-nav__item {
     display: flex; align-items: center; gap: var(--spacing-8);
     height: 40px;
-    padding: 0 var(--spacing-20);
+    padding: 0 var(--spacing-16);
     border-radius: 5px;
     color: var(--content-default-level-4);
     font-size: 14px; font-weight: 600; line-height: 1.4;
@@ -330,29 +333,30 @@
     transition: background 120ms ease;
     user-select: none;
   }
-  .side-nav__item:hover { background: var(--background-interaction-hover); }
-  .side-nav__item.is-active { background: var(--background-accent-secondary-tint); }
-  .side-nav__item .icon { width: 16px; height: 16px; flex-shrink: 0; }
+  .side-nav__item:hover { background: var(--background-default-level-2); }
+  .side-nav__item.is-active { background: var(--background-default-level-2); }
+  .side-nav__item .icon { width: 16px; height: 16px; flex-shrink: 0; color: var(--content-default-level-4); }
   .side-nav__item .label { flex: 1; }
   .side-nav__item .chev {
     width: 12px; height: 12px;
     display: inline-grid; place-items: center;
-    color: var(--content-default-level-3);
+    color: var(--content-default-level-2);
     transition: transform 200ms ease;
+    transform: rotate(180deg); /* default = caret-down (group closed) */
   }
-  .side-nav__item .chev svg { width: 12px; height: 12px; }
-  .side-nav__group.is-open > .side-nav__item .chev { transform: rotate(180deg); }
+  .side-nav__item .chev svg { width: 12px; height: 12px; display: block; }
+  .side-nav__group.is-open > .side-nav__item .chev { transform: rotate(0deg); } /* open = caret-up */
   .side-nav__sub {
     display: none;
     flex-direction: column;
-    gap: var(--spacing-4);
-    padding-top: var(--spacing-4);
+    gap: 0;
+    padding-top: 0;
   }
   .side-nav__group.is-open > .side-nav__sub { display: flex; }
   .side-nav__subitem {
     display: flex; align-items: center;
     height: 40px;
-    padding: 0 var(--spacing-20) 0 calc(var(--spacing-20) + 24px);
+    padding: 0 var(--spacing-16) 0 calc(var(--spacing-16) + 24px);
     border-radius: 5px;
     color: var(--content-default-level-4);
     font-size: 14px; font-weight: 400; line-height: 20px;
@@ -360,8 +364,8 @@
     transition: background 120ms ease;
     user-select: none;
   }
-  .side-nav__subitem:hover { background: var(--background-interaction-hover); }
-  .side-nav__subitem.is-active { background: var(--background-accent-secondary-tint); }
+  .side-nav__subitem:hover { background: var(--background-default-level-2); }
+  .side-nav__subitem.is-active { background: var(--background-default-level-2); }
 
   /* =====================================================================
      Affiliate Management panel
@@ -453,12 +457,60 @@
   }
   .am-sub-link {
     color: var(--content-default-level-3);
+    font-size: 13px;
+    display: inline-flex; align-items: center; gap: var(--spacing-4);
   }
   .am-sub-link--active {
     color: var(--content-accent-info);
-    display: inline-flex; align-items: center; gap: var(--spacing-4);
     cursor: pointer;
   }
+
+  /* Add button used on Me card and child cards (tree view) */
+  .am-add-btn {
+    display: inline-flex; align-items: center; gap: var(--spacing-4);
+    height: 28px; padding: 0 var(--spacing-10);
+    border: 1px solid var(--border-default-level-2);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--content-default-level-5);
+    font-size: 13px; font-weight: 500;
+    cursor: pointer;
+    transition: background 120ms ease, border-color 120ms ease;
+  }
+  .am-add-btn:hover { background: var(--background-interaction-hover); border-color: var(--border-default-level-3); }
+  .am-add-btn svg { width: 12px; height: 12px; }
+
+  /* Me card: Sub-Affiliate value + Add button row */
+  .am-field__value-row {
+    display: inline-flex; align-items: center; gap: var(--spacing-12);
+  }
+
+  /* Child card footer (Sub-affiliate link + Add button) */
+  .am-card__footer {
+    margin-top: var(--spacing-12);
+    padding-top: var(--spacing-12);
+    border-top: 1px solid var(--border-default-level-1);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--spacing-8);
+  }
+
+  /* Horizontally scrollable row when more than 4 child cards */
+  .am-row--scroll {
+    display: flex;
+    grid-template-columns: none;
+    overflow-x: auto;
+    padding-bottom: var(--spacing-8);
+  }
+  .am-row--scroll > .am-card {
+    flex: 0 0 calc((100% - var(--spacing-16) * 3) / 4);
+    min-width: 200px;
+  }
+  .am-row--scroll::-webkit-scrollbar { height: 8px; }
+  .am-row--scroll::-webkit-scrollbar-thumb { background: var(--border-default-level-2); border-radius: var(--radius-full); }
+  .am-row--scroll::-webkit-scrollbar-track { background: transparent; }
+
+  .am-card__name--add { color: var(--content-accent-info); text-decoration: none; }
+  .am-card__name--add:hover { text-decoration: underline; }
 
   /* =====================================================================
      Home row — My Referral Link + Notification center side by side
@@ -839,16 +891,21 @@
   /* =====================================================================
      Page container
   ===================================================================== */
+  /* Min viewport 1280px (smallest supported). Sidebar (280px, fixed)
+     takes the left; .page reserves 40px gap left of content and 40px
+     on the right. .container fluidly grows up to 1200px so content
+     gains real estate as the viewport widens, while always leaving
+     40px breathing space on both sides. */
+  body { min-width: 1280px; }
   .page {
-    max-width: 1440px;
     margin: 0 auto;
-    padding: var(--spacing-80) 120px var(--spacing-80) calc(280px + var(--spacing-40));
+    padding: var(--spacing-80) var(--spacing-40) var(--spacing-80) calc(280px + var(--spacing-40));
   }
-  .container { max-width: 1200px; margin: 0 auto; }
+  .container { width: 100%; max-width: 1200px; margin: 0 auto; }
 
   /* No-sidebar mode (as-is view): hide side-nav and expand content */
   body.no-sidebar .side-nav { display: none; }
-  body.no-sidebar .page { padding-left: 120px; padding-right: 120px; }
+  body.no-sidebar .page { padding-left: var(--spacing-40); padding-right: var(--spacing-40); }
 
   /* Date range picker (calendar dropdown) */
   .drp-trigger { position: relative; display: inline-block; }
@@ -1298,8 +1355,15 @@
     color: var(--content-default-level-5);
     display: inline-flex; align-items: center; gap: var(--spacing-8);
   }
+  .kpi-section__title-group { display: flex; flex-direction: column; gap: var(--spacing-4); }
+  .kpi-section__desc {
+    margin: 0;
+    color: var(--content-default-level-2);
+    font-size: 13px;
+    line-height: 1.45;
+  }
   .kpi-section__header {
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex; align-items: flex-start; justify-content: space-between;
     gap: var(--spacing-16);
     margin-bottom: var(--spacing-16);
   }
@@ -1958,7 +2022,6 @@
   .history-head__controls {
     display: flex; align-items: center; gap: var(--spacing-8);
   }
-  .history-head__controls .secondary-btn { margin-left: auto; }
   .search-input {
     height: 36px;
     border-radius: var(--radius-8);
@@ -1984,19 +2047,6 @@
     color: var(--content-default-level-3);
     display: inline-grid; place-items: center;
   }
-  .secondary-btn {
-    height: 36px; padding: 0 var(--spacing-16);
-    border-radius: var(--radius-8);
-    background: var(--background-default-level-1);
-    border: 1px solid var(--border-default-level-2);
-    color: var(--content-default-level-4);
-    font-family: var(--font-mono);
-    font-weight: 600; font-size: 13px;
-    display: inline-flex; align-items: center; gap: var(--spacing-8);
-  }
-  .secondary-btn:hover { border-color: var(--border-default-level-3); }
-  .secondary-btn svg { width: 14px; height: 14px; }
-
   .history-table { font-size: 13px; }
   .history-table thead th {
     color: var(--content-default-level-2);
@@ -2054,7 +2104,26 @@
     text-align: right;
   }
   .subtable tbody td:first-child { text-align: left; }
-  .subtable tbody td:nth-child(4) { color: var(--content-default-level-2); }
+  /* Payback (commission flowed back to referee) — amber/warning tint */
+  .subtable .gross-cell { color: var(--content-default-level-4); }
+  .subtable .payback-cell {
+    color: var(--content-state-warning);
+    white-space: nowrap;
+  }
+  .subtable .payback-rate {
+    color: var(--content-default-level-2);
+    font-size: 11px;
+    margin-left: var(--spacing-4);
+    font-family: var(--font-sans);
+  }
+  .subtable .net-cell {
+    font-weight: 600;
+    color: var(--content-default-level-5);
+  }
+  .history-table .history-payback {
+    /* keep summary-row payback in the same neutral tone as siblings */
+    white-space: nowrap;
+  }
 
   .username-cell {
     display: flex; flex-direction: column;
@@ -2255,6 +2324,17 @@
     display: flex; align-items: center; justify-content: space-between;
     margin-bottom: var(--spacing-24);
   }
+  .mu-topbar--single { justify-content: flex-start; }
+
+  /* Affiliate management — List/Tree view tabs */
+  .am-view-tabs {
+    display: flex; gap: var(--spacing-8);
+    margin: var(--spacing-16) 0 var(--spacing-24);
+  }
+  .am-list-view { overflow-x: auto; }
+  .am-list-view::-webkit-scrollbar { height: 8px; }
+  .am-list-view::-webkit-scrollbar-thumb { background: var(--border-default-level-2); border-radius: var(--radius-full); }
+  .am-list-view::-webkit-scrollbar-track { background: transparent; }
   .mu-commission { display: inline-flex; align-items: baseline; gap: var(--spacing-8); }
   .mu-commission__label { color: var(--content-default-level-3); font-size: 14px; }
   .mu-commission__value { color: var(--content-default-level-5); font-size: 18px; font-weight: 700; }
@@ -2345,12 +2425,12 @@
     box-shadow: 1px 0 0 var(--border-default-level-1);
   }
   .mu-table tbody tr:hover td:first-child { background: var(--background-default-level-1); }
-  .mu-table tbody td:nth-child(2) { text-align: left; font-family: var(--font-sans); color: var(--content-default-level-3); }
+  .mu-table tbody td:nth-child(2) { text-align: left; font-family: var(--font-sans); color: var(--content-default-level-5); }
   .mu-td--vip { }
   .mu-vip-cell { display: inline-flex; align-items: center; gap: var(--spacing-8); }
   .mu-dash { color: var(--content-default-level-2); }
   .mu-fee-rate { color: var(--content-default-level-4); font-family: var(--font-mono); font-size: 12px; }
-  .mu-td--dim { color: var(--content-default-level-2) !important; }
+  .mu-td--dim { color: var(--content-default-level-5) !important; }
 
   .mu-username { display: flex; flex-direction: column; gap: 2px; }
   .mu-username__name {
@@ -2444,45 +2524,38 @@
 
 <!-- ────────────────────────────  Side Navigation  ──────────────────────────── -->
 <aside class="side-nav" aria-label="Primary">
-  <!-- home-icon (FDS) -->
+  <!-- layout-icon (FDS) -->
   <div class="side-nav__item is-active" data-route="home">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M3 11.5 12 4l9 7.5"/>
-      <path d="M5 10.5V20h14v-9.5"/>
-      <path d="M10 20v-5h4v5"/>
+    <svg class="icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M11 20.5C11 20.7761 10.7761 21 10.5 21H5C4.45 21 3.97917 20.8042 3.5875 20.4125C3.19583 20.0208 3 19.55 3 19V5C3 4.45 3.19583 3.97917 3.5875 3.5875C3.97917 3.19583 4.45 3 5 3H10.5C10.7761 3 11 3.22386 11 3.5V20.5ZM13.5 11C13.2239 11 13 10.7761 13 10.5V3.5C13 3.22386 13.2239 3 13.5 3H19C19.55 3 20.0208 3.19583 20.4125 3.5875C20.8042 3.97917 21 4.45 21 5V10.5C21 10.7761 20.7761 11 20.5 11H13.5ZM13.5 21C13.2239 21 13 20.7761 13 20.5V13.5C13 13.2239 13.2239 13 13.5 13H20.5C20.7761 13 21 13.2239 21 13.5V19C21 19.55 20.8042 20.0208 20.4125 20.4125C20.0208 20.8042 19.55 21 19 21H13.5Z"/>
     </svg>
-    <span class="label">Home</span>
+    <span class="label">Overview</span>
   </div>
 
   <div class="side-nav__group">
     <div class="side-nav__item" data-toggle="group">
       <!-- users-icon (FDS) -->
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="9" cy="8" r="3.25"/>
-        <path d="M3 19c0-3.31 2.69-5.75 6-5.75s6 2.44 6 5.75"/>
-        <circle cx="17" cy="9" r="2.5"/>
-        <path d="M16 13.5c2.76 0 5 2 5 4.5"/>
+      <svg class="icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4.5 6.375C4.5 5.28098 4.9346 4.23177 5.70818 3.45818C6.48177 2.6846 7.53098 2.25 8.625 2.25C9.71902 2.25 10.7682 2.6846 11.5418 3.45818C12.3154 4.23177 12.75 5.28098 12.75 6.375C12.75 7.46902 12.3154 8.51823 11.5418 9.29182C10.7682 10.0654 9.71902 10.5 8.625 10.5C7.53098 10.5 6.48177 10.0654 5.70818 9.29182C4.9346 8.51823 4.5 7.46902 4.5 6.375ZM14.25 8.625C14.25 8.18179 14.3373 7.74292 14.5069 7.33344C14.6765 6.92397 14.9251 6.55191 15.2385 6.23851C15.5519 5.92512 15.924 5.67652 16.3334 5.50691C16.7429 5.3373 17.1818 5.25 17.625 5.25C18.0682 5.25 18.5071 5.3373 18.9166 5.50691C19.326 5.67652 19.6981 5.92512 20.0115 6.23851C20.3249 6.55191 20.5735 6.92397 20.7431 7.33344C20.9127 7.74292 21 8.18179 21 8.625C21 9.52011 20.6444 10.3785 20.0115 11.0115C19.3786 11.6444 18.5201 12 17.625 12C16.7299 12 15.8715 11.6444 15.2385 11.0115C14.6056 10.3785 14.25 9.52011 14.25 8.625ZM1.5 19.125C1.5 17.2353 2.25067 15.4231 3.58686 14.0869C4.92306 12.7507 6.73533 12 8.625 12C10.5147 12 12.3269 12.7507 13.6631 14.0869C14.9993 15.4231 15.75 17.2353 15.75 19.125V19.128L15.749 19.247C15.7469 19.3742 15.7125 19.4987 15.6489 19.6089C15.5854 19.7191 15.495 19.8114 15.386 19.877C13.3452 21.106 11.0073 21.7536 8.625 21.75C6.153 21.75 3.839 21.066 1.865 19.877C1.75585 19.8115 1.66517 19.7193 1.60149 19.6091C1.53781 19.4989 1.50323 19.3743 1.501 19.247L1.5 19.125ZM17.25 19.128L17.249 19.272C17.2434 19.6053 17.1638 19.9332 17.016 20.232C18.7617 20.3397 20.5054 19.9916 22.076 19.222C22.1975 19.1626 22.3006 19.0715 22.3745 18.9583C22.4485 18.8452 22.4904 18.7141 22.496 18.579C22.5313 17.7402 22.3494 16.9066 21.9679 16.1588C21.5864 15.4109 21.0183 14.7743 20.3185 14.3105C19.6188 13.8467 18.8111 13.5715 17.9738 13.5115C17.1364 13.4515 16.2977 13.6087 15.539 13.968C16.6522 15.4566 17.2522 17.2662 17.249 19.125L17.25 19.128Z"/>
       </svg>
       <span class="label">Referee management</span>
       <span class="chev" aria-hidden="true">
-        <!-- chevron-down-icon (FDS) -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        <!-- caret-up-icon (FDS) — rotated 180deg via CSS when group is closed -->
+        <svg viewBox="0 0 12 12" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5.60545 3.56786C5.79966 3.31071 6.20034 3.31071 6.39455 3.56786L9.65712 7.88794C9.88936 8.19545 9.65942 8.625 9.26257 8.625H2.73743C2.34058 8.625 2.11064 8.19545 2.34288 7.88794L5.60545 3.56786Z"/></svg>
       </span>
     </div>
     <div class="side-nav__sub">
       <div class="side-nav__subitem" data-route="referral-overview">Referee overview</div>
       <div class="side-nav__subitem" data-route="user-list">User list</div>
-      <div class="side-nav__subitem" data-route="affiliate-management">Affiliate management</div>
+      <div class="side-nav__subitem" data-route="affiliate-management">Affiliate list</div>
     </div>
   </div>
 
   <!-- Rewards management (single item) -->
   <div class="side-nav__item" data-route="rewards-trend">
-    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M3 3v18h18"/>
-      <rect x="7"  y="12" width="3" height="6"/>
-      <rect x="12" y="8"  width="3" height="10"/>
-      <rect x="17" y="4"  width="3" height="14"/>
+    <!-- money-bag-icon (FDS) -->
+    <svg class="icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M12 16C11.45 16 10.9792 15.8042 10.5875 15.4125C10.1958 15.0208 10 14.55 10 14C10 13.45 10.1958 12.9792 10.5875 12.5875C10.9792 12.1958 11.45 12 12 12C12.55 12 13.0208 12.1958 13.4125 12.5875C13.8042 12.9792 14 13.45 14 14C14 14.55 13.8042 15.0208 13.4125 15.4125C13.0208 15.8042 12.55 16 12 16ZM7.2368 6.72361C7.3215 6.893 7.49463 7 7.68402 7H16.316C16.5054 7 16.6785 6.893 16.7632 6.72361L18.0823 4.08541C18.3316 3.58673 17.969 3 17.4115 3H6.58853C6.03099 3 5.66837 3.58673 5.91771 4.08541L7.2368 6.72361ZM8.4 21H15.6C17.1 21 18.375 20.4792 19.425 19.4375C20.475 18.3958 21 17.1167 21 15.6C21 14.9667 20.8917 14.35 20.675 13.75C20.4583 13.15 20.15 12.6083 19.75 12.125L17.4499 9.36042C17.2599 9.13207 16.9782 9 16.6811 9H7.31886C7.0218 9 6.74012 9.13207 6.55013 9.36042L4.25 12.125C3.85 12.6083 3.54167 13.15 3.325 13.75C3.10833 14.35 3 14.9667 3 15.6C3 17.1167 3.52083 18.3958 4.5625 19.4375C5.60417 20.4792 6.88333 21 8.4 21Z"/>
     </svg>
     <span class="label">Rewards management</span>
   </div>
@@ -2490,14 +2563,15 @@
   <div class="side-nav__group">
     <div class="side-nav__item" data-toggle="group">
       <!-- gift-icon (FDS) -->
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="3" y="8" width="18" height="4" rx="0.5"/>
-        <path d="M5 12v8.5a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5V12"/>
-        <path d="M12 8v13M8.5 8c-1.66 0-2.5-1-2.5-2.5S6.84 3 8.5 3 12 8 12 8M15.5 8c1.66 0 2.5-1 2.5-2.5S17.16 3 15.5 3 12 8 12 8"/>
+      <svg class="icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M9.24138 3.90741C8.28916 3.90741 7.51724 4.69505 7.51724 5.66667C7.51724 6.63828 8.28916 7.42593 9.24138 7.42593H10.9655V11.6481H3.72414C2.77192 11.6481 2 10.8605 2 9.88889V9.18519C2 8.21357 2.77192 7.42593 3.72414 7.42593H6.66053C6.33044 6.92274 6.13793 6.31764 6.13793 5.66667C6.13793 3.91776 7.52739 2.5 9.24138 2.5C10.2163 2.5 11.0862 2.9587 11.6552 3.67613C12.2241 2.9587 13.094 2.5 14.069 2.5C15.783 2.5 17.1724 3.91776 17.1724 5.66667C17.1724 6.31764 16.9799 6.92274 16.6498 7.42593H20.2759C21.2281 7.42593 22 8.21357 22 9.18519V9.88889C22 10.8605 21.2281 11.6481 20.2759 11.6481H12.3448V7.42593H14.069C15.0212 7.42593 15.7931 6.63828 15.7931 5.66667C15.7931 4.69505 15.0212 3.90741 14.069 3.90741C13.1168 3.90741 12.3448 4.69505 12.3448 5.66667V7.42593H10.9655V5.66667C10.9655 4.69505 10.1936 3.90741 9.24138 3.90741Z"/>
+        <path d="M10.9655 13.0556H3.37931V19.3889C3.37931 20.5548 4.30562 21.5 5.44828 21.5H10.9655V13.0556Z"/>
+        <path d="M12.3448 13.0556V21.5H18.5517C19.6944 21.5 20.6207 20.5548 20.6207 19.3889V13.0556H12.3448Z"/>
       </svg>
       <span class="label">Events</span>
       <span class="chev" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        <!-- caret-up-icon (FDS) — rotated 180deg via CSS when group is closed -->
+        <svg viewBox="0 0 12 12" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5.60545 3.56786C5.79966 3.31071 6.20034 3.31071 6.39455 3.56786L9.65712 7.88794C9.88936 8.19545 9.65942 8.625 9.26257 8.625H2.73743C2.34058 8.625 2.11064 8.19545 2.34288 7.88794L5.60545 3.56786Z"/></svg>
       </span>
     </div>
     <div class="side-nav__sub">
@@ -2534,16 +2608,19 @@
       <!-- Trading commission KPIs — 4 individual cards in 2x2 -->
       <div class="kpi-section">
       <div class="kpi-section__header">
-        <h2 class="kpi-section__title title-m">
-          Data overview
-          <span class="tip" data-tip="Last updated at: 05/28/2026 09:00:00" aria-label="Last updated at: 05/28/2026 09:00:00" tabindex="0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"/>
-              <line x1="12" y1="11" x2="12" y2="16"/>
-              <circle cx="12" cy="8" r="0.5" fill="currentColor"/>
-            </svg>
-          </span>
-        </h2>
+        <div class="kpi-section__title-group">
+          <h2 class="kpi-section__title title-m">
+            Data overview
+            <span class="tip" data-tip="Last updated at: 05/28/2026 09:00:00 UTC" aria-label="Last updated at: 05/28/2026 09:00:00 UTC" tabindex="0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/>
+                <line x1="12" y1="11" x2="12" y2="16"/>
+                <circle cx="12" cy="8" r="0.5" fill="currentColor"/>
+              </svg>
+            </span>
+          </h2>
+          <p class="kpi-section__desc">Data is calculated based on UTC.</p>
+        </div>
         <a href="#" class="text-btn kpi-section__details" data-route="rewards-trend">View details
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
         </a>
@@ -2599,9 +2676,8 @@
       <section class="card kpi-section__breakdown">
         <div class="breakdown__caption">Total rewards breakdown <span class="breakdown__caption-sub">by referee type</span></div>
         <div class="breakdown__bar">
-          <span class="bar--direct" style="width: 54%"></span>
-          <span class="bar--sub"    style="width: 36%"></span>
-          <span class="bar--self"   style="width: 10%"></span>
+          <span class="bar--direct" style="width: 60%"></span>
+          <span class="bar--sub"    style="width: 40%"></span>
         </div>
 
         <div class="breakdown__table">
@@ -2622,12 +2698,6 @@
             <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="sub">6,188.52</span><span class="pct-badge pct-badge--outline mono">36%</span></span>
             <span class="breakdown__num" data-bd="sub-ref">5</span>
             <span class="breakdown__num" data-bd="sub-avg">1,237.70</span>
-          </div>
-          <div class="breakdown__row">
-            <span class="breakdown__type"><span class="breakdown__dot breakdown__dot--self"></span>Self-rebate</span>
-            <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="self">1,719.03</span><span class="pct-badge pct-badge--outline mono">10%</span></span>
-            <span class="breakdown__num">—</span>
-            <span class="breakdown__num">—</span>
           </div>
         </div>
       </section>
@@ -2687,7 +2757,6 @@
             <div class="balance__row"><span>2025.08.24</span><span class="mono" data-rh="amount" data-rh-base="355.40">355.40</span></div>
             <div class="balance__row"><span>2025.08.23</span><span class="mono" data-rh="amount" data-rh-base="483.67">483.67</span></div>
             <div class="balance__row"><span>2025.08.22</span><span class="mono" data-rh="amount" data-rh-base="316.13">316.13</span></div>
-            <div class="balance__row"><span>2025.08.21</span><span class="mono" data-rh="amount" data-rh-base="235.62">235.62</span></div>
           </div>
           <button class="greet-share greet-view-all fds-btn fds-btn--secondary fds-btn--neutral" data-route="rh-asis">View all</button>
         </div>
@@ -2732,7 +2801,7 @@
     <div class="home-col__head">
       <h2 class="home-col__title title-m">
         Recent referee activity
-        <span class="tip" data-tip="Last updated at: 2026.05.28 09:00:00" aria-label="Last updated at: 2026.05.28 09:00:00" tabindex="0">
+        <span class="tip" data-tip="Last updated at: 2026.05.28 09:00:00 UTC" aria-label="Last updated at: 2026.05.28 09:00:00 UTC" tabindex="0">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="8" r="0.5" fill="currentColor"/></svg>
         </span>
       </h2>
@@ -2965,7 +3034,7 @@
       <div class="rm-page-head">
         <div class="rm-page-titlebar">
           <h1 class="rm-page-title display-l">Rewards management</h1>
-          <span class="panel-updated">Last updated at: <span class="mono">2026.05.28 09:00:00</span></span>
+          <span class="panel-updated">Last updated at: <span class="mono">2026.05.28 09:00:00 UTC</span></span>
         </div>
         <div class="rm-page-filters">
           <div class="rm-filter-field">
@@ -3061,7 +3130,7 @@
 
       <section class="chart-card">
         <div class="chart">
-          <svg viewBox="0 0 1100 260" preserveAspectRatio="none" style="width:100%; height:260px;">
+          <svg viewBox="0 0 1100 260" style="width:100%; height:auto; display:block;">
             <g font-family="var(--font-mono)" fill="#959595" font-size="10">
               <text x="0"  y="20">1,500</text>
               <text x="0"  y="70">1,200</text>
@@ -3107,8 +3176,8 @@
     <div class="history-head" style="margin-top: var(--spacing-64);">
       <h2 class="history-head__title title-l">Referee history</h2>
       <div class="history-head__controls">
-        <button class="secondary-btn" style="margin-left: auto;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        <button class="fds-btn fds-btn--secondary fds-btn--neutral" style="margin-left: auto;" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
           Download CSV
         </button>
       </div>
@@ -3119,14 +3188,18 @@
         <tr>
           <th></th>
           <th>Date</th>
-          <th>Total rewards (USDT)</th>
+          <th>Total net rewards (USDT)</th>
+          <th>Total payback (USDT)</th>
           <th>Active referees</th>
           <th>Total trading volume (USDT)</th>
           <th>Total trading fee (USDT)</th>
         </tr>
       </thead>
       <tbody>
-        <tr class="parent is-open">
+        <!-- Each parent carries data-gross (gross commission, source of truth).
+             JS computes net & total payback from each row's sub-table and
+             writes them into the Total net / Total payback cells. -->
+        <tr class="parent is-open" data-gross="434.92">
           <td style="width: 32px;"></td>
           <td>
             <span class="row-toggle is-open">
@@ -3134,122 +3207,57 @@
               2025.08.25
             </span>
           </td>
-          <td>434.92</td>
+          <td>424.92</td>
+          <td class="history-payback">−10.00</td>
           <td>17</td>
           <td>1,812,160.73</td>
           <td>906.08</td>
         </tr>
-        <tr class="detail">
-          <td colspan="6" class="subtable-wrap">
-            <table class="subtable">
-              <thead>
-                <tr>
-                  <th>Username<br/><span style="font-weight:400; color: var(--content-default-level-1); font-size:10px;">UID</span></th>
-                  <th>Reward (USDT)</th>
-                  <th>Trading volume (USDT)</th>
-                  <th>VIP tier / Taker fee</th>
-                  <th>Trading fee (USDT)</th>
-                  <th>Effective commission rate</th>
-                  <th>Referee type</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="username-cell">
-                      <span>Flipster_test1 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
-                      <span class="uid">2BSD14E0</span>
-                    </div>
-                  </td>
-                  <td>121.31</td>
-                  <td>2,695,766.93</td>
-                  <td style="text-align:left;">—</td>
-                  <td>808.73</td>
-                  <td>15%</td>
-                  <td style="text-align:right;">Sub-Affiliates</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="username-cell">
-                      <span>Flipster_test2 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
-                      <span class="uid">2E5D2KG</span>
-                    </div>
-                  </td>
-                  <td>78.24</td>
-                  <td>782,400.67</td>
-                  <td style="text-align:left;">—</td>
-                  <td>312.96</td>
-                  <td>25%</td>
-                  <td style="text-align:right;">Sub-Affiliates</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="username-cell">
-                      <span>Flipster_test3 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span>
-                      <span class="uid">2BD02KG</span>
-                    </div>
-                  </td>
-                  <td>36.42</td>
-                  <td>134,888.89</td>
-                  <td style="text-align:left;">
-                    <span class="fee-cell">
-                      <span class="vip-badge">♛ VIP 4</span>
-                      <span class="mono">0.03%</span>
-                    </span>
-                  </td>
-                  <td>60.70</td>
-                  <td>60%</td>
-                  <td style="text-align:right;">Direct referee</td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
 
-        <tr class="parent">
+        <tr class="parent" data-gross="355.40">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.24</span></td>
-          <td>355.40</td><td>15</td><td>1,480,840.43</td><td>740.42</td>
+          <td>347.23</td><td class="history-payback">−8.17</td><td>15</td><td>1,480,840.43</td><td>740.42</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="483.67">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.23</span></td>
-          <td>483.67</td><td>19</td><td>2,016,120.81</td><td>1,008.06</td>
+          <td>472.55</td><td class="history-payback">−11.12</td><td>19</td><td>2,016,120.81</td><td>1,008.06</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="316.13">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.22</span></td>
-          <td>316.13</td><td>13</td><td>1,317,200.38</td><td>658.60</td>
+          <td>308.86</td><td class="history-payback">−7.27</td><td>13</td><td>1,317,200.38</td><td>658.60</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="235.62">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.21</span></td>
-          <td>235.62</td><td>11</td><td>981,760.99</td><td>490.88</td>
+          <td>230.20</td><td class="history-payback">−5.42</td><td>11</td><td>981,760.99</td><td>490.88</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="205.17">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.20</span></td>
-          <td>205.17</td><td>9</td><td>854,860.46</td><td>427.43</td>
+          <td>200.45</td><td class="history-payback">−4.72</td><td>9</td><td>854,860.46</td><td>427.43</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="159.21">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.19</span></td>
-          <td>159.21</td><td>10</td><td>663,380.06</td><td>331.69</td>
+          <td>155.55</td><td class="history-payback">−3.66</td><td>10</td><td>663,380.06</td><td>331.69</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="183.37">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.18</span></td>
-          <td>183.37</td><td>12</td><td>764,040.29</td><td>382.02</td>
+          <td>179.15</td><td class="history-payback">−4.22</td><td>12</td><td>764,040.29</td><td>382.02</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="258.90">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.17</span></td>
-          <td>258.90</td><td>13</td><td>1,078,740.21</td><td>539.37</td>
+          <td>252.95</td><td class="history-payback">−5.95</td><td>13</td><td>1,078,740.21</td><td>539.37</td>
         </tr>
-        <tr class="parent">
+        <tr class="parent" data-gross="353.22">
           <td></td>
           <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>2025.08.16</span></td>
-          <td>353.22</td><td>16</td><td>1,471,740.65</td><td>735.87</td>
+          <td>345.10</td><td class="history-payback">−8.12</td><td>16</td><td>1,471,740.65</td><td>735.87</td>
         </tr>
       </tbody>
     </table>
@@ -3329,7 +3337,7 @@
       <div class="rm-page-head">
         <div class="rm-page-titlebar">
           <h2 class="panel-title title-l" style="margin:0;">Referee overview</h2>
-          <span class="panel-updated">Last updated at: <span class="mono">2026.05.28 09:00:00</span></span>
+          <span class="panel-updated">Last updated at: <span class="mono">2026.05.28 09:00:00 UTC</span></span>
         </div>
         <div class="rm-page-filters">
           <div class="rm-filter-field">
@@ -3632,7 +3640,7 @@
       <div class="rm-page-head">
         <div class="rm-page-titlebar">
           <h2 class="panel-title title-l" style="margin:0;">User list</h2>
-          <span class="panel-updated">Last updated at: <span class="mono">2026.05.28 09:00:00</span></span>
+          <span class="panel-updated">Last updated at: <span class="mono">2026.05.28 09:00:00 UTC</span></span>
         </div>
         <div class="rm-page-filters">
           <div class="rm-filter-field">
@@ -3662,12 +3670,8 @@
         </div>
       </div>
 
-      <!-- Top bar: filter chips left, commission right -->
-      <div class="mu-topbar">
-        <div class="chip-group">
-          <button class="choice-chip is-selected" data-mu-chip="referee">Referee</button>
-          <button class="choice-chip" data-mu-chip="sub-affiliate">Sub-Affiliate</button>
-        </div>
+      <!-- Top bar: commission only (chip toggle moved to Affiliate management) -->
+      <div class="mu-topbar mu-topbar--single">
         <div class="mu-commission">
           <span class="mu-commission__label">Trading commission</span>
           <span class="mu-commission__value">0.5%</span>
@@ -3846,8 +3850,32 @@
       </table>
       </div><!-- /mu-view referee -->
 
-      <!-- Users table — Sub-Affiliate view -->
-      <div class="mu-view" data-view="sub-affiliate" hidden>
+      <!-- Pagination -->
+      <div class="pagination">
+        <button class="icon-btn" aria-label="Previous page">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Next page">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+
+    </div><!-- /panel-user-list -->
+
+    <!-- ══════════════  PANEL: Affiliate Management  ══════════════ -->
+    <div id="panel-affiliate-management" class="tab-panel" hidden>
+      <h2 class="panel-title title-l">Affiliate list</h2>
+
+      <div class="am-view-tabs" role="tablist">
+        <button class="choice-chip is-selected" data-am-view="list">List view</button>
+        <button class="choice-chip" data-am-view="tree">Tree view</button>
+      </div>
+
+      <div class="am-view" data-am-view-panel="list">
+
+
+      <!-- List view — extracted from User list -->
+      <div class="am-list-view">
       <table class="mu-table mu-table--sa">
         <thead>
           <tr>
@@ -3959,28 +3987,14 @@
           </tr>
         </tbody>
       </table>
-      </div><!-- /mu-view sub-affiliate -->
-
-      <!-- Pagination -->
-      <div class="pagination">
-        <button class="icon-btn" aria-label="Previous page">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="icon-btn" aria-label="Next page">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
-        </button>
+      </div><!-- /am-list-view -->
       </div>
 
-    </div><!-- /panel-user-list -->
+      <div class="am-view" data-am-view-panel="tree" hidden>
 
-    <!-- ══════════════  PANEL: Affiliate Management  ══════════════ -->
-    <div id="panel-affiliate-management" class="tab-panel" hidden>
-      <h2 class="panel-title title-l">Affiliate management</h2>
-
-      <!-- Level 0 -->
+      <!-- Level 1 (root: Me) -->
       <div class="am-section-head">
-        <h2 class="title-m am-section-head__title">Level 0</h2>
-        <span class="am-section-head__meta">My parent affiliate (<span class="mono">{alias}</span>) - <span class="mono">{referral code}</span></span>
+        <h2 class="title-m am-section-head__title">Level 1</h2>
       </div>
 
       <section class="am-card am-card--me">
@@ -3989,7 +4003,7 @@
             <span class="am-card__avatar" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c.7-3.5 3.8-5.5 7.5-5.5s6.8 2 7.5 5.5"/></svg>
             </span>
-            <span class="am-card__name">Me (<span class="mono">{Alias}</span>)</span>
+            <span class="am-card__name">Me</span>
           </div>
           <button class="icon-btn icon-btn--ghost" aria-label="More">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
@@ -4003,22 +4017,28 @@
           </div>
           <div class="am-field">
             <div class="am-field__label">Sub-Affiliate</div>
-            <div class="am-field__value mono">3</div>
+            <div class="am-field__value-row">
+              <span class="am-field__value mono">26</span>
+              <button class="am-add-btn" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Add
+              </button>
+            </div>
           </div>
           <div class="am-field am-field--wide">
-            <div class="am-field__label">Referral link</div>
+            <div class="am-field__label">Referral Link</div>
             <div class="am-input am-input--link">
-              <span class="mono">https://flipster.xyz/signin?referral_code=EXAMPLE</span>
-              <button class="copy-btn" aria-label="Copy referral link">
+              <span class="mono">https://stg.prex.run/signin?referral_code=MLRSROOTT</span>
+              <button class="copy-btn" aria-label="Copy referral link" data-copy="https://stg.prex.run/signin?referral_code=MLRSROOTT">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
               </button>
             </div>
           </div>
           <div class="am-field">
-            <div class="am-field__label">Referral code</div>
+            <div class="am-field__label">Referral Code</div>
             <div class="am-input">
-              <span class="mono">SEOINVEST</span>
-              <button class="copy-btn" aria-label="Copy referral code">
+              <span class="mono">MLRSROOTT</span>
+              <button class="copy-btn" aria-label="Copy referral code" data-copy="MLRSROOTT">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
               </button>
             </div>
@@ -4026,44 +4046,43 @@
         </div>
       </section>
 
-      <!-- Tree connector: vertical from Level 0 -->
-      <svg class="am-tree am-tree--trunk" width="100%" height="32" viewBox="0 0 1000 32" preserveAspectRatio="none" aria-hidden="true">
-        <line x1="500" y1="0" x2="500" y2="32" />
+      <!-- Tree connector: branching to 4 children -->
+      <svg class="am-tree am-tree--branch" width="100%" height="32" viewBox="0 0 1000 32" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="500" y1="0" x2="500" y2="14" />
+        <line x1="125" y1="14" x2="875" y2="14" />
+        <line x1="125" y1="14" x2="125" y2="32" />
+        <line x1="375" y1="14" x2="375" y2="32" />
+        <line x1="625" y1="14" x2="625" y2="32" />
+        <line x1="875" y1="14" x2="875" y2="32" />
       </svg>
 
-      <!-- Level 1 -->
+      <!-- Level 2 -->
       <div class="am-section-head am-section-head--sub">
-        <h2 class="title-s am-section-head__title">Level 1</h2>
+        <h2 class="title-s am-section-head__title">Level 2</h2>
       </div>
 
-      <!-- Tree connector: branching to 3 children -->
-      <svg class="am-tree am-tree--branch" width="100%" height="28" viewBox="0 0 1000 28" preserveAspectRatio="none" aria-hidden="true">
-        <line x1="500" y1="0" x2="500" y2="14" />
-        <line x1="167" y1="14" x2="833" y2="14" />
-        <line x1="167" y1="14" x2="167" y2="28" />
-        <line x1="500" y1="14" x2="500" y2="28" />
-        <line x1="833" y1="14" x2="833" y2="28" />
-      </svg>
-
-      <div class="am-row">
+      <div class="am-row am-row--scroll">
         <article class="am-card am-card--child">
           <div class="am-card__top">
             <div class="am-card__id">
               <span class="am-card__avatar" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c.7-3.5 3.8-5.5 7.5-5.5s6.8 2 7.5 5.5"/></svg>
               </span>
-              <span class="am-card__name">Sunny</span>
+              <span class="am-card__name">gcc</span>
             </div>
-            <button class="icon-btn icon-btn--ghost" aria-label="More">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
-            </button>
           </div>
           <dl class="am-card__list">
-            <div><dt>UID</dt><dd class="mono">AAWARQV</dd></div>
-            <div><dt>Referral code</dt><dd class="mono">11B2024</dd></div>
-            <div><dt>Trading commission</dt><dd class="am-edit"><span class="mono">5.00%</span> <button class="icon-btn icon-btn--ghost am-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></dd></div>
-            <div><dt>Sub-affiliate</dt><dd class="am-sub-link">0</dd></div>
+            <div><dt>UID</dt><dd class="mono">MGJAWC2</dd></div>
+            <div><dt>Referral code</dt><dd class="mono">PXM7QPSQ3E</dd></div>
+            <div><dt>Trading commission</dt><dd class="am-edit"><span class="mono">11.00%</span> <button class="icon-btn icon-btn--ghost am-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></dd></div>
           </dl>
+          <div class="am-card__footer">
+            <span class="am-sub-link am-sub-link--active">Sub-affiliate 8 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+            <button class="am-add-btn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add
+            </button>
+          </div>
         </article>
 
         <article class="am-card am-card--child">
@@ -4072,18 +4091,44 @@
               <span class="am-card__avatar" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c.7-3.5 3.8-5.5 7.5-5.5s6.8 2 7.5 5.5"/></svg>
               </span>
-              <span class="am-card__name">Sunnycow</span>
+              <span class="am-card__name">GG</span>
             </div>
-            <button class="icon-btn icon-btn--ghost" aria-label="More">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
-            </button>
           </div>
           <dl class="am-card__list">
-            <div><dt>UID</dt><dd class="mono">BBWARQV</dd></div>
-            <div><dt>Referral code</dt><dd class="mono">22B2024</dd></div>
+            <div><dt>UID</dt><dd class="mono">FQY843P</dd></div>
+            <div><dt>Referral code</dt><dd class="mono">CCTPQW8XY4</dd></div>
             <div><dt>Trading commission</dt><dd class="am-edit"><span class="mono">5.00%</span> <button class="icon-btn icon-btn--ghost am-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></dd></div>
-            <div><dt>Sub-affiliate</dt><dd class="am-sub-link am-sub-link--active">Sub-affiliate 7 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></dd></div>
           </dl>
+          <div class="am-card__footer">
+            <span class="am-sub-link am-sub-link--active">Sub-affiliate 1 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+            <button class="am-add-btn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add
+            </button>
+          </div>
+        </article>
+
+        <article class="am-card am-card--child">
+          <div class="am-card__top">
+            <div class="am-card__id">
+              <span class="am-card__avatar" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c.7-3.5 3.8-5.5 7.5-5.5s6.8 2 7.5 5.5"/></svg>
+              </span>
+              <span class="am-card__name">111</span>
+            </div>
+          </div>
+          <dl class="am-card__list">
+            <div><dt>UID</dt><dd class="mono">WWGBG7V</dd></div>
+            <div><dt>Referral code</dt><dd class="mono">Q35G3XETPE</dd></div>
+            <div><dt>Trading commission</dt><dd class="am-edit"><span class="mono">21.00%</span> <button class="icon-btn icon-btn--ghost am-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></dd></div>
+          </dl>
+          <div class="am-card__footer">
+            <span class="am-sub-link">Sub-affiliate 0</span>
+            <button class="am-add-btn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add
+            </button>
+          </div>
         </article>
 
         <article class="am-card am-card--child">
@@ -4092,18 +4137,25 @@
               <span class="am-card__avatar am-card__avatar--add" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
               </span>
-              <span class="am-card__name">Add alias</span>
+              <a class="am-card__name am-card__name--add" href="#">Add alias</a>
             </div>
           </div>
           <dl class="am-card__list">
-            <div><dt>UID</dt><dd class="mono">CCWARQV</dd></div>
-            <div><dt>Referral code</dt><dd class="mono">33B2024</dd></div>
-            <div><dt>Trading commission</dt><dd class="am-edit"><span class="mono am-pill">5.00%</span> <button class="icon-btn icon-btn--ghost am-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></dd></div>
-            <div><dt>Sub-affiliate</dt><dd class="am-sub-link am-sub-link--active">Sub-affiliate 8 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></dd></div>
+            <div><dt>UID</dt><dd class="mono">QDNYN7J</dd></div>
+            <div><dt>Referral code</dt><dd class="mono">HUGBQLD5A4</dd></div>
+            <div><dt>Trading commission</dt><dd class="am-edit"><span class="mono">12.00%</span> <button class="icon-btn icon-btn--ghost am-edit-btn" aria-label="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></button></dd></div>
           </dl>
+          <div class="am-card__footer">
+            <span class="am-sub-link">Sub-affiliate 0</span>
+            <button class="am-add-btn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add
+            </button>
+          </div>
         </article>
       </div>
 
+          </div><!-- /am-view tree -->
     </div><!-- /panel-affiliate-management -->
 
     <!-- ══════════════  PANEL: General Events  ══════════════ -->
@@ -4307,7 +4359,7 @@
     'home':                  { panel: 'panel-overview',              title: 'Affiliate' },
     'user-list':             { panel: 'panel-user-list',             title: 'User list' },
     'referral-overview':     { panel: 'panel-referral-overview',     title: 'Referee overview' },
-    'affiliate-management':  { panel: 'panel-affiliate-management',  title: 'Affiliate management' },
+    'affiliate-management':  { panel: 'panel-affiliate-management',  title: 'Affiliate list' },
     'referee-history':       { panel: ['panel-rewards-trend', 'panel-referee-history'], title: 'Rewards management' },
     'rewards-trend':         { panel: ['panel-rewards-trend', 'panel-referee-history'], title: 'Rewards management' },
     'payback-campaign':      { panel: 'panel-payback-campaign',      title: 'Payback campaign' },
@@ -4371,13 +4423,13 @@
     });
   });
 
-  // User list: Referee / Sub-Affiliate chip toggle
-  document.querySelectorAll('[data-mu-chip]').forEach(chip => {
+  // Affiliate management: List / Tree view toggle
+  document.querySelectorAll('[data-am-view]').forEach(chip => {
     chip.addEventListener('click', (e) => {
       e.preventDefault();
-      const view = chip.dataset.muChip;
-      document.querySelectorAll('[data-mu-chip]').forEach(c => c.classList.toggle('is-selected', c === chip));
-      document.querySelectorAll('.mu-view').forEach(v => { v.hidden = v.dataset.view !== view; });
+      const view = chip.dataset.amView;
+      document.querySelectorAll('[data-am-view]').forEach(c => c.classList.toggle('is-selected', c === chip));
+      document.querySelectorAll('[data-am-view-panel]').forEach(p => { p.hidden = p.dataset.amViewPanel !== view; });
     });
   });
 
@@ -4520,28 +4572,53 @@
   (function setupHistoryRowToggle() {
     const table = document.querySelector('.history-table');
     if (!table) return;
-    // Build subtable HTML for a parent row using its totals
-    function buildSubtable(totalReward, refCount) {
-      const reward = parseFloat(String(totalReward).replace(/,/g, ''));
-      const ref = parseInt(refCount, 10) || 3;
-      // Pick 3 sample rows whose rewards roughly add up
+
+    // Sample referee pool — each user carries their own paybackRate (the
+    // campaign config that's been assigned to them). The renderer never
+    // branches on `type` to decide payback eligibility; it just reads
+    // `paybackRate`, so future changes (e.g. extending payback to
+    // sub-affiliates) only require flipping this field on the data.
+    const userPool = [
+      { name: 'Flipster_test1', uid: '2BSD14E0', type: 'Sub-Affiliates', rate: '15%', vip: null,    taker: '—',     paybackRate: null },
+      { name: 'Flipster_test2', uid: '2E5D2KG',  type: 'Sub-Affiliates', rate: '25%', vip: null,    taker: '—',     paybackRate: null },
+      { name: 'Flipster_test3', uid: '2BD02KG',  type: 'Direct referee', rate: '60%', vip: 'VIP 4', taker: '0.03%', paybackRate: 0.10 },
+      { name: 'Flipster_test4', uid: '2BD18WZ',  type: 'Direct referee', rate: '40%', vip: null,    taker: '—',     paybackRate: 0.10 },
+      { name: 'Flipster_test5', uid: '2BD18WY',  type: 'Sub-Affiliates', rate: '20%', vip: 'VIP 2', taker: '0.04%', paybackRate: null },
+    ];
+
+    const fmt = (n, d=2) => n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+    // Build subtable HTML for a parent row given its gross commission.
+    // Returns { html, sumPayback, sumNet } so the caller can write back
+    // matching totals to the parent row.
+    function buildSubtable(totalGross) {
+      const gross = parseFloat(String(totalGross).replace(/,/g, '')) || 0;
       const split = [0.46, 0.31, 0.23];
-      const userPool = [
-        { name: 'Flipster_test1', uid: '2BSD14E0', type: 'Sub-Affiliates', rate: '15%', vip: null, taker: '—' },
-        { name: 'Flipster_test2', uid: '2E5D2KG',  type: 'Sub-Affiliates', rate: '25%', vip: null, taker: '—' },
-        { name: 'Flipster_test3', uid: '2BD02KG',  type: 'Direct referee', rate: '60%', vip: 'VIP 4', taker: '0.03%' },
-        { name: 'Flipster_test4', uid: '2BD18WZ',  type: 'Direct referee', rate: '40%', vip: null, taker: '—' },
-        { name: 'Flipster_test5', uid: '2BD18WY',  type: 'Sub-Affiliates', rate: '20%', vip: 'VIP 2', taker: '0.04%' },
-      ];
-      const fmt = (n, d=2) => n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+      let sumPayback = 0;
+      let sumNet = 0;
+
       const rows = split.map((pct, i) => {
         const u = userPool[i % userPool.length];
-        const rw = reward * pct;
-        const vol = rw * 22000 * (0.8 + i*0.15);
-        const fee = rw * 7.5;
+        const rowGross = gross * pct;
+        const vol = rowGross * 22000 * (0.8 + i*0.15);
+        const fee = rowGross * 7.5;
+
+        // Payback derived from each row's own paybackRate (data-driven).
+        // Round to 2 decimals so the displayed sum stays consistent.
+        const rowPayback = u.paybackRate ? Math.round(rowGross * u.paybackRate * 100) / 100 : 0;
+        const rowNet = Math.round((rowGross - rowPayback) * 100) / 100;
+        sumPayback += rowPayback;
+        sumNet     += rowNet;
+
         const vipCell = u.vip
           ? `<td style="text-align:left;"><span class="fee-cell"><span class="vip-badge">♛ ${u.vip}</span><span class="mono">${u.taker}</span></span></td>`
           : `<td style="text-align:left;">—</td>`;
+
+        const paybackCell = u.paybackRate
+          ? `<td class="payback-cell">−${fmt(rowPayback)}<span class="payback-rate">(${Math.round(u.paybackRate*100)}%)</span></td>`
+          : `<td><span class="mu-dash">—</span></td>`;
+
         return `
           <tr>
             <td>
@@ -4550,43 +4627,68 @@
                 <span class="uid">${u.uid}</span>
               </div>
             </td>
-            <td>${fmt(rw)}</td>
             <td>${fmt(vol)}</td>
             ${vipCell}
             <td>${fmt(fee)}</td>
             <td>${u.rate}</td>
+            <td class="gross-cell">${fmt(rowGross)}</td>
+            ${paybackCell}
+            <td class="net-cell">${fmt(rowNet)}</td>
             <td style="text-align:right;">${u.type}</td>
           </tr>`;
       }).join('');
-      return `
+
+      const html = `
         <table class="subtable">
           <thead>
             <tr>
               <th>Username<br/><span style="font-weight:400; color: var(--content-default-level-1); font-size:10px;">UID</span></th>
-              <th>Reward (USDT)</th>
               <th>Trading volume (USDT)</th>
               <th>VIP tier / Taker fee</th>
               <th>Trading fee (USDT)</th>
               <th>Effective commission rate</th>
+              <th>Gross (USDT)</th>
+              <th>Payback (USDT)</th>
+              <th>Net reward (USDT)</th>
               <th>Referee type</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>`;
+
+      return { html, sumPayback: Math.round(sumPayback*100)/100, sumNet: Math.round(sumNet*100)/100 };
     }
-    // For each parent without a following detail row, inject one (hidden by default).
-    // Use style.display:none (not the [hidden] attribute) so the existing toggle handler
-    // upstream (which uses style.display = '') can show it correctly.
+
+    // Expose for the page-2 builder below so both paths share one source of truth.
+    window.__historyBuildSubtable = buildSubtable;
+
+    // For each parent, derive subtable + write back consistent totals to
+    // Total net rewards / Total payback cells. Detail row visibility
+    // mirrors the parent's `is-open` state.
     table.querySelectorAll('tbody tr.parent').forEach(parent => {
-      const next = parent.nextElementSibling;
-      if (next && next.classList.contains('detail')) return; // already has detail
+      const grossAttr = parent.dataset.gross;
+      if (!grossAttr) return; // page-2 rows handle themselves below
+
+      const { html, sumPayback, sumNet } = buildSubtable(grossAttr);
+
+      // Update Total net rewards (tds[2]) and Total payback (tds[3])
+      // so they always match the sum of the sub-rows below.
       const tds = parent.querySelectorAll('td');
-      const totalReward = tds[2]?.textContent.trim();
-      const refCount = tds[3]?.textContent.trim();
+      if (tds[2]) tds[2].textContent = fmt(sumNet);
+      if (tds[3]) {
+        tds[3].className = sumPayback > 0 ? 'history-payback' : '';
+        tds[3].innerHTML = sumPayback > 0
+          ? `−${fmt(sumPayback)}`
+          : '<span class="mu-dash">—</span>';
+      }
+
+      // Inject the detail row if one isn't already present.
+      const next = parent.nextElementSibling;
+      if (next && next.classList.contains('detail')) return;
       const detail = document.createElement('tr');
       detail.className = 'detail';
-      detail.style.display = 'none';
-      detail.innerHTML = `<td colspan="6" class="subtable-wrap">${buildSubtable(totalReward, refCount)}</td>`;
+      detail.style.display = parent.classList.contains('is-open') ? '' : 'none';
+      detail.innerHTML = `<td colspan="7" class="subtable-wrap">${html}</td>`;
       parent.after(detail);
     });
     // No separate toggle wiring needed — the pre-existing handler attached during
@@ -4893,8 +4995,9 @@
       if (tds[2]) tds[2].textContent = d.rewards;
       if (tds[3]) tds[3].textContent = d.volume;
       if (tds[4]) {
-        if (d.vip) {
-          tds[4].innerHTML = `<span class="fee-cell"><span class="vip-badge">♛ ${d.vip}</span><span class="mono">${d.taker}</span></span>`;
+        // Taker fee column — fee value only (no VIP badge)
+        if (d.taker) {
+          tds[4].innerHTML = `<span class="mu-fee-rate mono">${d.taker}</span>`;
         } else {
           tds[4].innerHTML = '<span class="mu-dash">—</span>';
         }
@@ -4904,7 +5007,14 @@
       if (tds[7]) tds[7].textContent = d.firstDeposit;
       if (tds[8]) tds[8].textContent = d.lastLogin;
       if (tds[9]) tds[9].textContent = d.kyc;
-      if (tds[10]) tds[10].textContent = d.tier;
+      if (tds[10]) {
+        // VIP Tier column — render as FDS vip-badge (or dash when no tier)
+        if (d.vip) {
+          tds[10].innerHTML = `<span class="vip-badge"><span class="vip-badge__icon">F</span>${d.vip}</span>`;
+        } else {
+          tds[10].innerHTML = '<span class="mu-dash">—</span>';
+        }
+      }
       if (tds[11]) tds[11].textContent = d.assets;
       if (tds[12]) tds[12].textContent = d.deposit;
     });
@@ -4963,40 +5073,37 @@
       ['2025.08.07', '359.62', 14, '1,498,420.65', 749.21],
       ['2025.08.06', '210.45', 10, '876,876.85',   438.44],
     ];
+    const fmt2 = (n) => Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
     page2Data.forEach(([date, rew, ref, vol, fee]) => {
       const tr = document.createElement('tr');
       tr.className = 'parent';
       tr.dataset.page = '2';
+      tr.dataset.gross = String(rew);
       tr.style.display = 'none';
+
+      // Build the subtable through the shared builder so net/payback maths
+      // (and the column layout) match page 1 exactly.
+      const build = (window.__historyBuildSubtable || (() => ({ html: '', sumPayback: 0, sumNet: parseFloat(String(rew).replace(/,/g,''))||0 })));
+      const { html, sumPayback, sumNet } = build(rew);
+
+      const paybackTd = sumPayback > 0
+        ? `<td class="history-payback">−${fmt2(sumPayback)}</td>`
+        : `<td><span class="mu-dash">—</span></td>`;
+
       tr.innerHTML = `
         <td></td>
         <td><span class="row-toggle"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>${date}</span></td>
-        <td>${rew}</td><td>${ref}</td><td>${vol}</td><td>${Number(fee).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+        <td>${fmt2(sumNet)}</td>${paybackTd}<td>${ref}</td><td>${vol}</td><td>${fmt2(fee)}</td>
       `;
       tbody.appendChild(tr);
-      // Detail row will be auto-generated by setupHistoryRowToggle? It already ran. Generate manually:
+
       const detail = document.createElement('tr');
       detail.className = 'detail';
       detail.dataset.page = '2';
       detail.style.display = 'none';
-      const subRows = [0.46, 0.31, 0.23].map((pct, i) => {
-        const rw = parseFloat(String(rew).replace(/,/g,'')) * pct;
-        const users = [
-          { name: 'Flipster_test4', uid: '2BD18WZ', type: 'Direct referee', rate: '40%' },
-          { name: 'Flipster_test5', uid: '2BD18WY', type: 'Sub-Affiliates', rate: '20%' },
-          { name: 'Flipster_test6', uid: '2BD18WX', type: 'Direct referee', rate: '30%' },
-        ];
-        const u = users[i];
-        const vol2 = rw * 22000 * (0.8 + i*0.15);
-        const fee2 = rw * 7.5;
-        const fmt = (n) => n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-        return `<tr>
-          <td><div class="username-cell"><span>${u.name} <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></span><span class="uid">${u.uid}</span></div></td>
-          <td>${fmt(rw)}</td><td>${fmt(vol2)}</td><td style="text-align:left;">—</td><td>${fmt(fee2)}</td><td>${u.rate}</td><td style="text-align:right;">${u.type}</td>
-        </tr>`;
-      }).join('');
-      detail.innerHTML = `<td colspan="6" class="subtable-wrap"><table class="subtable"><thead><tr><th>Username<br/><span style="font-weight:400; color: var(--content-default-level-1); font-size:10px;">UID</span></th><th>Reward (USDT)</th><th>Trading volume (USDT)</th><th>VIP tier / Taker fee</th><th>Trading fee (USDT)</th><th>Effective commission rate</th><th>Referee type</th></tr></thead><tbody>${subRows}</tbody></table></td>`;
+      detail.innerHTML = `<td colspan="7" class="subtable-wrap">${html}</td>`;
       tbody.appendChild(detail);
+
       // Wire toggle for new parent
       tr.querySelector('.row-toggle').addEventListener('click', () => {
         const isOpen = tr.classList.toggle('is-open');
