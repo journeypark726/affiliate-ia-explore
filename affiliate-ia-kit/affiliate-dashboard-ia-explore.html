@@ -1867,25 +1867,29 @@
   }
   .mid-grid--single { grid-template-columns: 1fr; }
 
-  .funnel { display: flex; flex-direction: column; gap: var(--spacing-16); }
+  .funnel { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-16); }
   .funnel-row {
-    display: grid;
-    grid-template-columns: 80px 1fr auto auto;
-    align-items: center;
-    gap: var(--spacing-12);
+    display: flex; flex-direction: column;
+    gap: var(--spacing-10);
+    padding: var(--spacing-16);
+    border: 1px solid var(--border-default-level-1);
+    border-radius: var(--radius-12);
   }
   .funnel-row__label { color: var(--content-default-level-3); font-size: 13px; }
+  .funnel-row__metric { display: flex; align-items: baseline; gap: var(--spacing-8); }
   .funnel-row__bar {
     height: 6px; border-radius: var(--radius-full);
     background: var(--background-default-level-2);
     overflow: hidden;
+    margin-top: var(--spacing-4);
   }
+  @media (max-width: 720px) { .funnel { grid-template-columns: repeat(2, 1fr); } }
   .funnel-row__bar > span {
     display: block; height: 100%;
     background: var(--content-default-level-5);
     border-radius: inherit;
   }
-  .funnel-row__value { font-family: var(--font-mono); color: var(--content-default-level-5); font-weight: 600; }
+  .funnel-row__value { font-family: var(--font-mono); color: var(--content-default-level-5); font-weight: 600; font-size: 22px; line-height: 1; }
   /* Outline percentage badge (matches Direct/Sub-Affiliates breakdown) */
   .funnel-row__pct {
     font-family: var(--font-mono);
@@ -2619,7 +2623,7 @@
       </span>
     </div>
     <div class="side-nav__sub">
-      <div class="side-nav__subitem" data-route="referral-overview">Recent activity</div>
+      <div class="side-nav__subitem" data-route="referral-overview">Referee conversion</div>
       <div class="side-nav__subitem" data-route="user-list">User list</div>
       <div class="side-nav__subitem" data-route="affiliate-management">Affiliate list</div>
     </div>
@@ -3461,7 +3465,7 @@
     <div id="panel-referral-overview" class="tab-panel" hidden>
       <div class="rm-page-head">
         <div class="rm-page-titlebar">
-          <h2 class="panel-title title-l" style="margin:0;">Recent activity</h2>
+          <h2 class="panel-title title-l" style="margin:0;">Referee conversion</h2>
           <span class="panel-updated">Last updated at: <span class="mono">2026.05.28 09:00:00 UTC</span></span>
         </div>
         <div class="rm-page-filters">
@@ -3497,27 +3501,23 @@
           <div class="funnel">
             <div class="funnel-row">
               <div class="funnel-row__label">Sign ups</div>
+              <div class="funnel-row__metric"><span class="funnel-row__value mono">30</span><span class="funnel-row__pct">100%</span></div>
               <div class="funnel-row__bar"><span style="width: 100%"></span></div>
-              <div class="funnel-row__value mono">30</div>
-              <div class="funnel-row__pct">100%</div>
             </div>
             <div class="funnel-row">
               <div class="funnel-row__label">KYCs</div>
+              <div class="funnel-row__metric"><span class="funnel-row__value mono">15</span><span class="funnel-row__pct">50%</span></div>
               <div class="funnel-row__bar"><span style="width: 50%"></span></div>
-              <div class="funnel-row__value mono">15</div>
-              <div class="funnel-row__pct">50%</div>
             </div>
             <div class="funnel-row">
               <div class="funnel-row__label">First deposit</div>
+              <div class="funnel-row__metric"><span class="funnel-row__value mono">12</span><span class="funnel-row__pct">40%</span></div>
               <div class="funnel-row__bar"><span style="width: 40%"></span></div>
-              <div class="funnel-row__value mono">12</div>
-              <div class="funnel-row__pct">40%</div>
             </div>
             <div class="funnel-row">
               <div class="funnel-row__label">First trade</div>
+              <div class="funnel-row__metric"><span class="funnel-row__value mono">3</span><span class="funnel-row__pct">10%</span></div>
               <div class="funnel-row__bar"><span style="width: 10%"></span></div>
-              <div class="funnel-row__value mono">3</div>
-              <div class="funnel-row__pct">10%</div>
             </div>
           </div>
         </section>
@@ -3750,7 +3750,7 @@
             <th>Total rewards (USDT)</th>
             <th>Total trading volume (USDT)</th>
             <th>Taker fee</th>
-            <th class="mu-td--dim">Total trading fee (USDT)</th>
+            <th>Total trading fee (USDT)</th>
             <th>First Trade</th>
             <th>First Deposit</th>
             <th>Last Login</th>
@@ -4525,7 +4525,7 @@
   const ROUTES = {
     'home':                  { panel: 'panel-overview',              title: 'Affiliate' },
     'user-list':             { panel: 'panel-user-list',             title: 'User list' },
-    'referral-overview':     { panel: 'panel-referral-overview',     title: 'Recent activity' },
+    'referral-overview':     { panel: 'panel-referral-overview',     title: 'Referee conversion' },
     'affiliate-management':  { panel: 'panel-affiliate-management',  title: 'Affiliate list' },
     'referee-history':       { panel: ['panel-rewards-trend', 'panel-referee-history'], title: 'Rewards management' },
     'rewards-trend':         { panel: ['panel-rewards-trend', 'panel-referee-history'], title: 'Rewards management' },
