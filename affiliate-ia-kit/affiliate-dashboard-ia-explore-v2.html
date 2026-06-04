@@ -702,6 +702,12 @@
   .ro-state { display: inline-flex; align-items: center; font-weight: 500; }
   .ro-state--active { color: var(--content-state-positive); }
   .ro-state--inactive { color: var(--content-default-level-2); }
+  /* KYC status text colors */
+  .ro-kyc { font-weight: 500; }
+  .ro-kyc--verified { color: var(--content-state-positive); }
+  .ro-kyc--pending  { color: var(--content-default-level-2); }
+  .ro-kyc--rejected { color: var(--content-state-warning); }
+  .ro-table tbody td.ro-table__muted { color: var(--content-default-level-2); }
   .ro-pagination {
     display: flex; align-items: center; justify-content: space-between;
     margin-top: var(--spacing-16);
@@ -2893,6 +2899,7 @@
     <section class="card ha-activity">
       <div class="ro-activity__chips" role="tablist">
         <button class="choice-chip is-selected" data-ha-tab="signups">Signups</button>
+        <button class="choice-chip" data-ha-tab="kycs">KYCs</button>
         <button class="choice-chip" data-ha-tab="deposits">Deposits</button>
         <button class="choice-chip" data-ha-tab="trades">Trades</button>
       </div>
@@ -2931,6 +2938,43 @@
               <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
               <td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td>
               <td class="ro-table__time mono">2026.05.29 12:42:09</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table class="ro-table" data-ha-panel="kycs" hidden>
+          <thead>
+            <tr>
+              <th>Username<span class="mu-th__sub">UID</span></th>
+              <th>KYC status</th>
+              <th>KYC level</th>
+              <th class="ro-table__time">KYC completion time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="mu-username"><span class="mu-username__name">Flipster_test12</span><span class="mu-username__uid">2BD18WR</span></div></td>
+              <td><span class="ro-kyc ro-kyc--verified">Verified</span></td>
+              <td>L2</td>
+              <td class="ro-table__time mono">2026.05.29 13:58:02</td>
+            </tr>
+            <tr>
+              <td><div class="mu-username"><span class="mu-username__name">Flipster_test11</span><span class="mu-username__uid">2BD18WS</span></div></td>
+              <td><span class="ro-kyc ro-kyc--verified">Verified</span></td>
+              <td>L3</td>
+              <td class="ro-table__time mono">2026.05.29 13:46:14</td>
+            </tr>
+            <tr>
+              <td><div class="mu-username"><span class="mu-username__name">Flipster_test10</span><span class="mu-username__uid">2BD18WT</span></div></td>
+              <td><span class="ro-kyc ro-kyc--pending">Pending</span></td>
+              <td>L1</td>
+              <td class="ro-table__time mono ro-table__muted">—</td>
+            </tr>
+            <tr>
+              <td><div class="mu-username"><span class="mu-username__name">Flipster_test08</span><span class="mu-username__uid">2BD18WV</span></div></td>
+              <td><span class="ro-kyc ro-kyc--rejected">Rejected</span></td>
+              <td class="ro-table__muted">—</td>
+              <td class="ro-table__time mono ro-table__muted">—</td>
             </tr>
           </tbody>
         </table>
@@ -3529,6 +3573,7 @@
         <h3 class="ro-activity__title title-s">Activity history</h3>
         <div class="ro-activity__chips" role="tablist">
           <button class="choice-chip is-selected" data-ro-tab="signups">Signups</button>
+          <button class="choice-chip" data-ro-tab="kycs">KYCs</button>
           <button class="choice-chip" data-ro-tab="deposits">Deposits</button>
           <button class="choice-chip" data-ro-tab="trades">Trades</button>
         </div>
@@ -3554,6 +3599,29 @@
               <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__time mono">2026.05.29 10:48:12</td></tr>
               <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td class="ro-table__time mono">2026.05.29 10:12:38</td></tr>
               <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test03</span><span class="mu-username__uid">2BD18X0</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td class="ro-table__time mono">2026.05.29 09:30:17</td></tr>
+            </tbody>
+          </table>
+
+          <table class="ro-table" data-ro-panel="kycs" hidden>
+            <thead>
+              <tr>
+                <th>Username<span class="mu-th__sub">UID</span></th>
+                <th>KYC status</th>
+                <th>KYC level</th>
+                <th class="ro-table__time">KYC completion time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test12</span><span class="mu-username__uid">2BD18WR</span></div></td><td><span class="ro-kyc ro-kyc--verified">Verified</span></td><td>L2</td><td class="ro-table__time mono">2026.05.29 13:58:02</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test11</span><span class="mu-username__uid">2BD18WS</span></div></td><td><span class="ro-kyc ro-kyc--verified">Verified</span></td><td>L3</td><td class="ro-table__time mono">2026.05.29 13:46:14</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test10</span><span class="mu-username__uid">2BD18WT</span></div></td><td><span class="ro-kyc ro-kyc--pending">Pending</span></td><td>L1</td><td class="ro-table__time mono ro-table__muted">—</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test09</span><span class="mu-username__uid">2BD18WU</span></div></td><td><span class="ro-kyc ro-kyc--verified">Verified</span></td><td>L2</td><td class="ro-table__time mono">2026.05.29 13:12:40</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test08</span><span class="mu-username__uid">2BD18WV</span></div></td><td><span class="ro-kyc ro-kyc--rejected">Rejected</span></td><td class="ro-table__muted">—</td><td class="ro-table__time mono ro-table__muted">—</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test07</span><span class="mu-username__uid">2BD18WW</span></div></td><td><span class="ro-kyc ro-kyc--verified">Verified</span></td><td>L2</td><td class="ro-table__time mono">2026.05.29 12:33:58</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test06</span><span class="mu-username__uid">2BD18WX</span></div></td><td><span class="ro-kyc ro-kyc--pending">Pending</span></td><td>L1</td><td class="ro-table__time mono ro-table__muted">—</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td><td><span class="ro-kyc ro-kyc--verified">Verified</span></td><td>L3</td><td class="ro-table__time mono">2026.05.29 11:47:22</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td><td><span class="ro-kyc ro-kyc--verified">Verified</span></td><td>L2</td><td class="ro-table__time mono">2026.05.29 11:05:14</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test03</span><span class="mu-username__uid">2BD18X0</span></div></td><td><span class="ro-kyc ro-kyc--rejected">Rejected</span></td><td class="ro-table__muted">—</td><td class="ro-table__time mono ro-table__muted">—</td></tr>
             </tbody>
           </table>
 
