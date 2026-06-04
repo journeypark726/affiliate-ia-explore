@@ -4425,13 +4425,15 @@
         '<div class="contrib-row__name">' + c.name + sub + '</div>' +
         '<span class="contrib-row__amount mono">' + scaleAmount(c.amount) + '</span></div>';
     };
-    const LEFT = 3; // left column holds the top 3 (medal ranks); rest go to the right column
     const render = () => {
       const start = page * PAGE;
       const slice = data.slice(start, start + PAGE);
-      const cols = [slice.slice(0, LEFT), slice.slice(LEFT)];
+      // First page: left column holds the top 3 medal ranks (rest flow right).
+      // Other pages have no medals — split evenly.
+      const left = page === 0 ? 3 : Math.ceil(slice.length / 2);
+      const cols = [slice.slice(0, left), slice.slice(left)];
       grid.innerHTML = cols.map((col, ci) =>
-        '<div>' + col.map((c, ri) => rowHTML(c, start + (ci === 0 ? ri : LEFT + ri) + 1)).join('') + '</div>'
+        '<div>' + col.map((c, ri) => rowHTML(c, start + (ci === 0 ? ri : left + ri) + 1)).join('') + '</div>'
       ).join('');
       prevBtn.disabled = page === 0;
       nextBtn.disabled = page === pages - 1;
