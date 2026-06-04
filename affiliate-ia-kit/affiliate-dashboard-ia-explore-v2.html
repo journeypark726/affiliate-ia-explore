@@ -1919,6 +1919,8 @@
   .contributors__nav .icon-btn { width: 28px; height: 28px; background: transparent; }
   .contributors__nav .icon-btn:disabled { opacity: 0.3; cursor: default; }
   .section-head--contributors { align-items: center; }
+  .section-head--contributors { margin-bottom: var(--spacing-12); }
+  .contributors__controls { margin-bottom: var(--spacing-16); }
   .contributors__grid {
     display: grid; grid-template-columns: 1fr 1fr;
     column-gap: var(--spacing-24);
@@ -3029,6 +3031,34 @@
         <button class="icon-btn" aria-label="Next">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
         </button>
+      </div>
+    </div>
+    <div class="contributors__controls">
+      <div class="kpi-section__chips">
+        <div class="dchip-wrap" data-dchip="contrib-segment">
+          <button class="dchip" data-dchip-trigger type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="dchip__text">Perp</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul class="dchip-menu" role="listbox" hidden>
+            <li role="option" data-value="perp" class="is-selected">Perp</li>
+            <li role="option" data-value="spot">Spot</li>
+            <li role="option" data-value="all">All</li>
+          </ul>
+        </div>
+        <div class="dchip-wrap" data-dchip="contrib-period">
+          <button class="dchip" data-dchip-trigger type="button" aria-haspopup="listbox" aria-expanded="false">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M17.25 2.25C17.4489 2.25 17.6396 2.32907 17.7803 2.46973C17.9209 2.61038 18 2.80109 18 3V4.5H18.75C19.5456 4.5 20.3085 4.8163 20.8711 5.37891C21.4337 5.94152 21.75 6.70435 21.75 7.5V18.75C21.75 19.5456 21.4337 20.3085 20.8711 20.8711C20.3085 21.4337 19.5456 21.75 18.75 21.75H5.25C4.45435 21.75 3.69152 21.4337 3.12891 20.8711C2.5663 20.3085 2.25 19.5456 2.25 18.75V7.5C2.25 6.70435 2.5663 5.94152 3.12891 5.37891C3.69152 4.8163 4.45435 4.5 5.25 4.5H6V3C6 2.80109 6.07907 2.61038 6.21973 2.46973C6.36038 2.32907 6.55109 2.25 6.75 2.25C6.94891 2.25 7.13962 2.32907 7.28027 2.46973C7.42093 2.61038 7.5 2.80109 7.5 3V4.5H16.5V3C16.5 2.80109 16.5791 2.61038 16.7197 2.46973C16.8604 2.32907 17.0511 2.25 17.25 2.25ZM5.25 9.75C4.85218 9.75 4.47076 9.90815 4.18945 10.1895C3.90815 10.4708 3.75 10.8522 3.75 11.25V18.75C3.75 19.1478 3.90815 19.5292 4.18945 19.8105C4.47076 20.0919 4.85218 20.25 5.25 20.25H18.75C19.1478 20.25 19.5292 20.0919 19.8105 19.8105C20.0919 19.5292 20.25 19.1478 20.25 18.75V11.25C20.25 10.8522 20.0919 10.4708 19.8105 10.1895C19.5292 9.90815 19.1478 9.75 18.75 9.75H5.25Z" fill="currentColor"/></svg>
+            <span class="dchip__text">Today</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul class="dchip-menu" role="listbox" hidden>
+            <li role="option" data-value="today" class="is-selected">Today</li>
+            <li role="option" data-value="7day">Last 7 days</li>
+            <li role="option" data-value="30day">Last 30 days</li>
+            <li role="option" data-value="alltime">All time</li>
+          </ul>
+        </div>
       </div>
     </div>
     <section class="card" style="margin-bottom: var(--spacing-64);">
@@ -4376,6 +4406,16 @@
     const pages = Math.ceil(data.length / PAGE);
     let page = 0;
     const [prevBtn, nextBtn] = nav.querySelectorAll('.icon-btn');
+    // Filter state — mirrors Data overview chips (product segment + period window).
+    // Base amounts above are Today/Perp; other selections scale them.
+    let cSegment = 'perp', cPeriod = 'today';
+    const SEG_SCALE = { perp: 1.0, spot: 0.35, all: 1.35 };
+    const PERIOD_SCALE = { today: 1, '7day': 7, '30day': 30, alltime: 189 }; // mirrors KPI growth ratios
+    const scaleAmount = (str) => {
+      const n = parseFloat(str.replace(/,/g, ''));
+      const v = n * (SEG_SCALE[cSegment] || 1) * (PERIOD_SCALE[cPeriod] || 1);
+      return v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
     const rowHTML = (c, rank) => {
       const rankCell = rank <= 3
         ? '<span class="contrib-row__rank is-top">' + medals[rank] + '</span>'
@@ -4383,7 +4423,7 @@
       const sub = c.sub ? '<small>' + c.sub + '</small>' : '';
       return '<div class="contrib-row">' + rankCell +
         '<div class="contrib-row__name">' + c.name + sub + '</div>' +
-        '<span class="contrib-row__amount mono">' + c.amount + '</span></div>';
+        '<span class="contrib-row__amount mono">' + scaleAmount(c.amount) + '</span></div>';
     };
     const LEFT = 3; // left column holds the top 3 (medal ranks); rest go to the right column
     const render = () => {
@@ -4398,6 +4438,13 @@
     };
     prevBtn.addEventListener('click', () => { if (page > 0) { page--; render(); } });
     nextBtn.addEventListener('click', () => { if (page < pages - 1) { page++; render(); } });
+    // Exposed so the contributors filter chips can re-scale the leaderboard
+    window.contribSetFilter = (dim, val) => {
+      if (dim === 'segment') cSegment = val;
+      if (dim === 'period') cPeriod = val;
+      page = 0;
+      render();
+    };
     render();
   })();
 
@@ -4667,6 +4714,8 @@
         const dim = wrap.dataset.dchip;
         if (dim === 'period') currentPeriod = li.dataset.value;
         if (dim === 'segment') currentSegment = li.dataset.value;
+        if (dim === 'contrib-segment' && window.contribSetFilter) window.contribSetFilter('segment', li.dataset.value);
+        if (dim === 'contrib-period' && window.contribSetFilter) window.contribSetFilter('period', li.dataset.value);
         if (dim === 'rh-segment') {
           const RH_SCALE = { perp: 1.0, spot: 0.35, all: 1.35 };
           const s = RH_SCALE[li.dataset.value] || 1;
