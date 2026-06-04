@@ -1743,7 +1743,7 @@
     margin-bottom: var(--spacing-16);
   }
   .section-head__title { color: var(--content-default-level-5); margin: 0; }
-  /* FDS text button — medium size, passive, enabled (no icon) */
+  /* FDS text button — medium size, passive, enabled (no icon; underline stroke) */
   .text-btn {
     color: var(--content-default-level-2);
     font-family: var(--font-mono);
@@ -1751,6 +1751,9 @@
     font-weight: 600;
     line-height: 1.4;
     display: inline-flex; align-items: center;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
   }
   .text-btn:hover { color: var(--content-default-level-4); }
 
