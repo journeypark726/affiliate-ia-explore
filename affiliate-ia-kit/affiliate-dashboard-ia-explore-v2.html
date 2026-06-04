@@ -1757,41 +1757,65 @@
   .text-btn:hover { color: var(--content-default-level-5); }
 
   .events {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
     gap: var(--spacing-16);
     margin-bottom: var(--spacing-12);
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
+  .events::-webkit-scrollbar { display: none; }
   .event-card {
     position: relative;
+    flex: 0 0 512px;
+    width: 512px;
+    max-width: 512px;
     height: 200px;
-    border-radius: var(--radius-12);
-    padding: var(--spacing-24);
+    border-radius: var(--radius-16);
     overflow: hidden;
-    color: var(--content-default-level-5);
-    display: flex; flex-direction: column; justify-content: space-between;
+    background: var(--background-default-level-1);
     isolation: isolate;
-  }
-  .event-card__eyebrow { font-size: 12px; opacity: 0.85; margin-bottom: var(--spacing-4); }
-  .event-card__title { font-size: 22px; font-weight: 700; line-height: 1.15; }
-  .event-card__cta {
-    font-family: var(--font-mono); font-size: 12px; font-weight: 600;
-    border-bottom: 1px solid currentColor;
-    padding-bottom: 2px;
-    align-self: flex-start;
-    opacity: 0.9;
+    scroll-snap-align: start;
   }
   .event-card__art {
-    position: absolute; right: -10px; bottom: -10px;
-    font-size: 80px;
-    line-height: 1;
-    opacity: 0.95;
+    position: absolute;
+    right: 30px; top: 0;
+    height: 100%; width: auto;
     pointer-events: none;
     user-select: none;
+    z-index: 0;
   }
-  .event-card--social { background: linear-gradient(135deg, #2c2454 0%, #1c1740 100%); }
-  .event-card--feature{ background: linear-gradient(135deg, #1a3b5c 0%, #0e2440 100%); }
-  .event-card--earn   { background: linear-gradient(135deg, #1f3a1f 0%, #0f2410 100%); }
+  .event-card__art--bleed { right: 0; }
+  .event-card__body {
+    position: absolute;
+    left: 32px; top: 50%;
+    transform: translateY(-50%);
+    width: 255px; max-width: calc(100% - 48px);
+    display: flex; flex-direction: column; gap: var(--spacing-16);
+    z-index: 1;
+  }
+  .event-card__titlearea { display: flex; flex-direction: column; gap: var(--spacing-6); }
+  .event-card__eyebrow {
+    font-size: 16px; font-weight: 600;
+    line-height: 1.35; letter-spacing: -0.24px;
+    color: var(--content-default-level-4);
+  }
+  .event-card__title {
+    font-size: 32px; font-weight: 700;
+    line-height: 1.12; letter-spacing: -0.64px;
+    color: var(--content-default-level-5);
+  }
+  .event-card__cta {
+    font-size: 16px; font-weight: 600;
+    line-height: 1.35;
+    color: var(--content-default-level-2);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    align-self: flex-start;
+  }
+  .event-card__cta:hover { color: var(--content-default-level-4); }
 
   .events-nav {
     display: flex; justify-content: flex-end; gap: var(--spacing-8);
@@ -3160,43 +3184,61 @@
       </a>
     </div>
 
-    <div class="events">
-      <article class="event-card event-card--social">
-        <div>
-          <div class="event-card__eyebrow">Social Trading</div>
-          <div class="event-card__title">Win up to 3K<br/>USDT Bonus</div>
+    <div class="events" id="eventsTrack">
+      <article class="event-card">
+        <div class="event-card__body">
+          <div class="event-card__titlearea">
+            <div class="event-card__eyebrow">Social Trading</div>
+            <div class="event-card__title">Win up to 3K USDT Bonus</div>
+          </div>
+          <a href="#" class="event-card__cta">Learn more</a>
         </div>
-        <a href="#" class="event-card__cta">Learn more →</a>
-        <div class="event-card__art" aria-hidden="true">🎁</div>
+        <img class="event-card__art" src="assets/events/banner1-art.png" alt="" aria-hidden="true" />
       </article>
 
-      <article class="event-card event-card--feature">
-        <div>
-          <div class="event-card__eyebrow">New Trading Feature</div>
-          <div class="event-card__title">Win up to 10K<br/>USDT airdrops</div>
+      <article class="event-card">
+        <div class="event-card__body">
+          <div class="event-card__titlearea">
+            <div class="event-card__eyebrow">New Trading Feature</div>
+            <div class="event-card__title">Win up to 10K USDT airdrops</div>
+          </div>
+          <a href="#" class="event-card__cta">Learn more</a>
         </div>
-        <a href="#" class="event-card__cta">Learn more →</a>
-        <div class="event-card__art" aria-hidden="true">🚀</div>
+        <img class="event-card__art" src="assets/events/banner2-art.png" alt="" aria-hidden="true" />
       </article>
 
-      <article class="event-card event-card--earn">
-        <div>
-          <div class="event-card__eyebrow">Flipster Earn</div>
-          <div class="event-card__title">Earn 20% APR</div>
+      <article class="event-card">
+        <div class="event-card__body">
+          <div class="event-card__titlearea">
+            <div class="event-card__eyebrow">Flipster Earn</div>
+            <div class="event-card__title">Earn 20% APR</div>
+          </div>
+          <a href="#" class="event-card__cta">Learn more</a>
         </div>
-        <a href="#" class="event-card__cta">Learn more →</a>
-        <div class="event-card__art" aria-hidden="true">💎</div>
+        <img class="event-card__art event-card__art--bleed" src="assets/events/earn-art.png" alt="" aria-hidden="true" />
       </article>
     </div>
 
     <div class="events-nav">
-      <button class="icon-btn icon-btn--ghost" aria-label="Previous">
+      <button class="icon-btn icon-btn--ghost" aria-label="Previous" data-events-nav="prev">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
       </button>
-      <button class="icon-btn icon-btn--ghost" aria-label="Next">
+      <button class="icon-btn icon-btn--ghost" aria-label="Next" data-events-nav="next">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
     </div>
+    <script>
+      (function () {
+        var track = document.getElementById('eventsTrack');
+        if (!track) return;
+        var STEP = 528; // 512 banner + 16 gap
+        document.querySelectorAll('[data-events-nav]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            track.scrollBy({ left: btn.dataset.eventsNav === 'next' ? STEP : -STEP, behavior: 'smooth' });
+          });
+        });
+      })();
+    </script>
 
     </div><!-- /panel-overview -->
 
