@@ -2019,13 +2019,21 @@
   .date-range-btn svg { color: var(--content-default-level-3); flex-shrink: 0; }
 
   /* Status dropdown (re-uses dchip pattern but with neutral surface) */
+  /* FDS DropdownSelect — field-style trigger (rounded rectangle, not a pill) */
   .dchip--neutral {
+    height: 36px;
+    padding: 0 var(--spacing-12);
+    gap: var(--spacing-8);
+    border-radius: var(--radius-8);
     background: var(--background-default-level-1);
-    border: 1px solid var(--border-default-level-1);
+    border: 1px solid var(--border-default-level-2);
     font-weight: 500;
-    color: var(--content-default-level-4);
+    color: var(--content-default-level-5);
   }
-  .dchip--neutral:hover { background: var(--background-interaction-hover); }
+  .dchip--neutral:hover { background: var(--background-interaction-hover); border-color: var(--border-default-level-3); }
+  .dchip--neutral svg { transition: transform 150ms ease; }
+  .dchip-wrap.is-open .dchip--neutral { background: var(--background-default-level-1); border-color: var(--border-default-level-3); }
+  .dchip-wrap.is-open .dchip--neutral > svg:last-child { transform: rotate(180deg); }
 
   /* =====================================================================
      Referee history
