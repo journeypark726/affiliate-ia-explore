@@ -2083,7 +2083,7 @@
     border-top-right-radius: var(--radius-8);
   }
   /* Expanded detail — level-1 fill + 3-sided stroke + rounded bottom, connected to the open row */
-  .history-table tbody tr.detail td {
+  .history-table tbody tr.detail > td {
     padding: 0;
     background: var(--background-default-level-1);
     border-bottom: 1px solid var(--border-default-level-1);
@@ -2420,9 +2420,10 @@
   .mu-sa-edit-btn svg { width: 12px; height: 12px; }
   .mu-sa-note {
     text-align: right;
-    display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-8);
+    white-space: nowrap;
     color: var(--content-default-level-4);
   }
+  .mu-sa-note .mu-sa-edit-btn { vertical-align: middle; margin-left: var(--spacing-8); }
   .mu-sa-edit-btn--alone { color: var(--content-default-level-3); }
   .mu-th--right { text-align: right; }
 
