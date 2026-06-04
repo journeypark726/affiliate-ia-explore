@@ -3228,32 +3228,32 @@
           <div class="kpi-cell">
             <div class="kpi__label tip tip--text" data-tip="Total rewards are shown before deducting any payback rewards paid to referees." aria-label="Total rewards are shown before deducting any payback rewards paid to referees." tabindex="0">Total rewards (USDT)</div>
             <div class="kpi__value mono" data-rm-kpi="rewards">2,190.32</div>
-            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="rewards">+460.84</span> vs previous 7 days</div>
+            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="rewards">+460.84</span> <span class="kpi__delta-suffix">vs previous period</span></div>
           </div>
           <div class="kpi-cell">
             <div class="kpi__label">Total trading volume (USDT)</div>
             <div class="kpi__value mono" data-rm-kpi="volume">9,126,340.67</div>
-            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="volume">+1,921,612.09</span> vs previous 7 days</div>
+            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="volume">+1,921,612.09</span> <span class="kpi__delta-suffix">vs previous period</span></div>
           </div>
           <div class="kpi-cell">
             <div class="kpi__label">Total eligible trading volume (USDT)</div>
             <div class="kpi__value mono" data-rm-kpi="eligVolume">4,563.17</div>
-            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="eligVolume">+4</span> vs previous 7 days</div>
+            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="eligVolume">+4</span> <span class="kpi__delta-suffix">vs previous period</span></div>
           </div>
           <div class="kpi-cell">
             <div class="kpi__label">Active referees</div>
             <div class="kpi__value mono" data-rm-kpi="referees">24</div>
-            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="referees">+4</span> vs previous 7 days</div>
+            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="referees">+4</span> <span class="kpi__delta-suffix">vs previous period</span></div>
           </div>
           <div class="kpi-cell">
             <div class="kpi__label tip tip--text" data-tip="Market maker rebates are exchange-funded incentives and have been excluded from the fee calculation." aria-label="Market maker rebates are exchange-funded incentives and have been excluded from the fee calculation." tabindex="0">Total trading fee (USDT)</div>
             <div class="kpi__value mono" data-rm-kpi="fee">4,563.17</div>
-            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="fee">+960.09</span> vs previous 7 days</div>
+            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="fee">+960.09</span> <span class="kpi__delta-suffix">vs previous period</span></div>
           </div>
           <div class="kpi-cell">
             <div class="kpi__label tip tip--text" data-tip="Only user-paid trading fees are counted. Fees covered by Fee Vouchers, or other exchange incentives are excluded." aria-label="Only user-paid trading fees are counted. Fees covered by Fee Vouchers, or other exchange incentives are excluded." tabindex="0">Total eligible trading fee (USDT)</div>
             <div class="kpi__value mono" data-rm-kpi="eligFee">4,563.17</div>
-            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="eligFee">+960.09</span> vs previous 7 days</div>
+            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="eligFee">+960.09</span> <span class="kpi__delta-suffix">vs previous period</span></div>
           </div>
         </div>
       </section>
@@ -5112,6 +5112,7 @@
           }
         }
         popup.hidden = true;
+        if (window.rmUpdateDelta) window.rmUpdateDelta();
       });
     }
     document.querySelectorAll('.date-range-btn, .rh-asis__datebtn').forEach(attach);
@@ -5467,6 +5468,15 @@
       });
     });
   }
+  function rmUpdateDelta() {
+    const panel = document.getElementById('panel-rewards-trend');
+    if (!panel) return;
+    const span = panel.querySelector('.rm-page-filters .date-range-btn span');
+    const txt = span ? span.textContent.trim() : '';
+    const hasRange = txt && txt !== 'Start date — End date';
+    panel.querySelectorAll('.kpi__delta').forEach(el => { el.style.display = hasRange ? '' : 'none'; });
+  }
+  window.rmUpdateDelta = rmUpdateDelta;
   function rmResetDchip(wrap, defaultVal) {
     if (!wrap) return;
     const lis = wrap.querySelectorAll('li');
@@ -5477,6 +5487,7 @@
   }
   document.getElementById('rm-query')?.addEventListener('click', () => {
     rmApply();
+    rmUpdateDelta();
     showToast('Filters applied');
   });
   function resetDateRangeBtn(scopeSelector) {
@@ -5492,8 +5503,11 @@
     if (uid) uid.value = RM_DEFAULTS.uid;
     resetDateRangeBtn('.rm-page-filters');
     rmApply();
+    rmUpdateDelta();
     showToast('Filters reset');
   });
+  // Initial state: no date range set (all time) → hide rewards-mgmt KPI deltas
+  rmUpdateDelta();
 
   // ─────────────────────────────────────────────────────────────────
   // User list — Query / Reset (filter table rows by UID substring)
