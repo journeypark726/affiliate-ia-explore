@@ -425,6 +425,25 @@
   .am-tree line { vector-effect: non-scaling-stroke; }
   .am-tree--trunk { margin: var(--spacing-16) 0 0; }
   .am-tree--branch { margin: var(--spacing-16) 0 0; }
+  /* JS-driven tree connector: lines that always link the parent card to each child card */
+  .am-tree-wrap { position: relative; }
+  .am-connector {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 0;
+  }
+  .am-connector path {
+    fill: none;
+    stroke: var(--border-default-level-3);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .am-tree-wrap > .am-card,
+  .am-tree-wrap > .am-row,
+  .am-tree-wrap > .am-section-head { position: relative; z-index: 1; }
   .am-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -3038,7 +3057,7 @@
         </button>
       </div>
     </div>
-    <section class="card">
+    <section class="card" style="margin-bottom: var(--spacing-64);">
             <div class="contributors__grid">
               <div>
                 <div class="contrib-row">
@@ -4040,6 +4059,9 @@
         <h2 class="title-m am-section-head__title">Level 1</h2>
       </div>
 
+      <div class="am-tree-wrap">
+      <svg class="am-connector" aria-hidden="true"></svg>
+
       <section class="am-card am-card--me">
         <div class="am-card__top">
           <div class="am-card__id">
@@ -4088,16 +4110,6 @@
           </div>
         </div>
       </section>
-
-      <!-- Tree connector: branching to 4 children -->
-      <svg class="am-tree am-tree--branch" width="100%" height="32" viewBox="0 0 1000 32" preserveAspectRatio="none" aria-hidden="true">
-        <line x1="500" y1="0" x2="500" y2="14" />
-        <line x1="125" y1="14" x2="875" y2="14" />
-        <line x1="125" y1="14" x2="125" y2="32" />
-        <line x1="375" y1="14" x2="375" y2="32" />
-        <line x1="625" y1="14" x2="625" y2="32" />
-        <line x1="875" y1="14" x2="875" y2="32" />
-      </svg>
 
       <!-- Level 2 -->
       <div class="am-section-head am-section-head--sub">
@@ -4197,6 +4209,7 @@
           </div>
         </article>
       </div>
+      </div><!-- /am-tree-wrap -->
 
           </div><!-- /am-view tree -->
     </div><!-- /panel-affiliate-management -->
@@ -4584,8 +4597,72 @@
       const view = chip.dataset.amView;
       document.querySelectorAll('[data-am-view]').forEach(c => c.classList.toggle('is-selected', c === chip));
       document.querySelectorAll('[data-am-view-panel]').forEach(p => { p.hidden = p.dataset.amViewPanel !== view; });
+      if (view === 'tree') requestAnimationFrame(drawTreeConnector);
     });
   });
+
+  // Tree view — JS-driven connector linking the Me (parent) card to each child card
+  function drawTreeConnector() {
+    const wrap = document.querySelector('.am-tree-wrap');
+    if (!wrap) return;
+    const svg = wrap.querySelector('.am-connector');
+    const me = wrap.querySelector('.am-card--me');
+    const kids = [...wrap.querySelectorAll('.am-row--scroll > .am-card')];
+    if (!svg || !me || !kids.length) return;
+
+    const w = wrap.getBoundingClientRect();
+    if (w.width === 0) return; // hidden — nothing to measure yet
+
+    const meR = me.getBoundingClientRect();
+    const px = meR.left + meR.width / 2 - w.left;   // parent stem x (card centre)
+    const py = meR.bottom - w.top;                  // parent bottom edge
+
+    const pts = kids.map(k => {
+      const r = k.getBoundingClientRect();
+      return { x: r.left + r.width / 2 - w.left, top: r.top - w.top };
+    }).sort((a, b) => a.x - b.x);
+
+    const topMin = Math.min(...pts.map(p => p.top));
+    const busY = (py + topMin) / 2;                 // horizontal bus midway in the gap
+    const minX = pts[0].x;
+    const maxX = pts[pts.length - 1].x;
+
+    // corner radius, clamped so it never exceeds the drop height / half-spacing
+    let r = 10;
+    r = Math.min(r, topMin - busY);
+    if (pts.length > 1) r = Math.min(r, (maxX - minX) / 2);
+    r = Math.max(0, r);
+
+    const segs = [];
+    // parent stem: from card bottom-centre straight down onto the bus (T-junction)
+    segs.push(`M ${px} ${py} L ${px} ${busY}`);
+
+    if (pts.length === 1) {
+      segs.push(`M ${pts[0].x} ${busY} L ${pts[0].x} ${pts[0].top}`);
+    } else {
+      // left end: drop up into a rounded corner onto the bus
+      segs.push(`M ${minX} ${pts[0].top} L ${minX} ${busY + r} Q ${minX} ${busY} ${minX + r} ${busY}`);
+      // bus to right end + rounded corner down into right drop
+      segs.push(`L ${maxX - r} ${busY} Q ${maxX} ${busY} ${maxX} ${busY + r} L ${maxX} ${pts[pts.length - 1].top}`);
+      // middle children: straight tees down from the bus
+      for (let i = 1; i < pts.length - 1; i++) {
+        segs.push(`M ${pts[i].x} ${busY} L ${pts[i].x} ${pts[i].top}`);
+      }
+    }
+
+    svg.innerHTML = `<path d="${segs.join(' ')}"/>`;
+  }
+
+  (function () {
+    const wrap = document.querySelector('.am-tree-wrap');
+    if (!wrap) return;
+    const draw = () => requestAnimationFrame(drawTreeConnector);
+    window.addEventListener('resize', draw);
+    if (window.ResizeObserver) new ResizeObserver(draw).observe(wrap);
+    const row = wrap.querySelector('.am-row--scroll');
+    if (row) row.addEventListener('scroll', draw);
+    draw();
+  })();
 
   // Notification center: tab toggle
   document.querySelectorAll('[data-nc-tab]').forEach(chip => {
