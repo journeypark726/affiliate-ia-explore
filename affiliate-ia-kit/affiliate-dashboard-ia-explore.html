@@ -2138,10 +2138,12 @@
     display: flex; flex-direction: column;
     gap: 2px;
   }
+  .username-cell > span { white-space: nowrap; }
   .username-cell .uid { color: var(--content-default-level-2); font-size: 10px; }
   .copy-inline {
     color: var(--content-default-level-2);
     margin-left: var(--spacing-4);
+    vertical-align: middle;
   }
 
   .vip-badge {
@@ -2596,7 +2598,7 @@
       </span>
     </div>
     <div class="side-nav__sub">
-      <div class="side-nav__subitem" data-route="referral-overview">Referee overview</div>
+      <div class="side-nav__subitem" data-route="referral-overview">Recent activity</div>
       <div class="side-nav__subitem" data-route="user-list">User list</div>
       <div class="side-nav__subitem" data-route="affiliate-management">Affiliate list</div>
     </div>
@@ -3015,6 +3017,71 @@
 
     </div><!-- /home-row -->
 
+    <!-- ──────────────  Top 30 contributors (Home)  ────────────── -->
+    <section class="card">
+            <div class="contributors__header">
+              <div>
+                <h3 class="contributors__title title-s" style="margin-bottom: var(--spacing-4)">Top 30 contributors</h3>
+                <div class="contributors__sub">Referees who brought most rewards (USDT)</div>
+              </div>
+              <div class="contributors__nav">
+                <button class="icon-btn" aria-label="Previous">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <button class="icon-btn" aria-label="Next">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="contributors__grid">
+              <div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank is-top"><svg viewBox="0 0 28 28" fill="none"><path d="M8.68016 13.7939L12.3462 6.58452L12.9718 5.31708C13.3992 4.45097 14.6338 4.4497 15.0631 5.31493L19.2589 13.7726C19.4137 14.0846 19.8058 14.1923 20.0983 14.0032L24.4131 11.213C25.3004 10.6392 26.4324 11.4463 26.1793 12.4722L23.6558 22.6982C23.5915 22.9587 23.3578 23.1418 23.0894 23.1418H4.55819C4.28418 23.1418 4.04709 22.9511 3.9884 22.6834L1.7787 12.6066C1.55817 11.601 2.65339 10.8234 3.53004 11.3633L7.85432 14.0262C8.14459 14.205 8.52564 14.0978 8.68016 13.7939Z" fill="#FFE291"/><path d="M26.2186 12.4728L23.6953 22.6988C23.631 22.9593 23.3973 23.1424 23.129 23.1424H13.8579L14.0362 5.15069C14.0411 4.65998 14.7029 4.50831 14.9209 4.94793L19.2988 13.7731C19.4536 14.0852 19.8456 14.1929 20.1381 14.0037L24.4523 11.2137C25.3396 10.6399 26.4717 11.4469 26.2186 12.4728Z" fill="#E5B33E"/><path d="M14.8434 13.3198V20.125H13.4241V14.6639H13.3865L11.8262 15.6415V14.3914L13.5087 13.3198H14.8434Z" fill="black"/></svg></span>
+                  <div class="contrib-row__name">Flipster_test1<small>Sub-Affiliates</small></div>
+                  <span class="contrib-row__amount mono">523.23</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank is-top"><svg viewBox="0 0 28 28" fill="none"><path d="M8.68016 13.7939L12.3462 6.58452L12.9718 5.31708C13.3992 4.45097 14.6338 4.4497 15.0631 5.31493L19.2589 13.7726C19.4137 14.0846 19.8058 14.1923 20.0983 14.0032L24.4131 11.213C25.3004 10.6392 26.4324 11.4463 26.1793 12.4722L23.6558 22.6982C23.5915 22.9587 23.3578 23.1418 23.0894 23.1418H4.55819C4.28418 23.1418 4.04709 22.9511 3.9884 22.6834L1.7787 12.6066C1.55817 11.601 2.65339 10.8234 3.53004 11.3633L7.85432 14.0262C8.14459 14.205 8.52564 14.0978 8.68016 13.7939Z" fill="#EEEEEE"/><path d="M26.2181 12.4728L23.6948 22.6988C23.6305 22.9593 23.3968 23.1424 23.1285 23.1424H13.8574L14.0358 5.15069C14.0406 4.65998 14.7024 4.50831 14.9205 4.94793L19.2983 13.7731C19.4531 14.0852 19.8451 14.1929 20.1377 14.0037L24.4519 11.2137C25.3392 10.6399 26.4712 11.4469 26.2181 12.4728Z" fill="#C0C0C0"/><path d="M11.7329 20.2224L11.7235 19.1979L14.1673 16.9514C14.8065 16.3405 15.1448 15.9645 15.1448 15.4287C15.1448 14.8271 14.6843 14.4512 14.0639 14.4512C13.4247 14.4512 13.0112 14.8553 13.0112 15.5039H11.6671C11.6577 14.1692 12.6446 13.3232 14.0827 13.3232C15.5396 13.3232 16.5078 14.1504 16.5078 15.3347C16.5078 16.1055 16.1318 16.7446 14.7313 18.0136L13.6973 19.0193V19.0569H16.6018V20.2224H11.7329Z" fill="black"/></svg></span>
+                  <div class="contrib-row__name">Flipster_test2<small>Sub-Affiliates</small></div>
+                  <span class="contrib-row__amount mono">327.99</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank is-top"><svg viewBox="0 0 28 28" fill="none"><path d="M8.68016 13.7939L12.3462 6.58452L12.9718 5.31708C13.3992 4.45097 14.6338 4.4497 15.0631 5.31493L19.2589 13.7726C19.4137 14.0846 19.8058 14.1923 20.0983 14.0032L24.4131 11.213C25.3004 10.6392 26.4324 11.4463 26.1793 12.4722L23.6558 22.6982C23.5915 22.9587 23.3578 23.1418 23.0894 23.1418H4.55819C4.28418 23.1418 4.04709 22.9511 3.9884 22.6834L1.7787 12.6066C1.55817 11.601 2.65339 10.8234 3.53004 11.3633L7.85432 14.0262C8.14459 14.205 8.52564 14.0978 8.68016 13.7939Z" fill="#F1C591"/><path d="M26.2186 12.4728L23.6953 22.6988C23.631 22.9593 23.3973 23.1424 23.129 23.1424H13.8579L14.0362 5.15069C14.0411 4.65998 14.7029 4.50831 14.9209 4.94793L19.2988 13.7731C19.4536 14.0852 19.8456 14.1929 20.1381 14.0037L24.4523 11.2137C25.3396 10.6399 26.4717 11.4469 26.2186 12.4728Z" fill="#CF9A5E"/><path d="M14.0278 20.3164C12.5333 20.3164 11.4618 19.4893 11.4336 18.3049H12.8623C12.8905 18.8125 13.3793 19.1509 14.0372 19.1509C14.714 19.1509 15.2028 18.7655 15.1934 18.2203C15.2028 17.6658 14.7046 17.271 13.9056 17.271H13.2759V16.2277H13.9056C14.573 16.2277 15.043 15.8611 15.043 15.3253C15.043 14.8083 14.6482 14.4512 14.0466 14.4512C13.4451 14.4512 12.9469 14.7896 12.9281 15.3065H11.5746C11.5934 14.1316 12.6555 13.3232 14.0466 13.3232C15.4659 13.3232 16.4153 14.1598 16.4059 15.2407C16.4153 16.0021 15.8795 16.5472 15.1182 16.6788V16.7352C16.1145 16.8574 16.6691 17.4684 16.6597 18.3143C16.6691 19.4799 15.5599 20.3164 14.0278 20.3164Z" fill="black"/></svg></span>
+                  <div class="contrib-row__name">Flipster_test2<small>Direct referee</small></div>
+                  <span class="contrib-row__amount mono">142.07</span>
+                </div>
+              </div>
+              <div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">4</span>
+                  <div class="contrib-row__name">Flipster_test4</div>
+                  <span class="contrib-row__amount mono">93.10</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">5</span>
+                  <div class="contrib-row__name">Flipster_test5</div>
+                  <span class="contrib-row__amount mono">83.28</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">6</span>
+                  <div class="contrib-row__name">Flipster_test6</div>
+                  <span class="contrib-row__amount mono">75.32</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">7</span>
+                  <div class="contrib-row__name">Flipster_test7</div>
+                  <span class="contrib-row__amount mono">60.72</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">8</span>
+                  <div class="contrib-row__name">Flipster_test8</div>
+                  <span class="contrib-row__amount mono">51.34</span>
+                </div>
+              </div>
+            </div>
+    </section>
+
     <!-- ──────────────  Events (bottom of Home)  ────────────── -->
     <div class="section-head">
       <h2 class="section-head__title title-m">Events</h2>
@@ -3370,7 +3437,7 @@
     <div id="panel-referral-overview" class="tab-panel" hidden>
       <div class="rm-page-head">
         <div class="rm-page-titlebar">
-          <h2 class="panel-title title-l" style="margin:0;">Referee overview</h2>
+          <h2 class="panel-title title-l" style="margin:0;">Recent activity</h2>
           <span class="panel-updated">Last updated at: <span class="mono">2026.05.28 09:00:00 UTC</span></span>
         </div>
         <div class="rm-page-filters">
@@ -3401,7 +3468,7 @@
         </div>
       </div>
       <h3 class="section-title title-s" style="margin: 0 0 var(--spacing-16); color: var(--content-default-level-5);">Data summary</h3>
-      <div class="mid-grid">
+      <div class="mid-grid mid-grid--single">
         <section class="card">
           <h3 class="card-title title-s" style="margin-bottom: var(--spacing-24)">New referee conversion</h3>
           <div class="funnel">
@@ -3432,69 +3499,7 @@
           </div>
         </section>
 
-        <section class="card">
-          <div class="contributors__header">
-            <div>
-              <h3 class="contributors__title title-s" style="margin-bottom: var(--spacing-4)">Top 30 contributors</h3>
-              <div class="contributors__sub">Referees who brought most rewards (USDT)</div>
-            </div>
-            <div class="contributors__nav">
-              <button class="icon-btn" aria-label="Previous">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-              </button>
-              <button class="icon-btn" aria-label="Next">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
-              </button>
-            </div>
-          </div>
 
-          <div class="contributors__grid">
-            <div>
-              <div class="contrib-row">
-                <span class="contrib-row__rank is-top"><svg viewBox="0 0 28 28" fill="none"><path d="M8.68016 13.7939L12.3462 6.58452L12.9718 5.31708C13.3992 4.45097 14.6338 4.4497 15.0631 5.31493L19.2589 13.7726C19.4137 14.0846 19.8058 14.1923 20.0983 14.0032L24.4131 11.213C25.3004 10.6392 26.4324 11.4463 26.1793 12.4722L23.6558 22.6982C23.5915 22.9587 23.3578 23.1418 23.0894 23.1418H4.55819C4.28418 23.1418 4.04709 22.9511 3.9884 22.6834L1.7787 12.6066C1.55817 11.601 2.65339 10.8234 3.53004 11.3633L7.85432 14.0262C8.14459 14.205 8.52564 14.0978 8.68016 13.7939Z" fill="#FFE291"/><path d="M26.2186 12.4728L23.6953 22.6988C23.631 22.9593 23.3973 23.1424 23.129 23.1424H13.8579L14.0362 5.15069C14.0411 4.65998 14.7029 4.50831 14.9209 4.94793L19.2988 13.7731C19.4536 14.0852 19.8456 14.1929 20.1381 14.0037L24.4523 11.2137C25.3396 10.6399 26.4717 11.4469 26.2186 12.4728Z" fill="#E5B33E"/><path d="M14.8434 13.3198V20.125H13.4241V14.6639H13.3865L11.8262 15.6415V14.3914L13.5087 13.3198H14.8434Z" fill="black"/></svg></span>
-                <div class="contrib-row__name">Flipster_test1<small>Sub-Affiliates</small></div>
-                <span class="contrib-row__amount mono">523.23</span>
-              </div>
-              <div class="contrib-row">
-                <span class="contrib-row__rank is-top"><svg viewBox="0 0 28 28" fill="none"><path d="M8.68016 13.7939L12.3462 6.58452L12.9718 5.31708C13.3992 4.45097 14.6338 4.4497 15.0631 5.31493L19.2589 13.7726C19.4137 14.0846 19.8058 14.1923 20.0983 14.0032L24.4131 11.213C25.3004 10.6392 26.4324 11.4463 26.1793 12.4722L23.6558 22.6982C23.5915 22.9587 23.3578 23.1418 23.0894 23.1418H4.55819C4.28418 23.1418 4.04709 22.9511 3.9884 22.6834L1.7787 12.6066C1.55817 11.601 2.65339 10.8234 3.53004 11.3633L7.85432 14.0262C8.14459 14.205 8.52564 14.0978 8.68016 13.7939Z" fill="#EEEEEE"/><path d="M26.2181 12.4728L23.6948 22.6988C23.6305 22.9593 23.3968 23.1424 23.1285 23.1424H13.8574L14.0358 5.15069C14.0406 4.65998 14.7024 4.50831 14.9205 4.94793L19.2983 13.7731C19.4531 14.0852 19.8451 14.1929 20.1377 14.0037L24.4519 11.2137C25.3392 10.6399 26.4712 11.4469 26.2181 12.4728Z" fill="#C0C0C0"/><path d="M11.7329 20.2224L11.7235 19.1979L14.1673 16.9514C14.8065 16.3405 15.1448 15.9645 15.1448 15.4287C15.1448 14.8271 14.6843 14.4512 14.0639 14.4512C13.4247 14.4512 13.0112 14.8553 13.0112 15.5039H11.6671C11.6577 14.1692 12.6446 13.3232 14.0827 13.3232C15.5396 13.3232 16.5078 14.1504 16.5078 15.3347C16.5078 16.1055 16.1318 16.7446 14.7313 18.0136L13.6973 19.0193V19.0569H16.6018V20.2224H11.7329Z" fill="black"/></svg></span>
-                <div class="contrib-row__name">Flipster_test2<small>Sub-Affiliates</small></div>
-                <span class="contrib-row__amount mono">327.99</span>
-              </div>
-              <div class="contrib-row">
-                <span class="contrib-row__rank is-top"><svg viewBox="0 0 28 28" fill="none"><path d="M8.68016 13.7939L12.3462 6.58452L12.9718 5.31708C13.3992 4.45097 14.6338 4.4497 15.0631 5.31493L19.2589 13.7726C19.4137 14.0846 19.8058 14.1923 20.0983 14.0032L24.4131 11.213C25.3004 10.6392 26.4324 11.4463 26.1793 12.4722L23.6558 22.6982C23.5915 22.9587 23.3578 23.1418 23.0894 23.1418H4.55819C4.28418 23.1418 4.04709 22.9511 3.9884 22.6834L1.7787 12.6066C1.55817 11.601 2.65339 10.8234 3.53004 11.3633L7.85432 14.0262C8.14459 14.205 8.52564 14.0978 8.68016 13.7939Z" fill="#F1C591"/><path d="M26.2186 12.4728L23.6953 22.6988C23.631 22.9593 23.3973 23.1424 23.129 23.1424H13.8579L14.0362 5.15069C14.0411 4.65998 14.7029 4.50831 14.9209 4.94793L19.2988 13.7731C19.4536 14.0852 19.8456 14.1929 20.1381 14.0037L24.4523 11.2137C25.3396 10.6399 26.4717 11.4469 26.2186 12.4728Z" fill="#CF9A5E"/><path d="M14.0278 20.3164C12.5333 20.3164 11.4618 19.4893 11.4336 18.3049H12.8623C12.8905 18.8125 13.3793 19.1509 14.0372 19.1509C14.714 19.1509 15.2028 18.7655 15.1934 18.2203C15.2028 17.6658 14.7046 17.271 13.9056 17.271H13.2759V16.2277H13.9056C14.573 16.2277 15.043 15.8611 15.043 15.3253C15.043 14.8083 14.6482 14.4512 14.0466 14.4512C13.4451 14.4512 12.9469 14.7896 12.9281 15.3065H11.5746C11.5934 14.1316 12.6555 13.3232 14.0466 13.3232C15.4659 13.3232 16.4153 14.1598 16.4059 15.2407C16.4153 16.0021 15.8795 16.5472 15.1182 16.6788V16.7352C16.1145 16.8574 16.6691 17.4684 16.6597 18.3143C16.6691 19.4799 15.5599 20.3164 14.0278 20.3164Z" fill="black"/></svg></span>
-                <div class="contrib-row__name">Flipster_test2<small>Direct referee</small></div>
-                <span class="contrib-row__amount mono">142.07</span>
-              </div>
-            </div>
-            <div>
-              <div class="contrib-row">
-                <span class="contrib-row__rank">4</span>
-                <div class="contrib-row__name">Flipster_test4</div>
-                <span class="contrib-row__amount mono">93.10</span>
-              </div>
-              <div class="contrib-row">
-                <span class="contrib-row__rank">5</span>
-                <div class="contrib-row__name">Flipster_test5</div>
-                <span class="contrib-row__amount mono">83.28</span>
-              </div>
-              <div class="contrib-row">
-                <span class="contrib-row__rank">6</span>
-                <div class="contrib-row__name">Flipster_test6</div>
-                <span class="contrib-row__amount mono">75.32</span>
-              </div>
-              <div class="contrib-row">
-                <span class="contrib-row__rank">7</span>
-                <div class="contrib-row__name">Flipster_test7</div>
-                <span class="contrib-row__amount mono">60.72</span>
-              </div>
-              <div class="contrib-row">
-                <span class="contrib-row__rank">8</span>
-                <div class="contrib-row__name">Flipster_test8</div>
-                <span class="contrib-row__amount mono">51.34</span>
-              </div>
-            </div>
-          </div>
-        </section>
       </div>
 
       <section class="ro-activity">
@@ -4434,7 +4439,7 @@
   const ROUTES = {
     'home':                  { panel: 'panel-overview',              title: 'Affiliate' },
     'user-list':             { panel: 'panel-user-list',             title: 'User list' },
-    'referral-overview':     { panel: 'panel-referral-overview',     title: 'Referee overview' },
+    'referral-overview':     { panel: 'panel-referral-overview',     title: 'Recent activity' },
     'affiliate-management':  { panel: 'panel-affiliate-management',  title: 'Affiliate list' },
     'referee-history':       { panel: ['panel-rewards-trend', 'panel-referee-history'], title: 'Rewards management' },
     'rewards-trend':         { panel: ['panel-rewards-trend', 'panel-referee-history'], title: 'Rewards management' },
