@@ -1530,10 +1530,6 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr);
     position: relative;
   }
-  .kpi-cards--row3 > .kpi-cell + .kpi-cell {
-    border-left: 1px solid var(--border-default-level-1);
-    padding-left: var(--spacing-24);
-  }
   .kpi-cell {
     display: flex; flex-direction: column;
     gap: 0;
@@ -1767,12 +1763,13 @@
     scrollbar-width: none;
   }
   .events::-webkit-scrollbar { display: none; }
+  /* Banner sized to 160px height — proportional 0.8x scale of the 512x200 Figma banner */
   .event-card {
     position: relative;
-    flex: 0 0 512px;
-    width: 512px;
-    max-width: 512px;
-    height: 200px;
+    flex: 0 0 410px;
+    width: 410px;
+    max-width: 410px;
+    height: 160px;
     border-radius: var(--radius-16);
     overflow: hidden;
     background: var(--background-default-level-1);
@@ -1781,7 +1778,7 @@
   }
   .event-card__art {
     position: absolute;
-    right: 30px; top: 0;
+    right: 24px; top: 0;
     height: 100%; width: auto;
     pointer-events: none;
     user-select: none;
@@ -1790,25 +1787,25 @@
   .event-card__art--bleed { right: 0; }
   .event-card__body {
     position: absolute;
-    left: 32px; top: 50%;
+    left: 26px; top: 50%;
     transform: translateY(-50%);
-    width: 255px; max-width: calc(100% - 48px);
-    display: flex; flex-direction: column; gap: var(--spacing-16);
+    width: 204px; max-width: calc(100% - 40px);
+    display: flex; flex-direction: column; gap: 13px;
     z-index: 1;
   }
-  .event-card__titlearea { display: flex; flex-direction: column; gap: var(--spacing-6); }
+  .event-card__titlearea { display: flex; flex-direction: column; gap: 5px; }
   .event-card__eyebrow {
-    font-size: 16px; font-weight: 600;
-    line-height: 1.35; letter-spacing: -0.24px;
+    font-size: 13px; font-weight: 600;
+    line-height: 1.35; letter-spacing: -0.19px;
     color: var(--content-default-level-4);
   }
   .event-card__title {
-    font-size: 32px; font-weight: 700;
-    line-height: 1.12; letter-spacing: -0.64px;
+    font-size: 26px; font-weight: 700;
+    line-height: 1.12; letter-spacing: -0.51px;
     color: var(--content-default-level-5);
   }
   .event-card__cta {
-    font-size: 16px; font-weight: 600;
+    font-size: 13px; font-weight: 600;
     line-height: 1.35;
     color: var(--content-default-level-2);
     text-decoration: underline;
@@ -1906,15 +1903,11 @@
   }
   .mid-grid--single { grid-template-columns: 1fr; }
 
-  .funnel { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+  .funnel { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-32); }
   .funnel-row {
     display: flex; flex-direction: column;
     gap: var(--spacing-10);
-    padding: 0 var(--spacing-24);
-    border-left: 1px solid var(--border-default-level-1);
   }
-  .funnel-row:first-child { border-left: none; padding-left: 0; }
-  .funnel-row:last-child { padding-right: 0; }
   .funnel-row__label { color: var(--content-default-level-3); font-size: 13px; }
   .funnel-row__metric { display: flex; align-items: baseline; gap: var(--spacing-8); }
   .funnel-row__bar {
@@ -1945,15 +1938,24 @@
   .contributors__header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--spacing-16); }
   .contributors__title { color: var(--content-default-level-5); margin: 0; }
   .contributors__sub { color: var(--content-default-level-2); font-size: 12px; }
-  .contributors__nav { display: flex; gap: var(--spacing-4); }
-  .contributors__nav .icon-btn { width: 28px; height: 28px; background: transparent; }
+  .contributors__nav { display: flex; gap: var(--spacing-8); }
+  .contributors__nav .icon-btn { width: 40px; height: 40px; background: transparent; color: var(--content-default-level-4); }
+  .contributors__nav .icon-btn:hover { background: var(--background-interaction-hover); }
+  .contributors__nav .icon-btn svg { width: 20px; height: 20px; }
   .contributors__nav .icon-btn:disabled { opacity: 0.3; cursor: default; }
+  .contributors__nav .icon-btn:disabled:hover { background: transparent; }
+  .contributors__footer { display: flex; justify-content: flex-start; margin-top: var(--spacing-16); }
   .section-head--contributors { align-items: center; }
   .section-head--contributors { margin-bottom: var(--spacing-12); }
   .contributors__controls { margin-bottom: var(--spacing-16); }
   .contributors__grid {
     display: grid; grid-template-columns: 1fr 1fr;
-    column-gap: var(--spacing-24);
+    column-gap: 0;
+  }
+  .contributors__grid > div:first-child { padding-right: var(--spacing-24); }
+  .contributors__grid > div + div {
+    border-left: 1px solid var(--border-default-level-1);
+    padding-left: var(--spacing-24);
   }
   .contrib-row {
     display: grid; grid-template-columns: 24px 1fr auto;
@@ -3090,14 +3092,6 @@
         </h2>
         <div class="contributors__sub">Referees who brought most rewards (USDT)</div>
       </div>
-      <div class="contributors__nav">
-        <button class="icon-btn" aria-label="Previous">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="icon-btn" aria-label="Next">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
-        </button>
-      </div>
     </div>
     <div class="contributors__controls">
       <div class="kpi-section__chips">
@@ -3174,6 +3168,16 @@
                 </div>
               </div>
             </div>
+            <div class="contributors__footer">
+              <div class="contributors__nav">
+                <button class="icon-btn icon-btn--ghost" aria-label="Previous">
+                  <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.2071 3.79289C11.5976 4.18342 11.5976 4.81658 11.2071 5.20711L5.41421 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H5.41421L11.2071 18.7929C11.5976 19.1834 11.5976 19.8166 11.2071 20.2071C10.8166 20.5976 10.1834 20.5976 9.79289 20.2071L2.29289 12.7071C1.90237 12.3166 1.90237 11.6834 2.29289 11.2929L9.79289 3.79289C10.1834 3.40237 10.8166 3.40237 11.2071 3.79289Z" fill="currentColor"/></svg>
+                </button>
+                <button class="icon-btn icon-btn--ghost" aria-label="Next">
+                  <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289L21.7071 11.2929C22.0976 11.6834 22.0976 12.3166 21.7071 12.7071L14.2071 20.2071C13.8166 20.5976 13.1834 20.5976 12.7929 20.2071C12.4024 19.8166 12.4024 19.1834 12.7929 18.7929L18.5858 13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H18.5858L12.7929 5.20711C12.4024 4.81658 12.4024 4.18342 12.7929 3.79289Z" fill="currentColor"/></svg>
+                </button>
+              </div>
+            </div>
     </section>
 
     <!-- ──────────────  Events (bottom of Home)  ────────────── -->
@@ -3231,10 +3235,15 @@
       (function () {
         var track = document.getElementById('eventsTrack');
         if (!track) return;
-        var STEP = 528; // 512 banner + 16 gap
+        function step() {
+          var card = track.querySelector('.event-card');
+          var gap = parseInt(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 16;
+          return card ? Math.round(card.getBoundingClientRect().width + gap) : 426;
+        }
         document.querySelectorAll('[data-events-nav]').forEach(function (btn) {
           btn.addEventListener('click', function () {
-            track.scrollBy({ left: btn.dataset.eventsNav === 'next' ? STEP : -STEP, behavior: 'smooth' });
+            var s = step();
+            track.scrollBy({ left: btn.dataset.eventsNav === 'next' ? s : -s, behavior: 'smooth' });
           });
         });
       })();
@@ -3311,32 +3320,26 @@
           <div class="kpi-cell">
             <div class="kpi__label tip tip--text" data-tip="Total rewards are shown before deducting any payback rewards paid to referees." aria-label="Total rewards are shown before deducting any payback rewards paid to referees." tabindex="0">Total rewards (USDT)</div>
             <div class="kpi__value mono" data-rm-kpi="rewards">2,190.32</div>
-            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="rewards">+460.84</span> <span class="kpi__delta-suffix">vs previous period</span></div>
           </div>
           <div class="kpi-cell">
             <div class="kpi__label">Total trading volume (USDT)</div>
             <div class="kpi__value mono" data-rm-kpi="volume">9,126,340.67</div>
-            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="volume">+1,921,612.09</span> <span class="kpi__delta-suffix">vs previous period</span></div>
           </div>
           <div class="kpi-cell">
             <div class="kpi__label">Total eligible trading volume (USDT)</div>
             <div class="kpi__value mono" data-rm-kpi="eligVolume">4,563.17</div>
-            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="eligVolume">+4</span> <span class="kpi__delta-suffix">vs previous period</span></div>
           </div>
           <div class="kpi-cell">
             <div class="kpi__label">Active referees</div>
             <div class="kpi__value mono" data-rm-kpi="referees">24</div>
-            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="referees">+4</span> <span class="kpi__delta-suffix">vs previous period</span></div>
           </div>
           <div class="kpi-cell">
             <div class="kpi__label tip tip--text" data-tip="Market maker rebates are exchange-funded incentives and have been excluded from the fee calculation." aria-label="Market maker rebates are exchange-funded incentives and have been excluded from the fee calculation." tabindex="0">Total trading fee (USDT)</div>
             <div class="kpi__value mono" data-rm-kpi="fee">4,563.17</div>
-            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="fee">+960.09</span> <span class="kpi__delta-suffix">vs previous period</span></div>
           </div>
           <div class="kpi-cell">
             <div class="kpi__label tip tip--text" data-tip="Only user-paid trading fees are counted. Fees covered by Fee Vouchers, or other exchange incentives are excluded." aria-label="Only user-paid trading fees are counted. Fees covered by Fee Vouchers, or other exchange incentives are excluded." tabindex="0">Total eligible trading fee (USDT)</div>
             <div class="kpi__value mono" data-rm-kpi="eligFee">4,563.17</div>
-            <div class="kpi__delta"><span class="kpi__delta-num mono" data-rm-delta="eligFee">+960.09</span> <span class="kpi__delta-suffix">vs previous period</span></div>
           </div>
         </div>
       </section>
@@ -3358,8 +3361,6 @@
               <line x1="45" y1="170" x2="1080" y2="170" />
               <line x1="45" y1="220" x2="1080" y2="220" />
             </g>
-            <path d="M45,180 L220,175 L400,178 L580,165 L760,170 L930,168 L1080,160"
-                  fill="none" stroke="#3a3a3a" stroke-width="1.5" stroke-dasharray="5 5"/>
             <path d="M45,170 L220,168 L400,165 L580,150 L760,140 L930,125 L1080,90"
                   fill="none" stroke="#eeeeee" stroke-width="2"/>
             <g transform="translate(1080, 90)">
@@ -3375,10 +3376,6 @@
               <text x="1050" y="252">Jul 20</text>
             </g>
           </svg>
-          <div class="chart__legend">
-            <span class="legend-item"><span class="legend-line"></span>Last 7 days</span>
-            <span class="legend-item"><span class="legend-line legend-line--dashed"></span>Previous last 7 days</span>
-          </div>
         </div>
       </section>
     </div><!-- /panel-rewards-trend -->
