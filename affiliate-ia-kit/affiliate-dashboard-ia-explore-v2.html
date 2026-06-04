@@ -1758,6 +1758,9 @@
     display: flex;
     gap: var(--spacing-16);
     margin-bottom: var(--spacing-12);
+    /* Full-bleed to the right viewport edge so the rightmost card isn't hard-clipped by the container boundary */
+    margin-right: calc(-1 * var(--spacing-40));
+    padding-right: var(--spacing-40);
     overflow-x: auto;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
@@ -1905,7 +1908,7 @@
   }
   .mid-grid--single { grid-template-columns: 1fr; }
 
-  .funnel { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-32); }
+  .funnel { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-40); }
   .funnel-row {
     display: flex; flex-direction: column;
     gap: var(--spacing-10);
@@ -1946,7 +1949,7 @@
   .contributors__nav .icon-btn svg { width: 20px; height: 20px; }
   .contributors__nav .icon-btn:disabled { opacity: 0.3; cursor: default; }
   .contributors__nav .icon-btn:disabled:hover { background: transparent; }
-  .contributors__footer { display: flex; justify-content: flex-start; margin-top: var(--spacing-16); }
+  .contributors__footer { display: flex; justify-content: flex-start; margin-top: var(--spacing-16); margin-bottom: var(--spacing-64); }
   .section-head--contributors { align-items: center; }
   .section-head--contributors { margin-bottom: var(--spacing-12); }
   .contributors__controls { margin-bottom: var(--spacing-16); }
@@ -3119,7 +3122,7 @@
         </div>
       </div>
     </div>
-    <section class="card" style="margin-bottom: var(--spacing-64);">
+    <section class="card">
             <div class="contributors__grid">
               <div>
                 <div class="contrib-row">
@@ -3166,17 +3169,17 @@
                 </div>
               </div>
             </div>
-            <div class="contributors__footer">
-              <div class="contributors__nav">
-                <button class="icon-btn icon-btn--ghost" aria-label="Previous">
-                  <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.2071 3.79289C11.5976 4.18342 11.5976 4.81658 11.2071 5.20711L5.41421 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H5.41421L11.2071 18.7929C11.5976 19.1834 11.5976 19.8166 11.2071 20.2071C10.8166 20.5976 10.1834 20.5976 9.79289 20.2071L2.29289 12.7071C1.90237 12.3166 1.90237 11.6834 2.29289 11.2929L9.79289 3.79289C10.1834 3.40237 10.8166 3.40237 11.2071 3.79289Z" fill="currentColor"/></svg>
-                </button>
-                <button class="icon-btn icon-btn--ghost" aria-label="Next">
-                  <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289L21.7071 11.2929C22.0976 11.6834 22.0976 12.3166 21.7071 12.7071L14.2071 20.2071C13.8166 20.5976 13.1834 20.5976 12.7929 20.2071C12.4024 19.8166 12.4024 19.1834 12.7929 18.7929L18.5858 13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H18.5858L12.7929 5.20711C12.4024 4.81658 12.4024 4.18342 12.7929 3.79289Z" fill="currentColor"/></svg>
-                </button>
-              </div>
-            </div>
     </section>
+    <div class="contributors__footer">
+      <div class="contributors__nav">
+        <button class="icon-btn icon-btn--ghost" aria-label="Previous">
+          <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.2071 3.79289C11.5976 4.18342 11.5976 4.81658 11.2071 5.20711L5.41421 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H5.41421L11.2071 18.7929C11.5976 19.1834 11.5976 19.8166 11.2071 20.2071C10.8166 20.5976 10.1834 20.5976 9.79289 20.2071L2.29289 12.7071C1.90237 12.3166 1.90237 11.6834 2.29289 11.2929L9.79289 3.79289C10.1834 3.40237 10.8166 3.40237 11.2071 3.79289Z" fill="currentColor"/></svg>
+        </button>
+        <button class="icon-btn icon-btn--ghost" aria-label="Next">
+          <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289L21.7071 11.2929C22.0976 11.6834 22.0976 12.3166 21.7071 12.7071L14.2071 20.2071C13.8166 20.5976 13.1834 20.5976 12.7929 20.2071C12.4024 19.8166 12.4024 19.1834 12.7929 18.7929L18.5858 13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H18.5858L12.7929 5.20711C12.4024 4.81658 12.4024 4.18342 12.7929 3.79289Z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
 
     <!-- ──────────────  Events (bottom of Home)  ────────────── -->
     <div class="section-head">
