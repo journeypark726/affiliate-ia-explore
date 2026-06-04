@@ -694,6 +694,15 @@
   .ro-table tbody td.ro-table__time { color: var(--content-default-level-2); }
   .ro-table tbody td.ro-table__amount { color: var(--content-state-positive); font-weight: 600; }
   .ro-table tbody tr:hover td { background: var(--background-interaction-hover); }
+  /* Status cells for redefined activity tables (✓/✗ + Active/Inactive) */
+  .ro-stat { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; }
+  .ro-stat svg { width: 16px; height: 16px; }
+  .ro-stat--yes { color: var(--content-state-positive); }
+  .ro-stat--no { color: var(--content-default-level-2); }
+  .ro-state { display: inline-flex; align-items: center; gap: var(--spacing-6); font-weight: 500; }
+  .ro-state::before { content: ""; width: 6px; height: 6px; border-radius: var(--radius-full); background: currentColor; flex: none; }
+  .ro-state--active { color: var(--content-state-positive); }
+  .ro-state--inactive { color: var(--content-default-level-2); }
   .ro-pagination {
     display: flex; align-items: center; justify-content: space-between;
     margin-top: var(--spacing-16);
@@ -2883,7 +2892,6 @@
     <section class="card ha-activity">
       <div class="ro-activity__chips" role="tablist">
         <button class="choice-chip is-selected" data-ha-tab="signups">Signups</button>
-        <button class="choice-chip" data-ha-tab="kycs">KYCs</button>
         <button class="choice-chip" data-ha-tab="deposits">Deposits</button>
         <button class="choice-chip" data-ha-tab="trades">Trades</button>
       </div>
@@ -2893,72 +2901,35 @@
           <thead>
             <tr>
               <th>Username<span class="mu-th__sub">UID</span></th>
-              <th>Referee type</th>
-              <th>Activity</th>
-              <th class="ro-table__time">Time</th>
+              <th>Identity verification</th>
+              <th>First deposit</th>
+              <th class="ro-table__time">Signup time</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><div class="mu-username"><span class="mu-username__name">Flipster_test12</span><span class="mu-username__uid">2BD18WR</span></div></td>
-              <td>Direct referee</td>
-              <td>Signed up with your referral</td>
+              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
+              <td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td>
               <td class="ro-table__time mono">2026.05.29 13:58:02</td>
             </tr>
             <tr>
               <td><div class="mu-username"><span class="mu-username__name">Flipster_test11</span><span class="mu-username__uid">2BD18WS</span></div></td>
-              <td>Sub-Affiliate</td>
-              <td>Signed up via Sub-Affiliate</td>
+              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
+              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
               <td class="ro-table__time mono">2026.05.29 13:46:14</td>
             </tr>
             <tr>
               <td><div class="mu-username"><span class="mu-username__name">Flipster_test10</span><span class="mu-username__uid">2BD18WT</span></div></td>
-              <td>Direct referee</td>
-              <td>Signed up with your referral</td>
+              <td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td>
+              <td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td>
               <td class="ro-table__time mono">2026.05.29 13:00:48</td>
             </tr>
             <tr>
               <td><div class="mu-username"><span class="mu-username__name">Flipster_test09</span><span class="mu-username__uid">2BD18WU</span></div></td>
-              <td>Sub-Affiliate</td>
-              <td>Signed up via Sub-Affiliate</td>
+              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
+              <td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td>
               <td class="ro-table__time mono">2026.05.29 12:42:09</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <table class="ro-table" data-ha-panel="kycs" hidden>
-          <thead>
-            <tr>
-              <th>Username<span class="mu-th__sub">UID</span></th>
-              <th>Referee type</th>
-              <th>Activity</th>
-              <th class="ro-table__time">Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test09</span><span class="mu-username__uid">2BD18WU</span></div></td>
-              <td>Direct referee</td>
-              <td>Completed KYC verification</td>
-              <td class="ro-table__time mono">2026.05.29 13:55:21</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test08</span><span class="mu-username__uid">2BD18WV</span></div></td>
-              <td>Sub-Affiliate</td>
-              <td>Completed KYC verification</td>
-              <td class="ro-table__time mono">2026.05.29 13:28:07</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test07</span><span class="mu-username__uid">2BD18WW</span></div></td>
-              <td>Direct referee</td>
-              <td>Completed KYC verification</td>
-              <td class="ro-table__time mono">2026.05.29 12:51:43</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test06</span><span class="mu-username__uid">2BD18WX</span></div></td>
-              <td>Direct referee</td>
-              <td>Completed KYC verification</td>
-              <td class="ro-table__time mono">2026.05.29 12:14:08</td>
             </tr>
           </tbody>
         </table>
@@ -2967,38 +2938,33 @@
           <thead>
             <tr>
               <th>Username<span class="mu-th__sub">UID</span></th>
-              <th>Referee type</th>
-              <th>Activity</th>
-              <th class="ro-table__amount">Amount</th>
-              <th class="ro-table__time">Time</th>
+              <th>First deposit</th>
+              <th class="ro-table__amount">Recent deposit amount</th>
+              <th class="ro-table__time">Last deposit time</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><div class="mu-username"><span class="mu-username__name">Flipster_test07</span><span class="mu-username__uid">2BD18WW</span></div></td>
-              <td>Direct referee</td>
-              <td>Made first deposit</td>
+              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
               <td class="ro-table__amount mono">+1,250.00 USDT</td>
               <td class="ro-table__time mono">2026.05.29 13:42:18</td>
             </tr>
             <tr>
               <td><div class="mu-username"><span class="mu-username__name">Flipster_test06</span><span class="mu-username__uid">2BD18WX</span></div></td>
-              <td>Sub-Affiliate</td>
-              <td>Deposit</td>
+              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
               <td class="ro-table__amount mono">+500.00 USDT</td>
               <td class="ro-table__time mono">2026.05.29 12:08:52</td>
             </tr>
             <tr>
               <td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td>
-              <td>Direct referee</td>
-              <td>Deposit</td>
+              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
               <td class="ro-table__amount mono">+820.00 USDT</td>
               <td class="ro-table__time mono">2026.05.29 11:37:14</td>
             </tr>
             <tr>
               <td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td>
-              <td>Direct referee</td>
-              <td>Made first deposit</td>
+              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
               <td class="ro-table__amount mono">+2,400.00 USDT</td>
               <td class="ro-table__time mono">2026.05.29 10:54:39</td>
             </tr>
@@ -3009,39 +2975,34 @@
           <thead>
             <tr>
               <th>Username<span class="mu-th__sub">UID</span></th>
-              <th>Referee type</th>
-              <th>Activity</th>
-              <th class="ro-table__amount">Reward</th>
-              <th class="ro-table__time">Time</th>
+              <th>Asset status</th>
+              <th>Trading status</th>
+              <th class="ro-table__time">Last trading time</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td>
-              <td>Direct referee</td>
-              <td>BTC/USDT trade</td>
-              <td class="ro-table__amount mono">+12.40 USDT</td>
+              <td><span class="ro-state ro-state--active">Active</span></td>
+              <td><span class="ro-state ro-state--active">Active</span></td>
               <td class="ro-table__time mono">2026.05.29 13:57:18</td>
             </tr>
             <tr>
               <td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td>
-              <td>Sub-Affiliate</td>
-              <td>ETH/USDT trade</td>
-              <td class="ro-table__amount mono">+8.72 USDT</td>
+              <td><span class="ro-state ro-state--active">Active</span></td>
+              <td><span class="ro-state ro-state--inactive">Inactive</span></td>
               <td class="ro-table__time mono">2026.05.29 13:51:45</td>
             </tr>
             <tr>
               <td><div class="mu-username"><span class="mu-username__name">Flipster_test03</span><span class="mu-username__uid">2BD18X0</span></div></td>
-              <td>Direct referee</td>
-              <td>SOL/USDT trade</td>
-              <td class="ro-table__amount mono">+5.18 USDT</td>
+              <td><span class="ro-state ro-state--active">Active</span></td>
+              <td><span class="ro-state ro-state--active">Active</span></td>
               <td class="ro-table__time mono">2026.05.29 13:38:29</td>
             </tr>
             <tr>
               <td><div class="mu-username"><span class="mu-username__name">Flipster_test02</span><span class="mu-username__uid">2BD18X1</span></div></td>
-              <td>Sub-Affiliate</td>
-              <td>BNB/USDT trade</td>
-              <td class="ro-table__amount mono">+3.92 USDT</td>
+              <td><span class="ro-state ro-state--inactive">Inactive</span></td>
+              <td><span class="ro-state ro-state--inactive">Inactive</span></td>
               <td class="ro-table__time mono">2026.05.29 13:21:55</td>
             </tr>
           </tbody>
@@ -3539,7 +3500,6 @@
         <h3 class="ro-activity__title title-s">Activity history</h3>
         <div class="ro-activity__chips" role="tablist">
           <button class="choice-chip is-selected" data-ro-tab="signups">Signups</button>
-          <button class="choice-chip" data-ro-tab="kycs">KYCs</button>
           <button class="choice-chip" data-ro-tab="deposits">Deposits</button>
           <button class="choice-chip" data-ro-tab="trades">Trades</button>
         </div>
@@ -3549,70 +3509,22 @@
             <thead>
               <tr>
                 <th>Username<span class="mu-th__sub">UID</span></th>
-                <th>Referee type</th>
-                <th>Activity</th>
-                <th class="ro-table__time">Time</th>
+                <th>Identity verification</th>
+                <th>First deposit</th>
+                <th class="ro-table__time">Signup time</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><div class="mu-username"><span class="mu-username__name">Flipster_test12</span><span class="mu-username__uid">2BD18WR</span></div></td>
-                <td>Direct referee</td>
-                <td>Signed up with your referral</td>
-                <td class="ro-table__time mono">2026.05.29 13:58:02</td>
-              </tr>
-              <tr>
-                <td><div class="mu-username"><span class="mu-username__name">Flipster_test11</span><span class="mu-username__uid">2BD18WS</span></div></td>
-                <td>Sub-Affiliate</td>
-                <td>Signed up via Sub-Affiliate</td>
-                <td class="ro-table__time mono">2026.05.29 13:46:14</td>
-              </tr>
-              <tr>
-                <td><div class="mu-username"><span class="mu-username__name">Flipster_test10</span><span class="mu-username__uid">2BD18WT</span></div></td>
-                <td>Direct referee</td>
-                <td>Signed up with your referral</td>
-                <td class="ro-table__time mono">2026.05.29 13:00:48</td>
-              </tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test09</span><span class="mu-username__uid">2BD18WU</span></div></td><td>Sub-Affiliate</td><td>Signed up via Sub-Affiliate</td><td class="ro-table__time mono">2026.05.29 12:42:09</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test08</span><span class="mu-username__uid">2BD18WV</span></div></td><td>Direct referee</td><td>Signed up with your referral</td><td class="ro-table__time mono">2026.05.29 12:18:33</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test07</span><span class="mu-username__uid">2BD18WW</span></div></td><td>Direct referee</td><td>Signed up with your referral</td><td class="ro-table__time mono">2026.05.29 11:55:01</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test06</span><span class="mu-username__uid">2BD18WX</span></div></td><td>Sub-Affiliate</td><td>Signed up via Sub-Affiliate</td><td class="ro-table__time mono">2026.05.29 11:24:55</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td><td>Direct referee</td><td>Signed up with your referral</td><td class="ro-table__time mono">2026.05.29 10:48:12</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td><td>Direct referee</td><td>Signed up with your referral</td><td class="ro-table__time mono">2026.05.29 10:12:38</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test03</span><span class="mu-username__uid">2BD18X0</span></div></td><td>Sub-Affiliate</td><td>Signed up via Sub-Affiliate</td><td class="ro-table__time mono">2026.05.29 09:30:17</td></tr>
-            </tbody>
-          </table>
-
-          <table class="ro-table" data-ro-panel="kycs" hidden>
-            <thead>
-              <tr>
-                <th>Username<span class="mu-th__sub">UID</span></th>
-                <th>Referee type</th>
-                <th>Activity</th>
-                <th class="ro-table__time">Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><div class="mu-username"><span class="mu-username__name">Flipster_test09</span><span class="mu-username__uid">2BD18WU</span></div></td>
-                <td>Direct referee</td>
-                <td>Completed KYC verification</td>
-                <td class="ro-table__time mono">2026.05.29 13:55:21</td>
-              </tr>
-              <tr>
-                <td><div class="mu-username"><span class="mu-username__name">Flipster_test08</span><span class="mu-username__uid">2BD18WV</span></div></td>
-                <td>Sub-Affiliate</td>
-                <td>Completed KYC verification</td>
-                <td class="ro-table__time mono">2026.05.29 13:28:07</td>
-              </tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test07</span><span class="mu-username__uid">2BD18WW</span></div></td><td>Direct referee</td><td>Completed KYC verification</td><td class="ro-table__time mono">2026.05.29 12:51:43</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test06</span><span class="mu-username__uid">2BD18WX</span></div></td><td>Direct referee</td><td>Completed KYC verification</td><td class="ro-table__time mono">2026.05.29 12:14:08</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td><td>Sub-Affiliate</td><td>Completed KYC verification</td><td class="ro-table__time mono">2026.05.29 11:38:22</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td><td>Direct referee</td><td>Completed KYC verification</td><td class="ro-table__time mono">2026.05.29 11:02:51</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test03</span><span class="mu-username__uid">2BD18X0</span></div></td><td>Direct referee</td><td>Completed KYC verification</td><td class="ro-table__time mono">2026.05.29 10:25:14</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test02</span><span class="mu-username__uid">2BD18X1</span></div></td><td>Sub-Affiliate</td><td>Completed KYC verification</td><td class="ro-table__time mono">2026.05.29 09:48:39</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test01</span><span class="mu-username__uid">2BD18X2</span></div></td><td>Direct referee</td><td>Completed KYC verification</td><td class="ro-table__time mono">2026.05.29 09:11:06</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test00</span><span class="mu-username__uid">2BD18X3</span></div></td><td>Direct referee</td><td>Completed KYC verification</td><td class="ro-table__time mono">2026.05.29 08:33:42</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test12</span><span class="mu-username__uid">2BD18WR</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td class="ro-table__time mono">2026.05.29 13:58:02</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test11</span><span class="mu-username__uid">2BD18WS</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__time mono">2026.05.29 13:46:14</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test10</span><span class="mu-username__uid">2BD18WT</span></div></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td class="ro-table__time mono">2026.05.29 13:00:48</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test09</span><span class="mu-username__uid">2BD18WU</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td class="ro-table__time mono">2026.05.29 12:42:09</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test08</span><span class="mu-username__uid">2BD18WV</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__time mono">2026.05.29 12:18:33</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test07</span><span class="mu-username__uid">2BD18WW</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__time mono">2026.05.29 11:55:01</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test06</span><span class="mu-username__uid">2BD18WX</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__time mono">2026.05.29 11:24:55</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__time mono">2026.05.29 10:48:12</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td class="ro-table__time mono">2026.05.29 10:12:38</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test03</span><span class="mu-username__uid">2BD18X0</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td class="ro-table__time mono">2026.05.29 09:30:17</td></tr>
             </tbody>
           </table>
 
@@ -3620,34 +3532,20 @@
             <thead>
               <tr>
                 <th>Username<span class="mu-th__sub">UID</span></th>
-                <th>Referee type</th>
-                <th>Activity</th>
-                <th class="ro-table__amount">Amount</th>
-                <th class="ro-table__time">Time</th>
+                <th>First deposit</th>
+                <th class="ro-table__amount">Recent deposit amount</th>
+                <th class="ro-table__time">Last deposit time</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><div class="mu-username"><span class="mu-username__name">Flipster_test07</span><span class="mu-username__uid">2BD18WW</span></div></td>
-                <td>Direct referee</td>
-                <td>Made first deposit</td>
-                <td class="ro-table__amount mono">+1,250.00 USDT</td>
-                <td class="ro-table__time mono">2026.05.29 13:42:11</td>
-              </tr>
-              <tr>
-                <td><div class="mu-username"><span class="mu-username__name">Flipster_test06</span><span class="mu-username__uid">2BD18WX</span></div></td>
-                <td>Sub-Affiliate</td>
-                <td>Deposit</td>
-                <td class="ro-table__amount mono">+500.00 USDT</td>
-                <td class="ro-table__time mono">2026.05.29 12:00:32</td>
-              </tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td><td>Direct referee</td><td>Deposit</td><td class="ro-table__amount mono">+820.00 USDT</td><td class="ro-table__time mono">2026.05.29 11:38:09</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td><td>Direct referee</td><td>Made first deposit</td><td class="ro-table__amount mono">+2,000.00 USDT</td><td class="ro-table__time mono">2026.05.29 10:54:21</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test03</span><span class="mu-username__uid">2BD18X0</span></div></td><td>Sub-Affiliate</td><td>Deposit</td><td class="ro-table__amount mono">+350.00 USDT</td><td class="ro-table__time mono">2026.05.29 10:11:43</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test02</span><span class="mu-username__uid">2BD18X1</span></div></td><td>Direct referee</td><td>Deposit</td><td class="ro-table__amount mono">+1,500.00 USDT</td><td class="ro-table__time mono">2026.05.29 09:33:18</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test01</span><span class="mu-username__uid">2BD18X2</span></div></td><td>Direct referee</td><td>Made first deposit</td><td class="ro-table__amount mono">+750.00 USDT</td><td class="ro-table__time mono">2026.05.29 08:55:42</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test00</span><span class="mu-username__uid">2BD18X3</span></div></td><td>Sub-Affiliate</td><td>Deposit</td><td class="ro-table__amount mono">+450.00 USDT</td><td class="ro-table__time mono">2026.05.29 08:18:25</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_t-99</span><span class="mu-username__uid">2BD18X4</span></div></td><td>Direct referee</td><td>Deposit</td><td class="ro-table__amount mono">+1,180.00 USDT</td><td class="ro-table__time mono">2026.05.29 07:41:08</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test07</span><span class="mu-username__uid">2BD18WW</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__amount mono">+1,250.00 USDT</td><td class="ro-table__time mono">2026.05.29 13:42:11</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test06</span><span class="mu-username__uid">2BD18WX</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__amount mono">+500.00 USDT</td><td class="ro-table__time mono">2026.05.29 12:00:32</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__amount mono">+820.00 USDT</td><td class="ro-table__time mono">2026.05.29 11:38:09</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__amount mono">+2,000.00 USDT</td><td class="ro-table__time mono">2026.05.29 10:54:21</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test03</span><span class="mu-username__uid">2BD18X0</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__amount mono">+350.00 USDT</td><td class="ro-table__time mono">2026.05.29 10:11:43</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test02</span><span class="mu-username__uid">2BD18X1</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__amount mono">+1,500.00 USDT</td><td class="ro-table__time mono">2026.05.29 09:33:18</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test01</span><span class="mu-username__uid">2BD18X2</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__amount mono">+750.00 USDT</td><td class="ro-table__time mono">2026.05.29 08:55:42</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test00</span><span class="mu-username__uid">2BD18X3</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="ro-table__amount mono">+450.00 USDT</td><td class="ro-table__time mono">2026.05.29 08:18:25</td></tr>
             </tbody>
           </table>
 
@@ -3655,40 +3553,21 @@
             <thead>
               <tr>
                 <th>Username<span class="mu-th__sub">UID</span></th>
-                <th>Referee type</th>
-                <th>Pair / Activity</th>
-                <th class="ro-table__amount">Reward</th>
-                <th class="ro-table__time">Time</th>
+                <th>Asset status</th>
+                <th>Trading status</th>
+                <th class="ro-table__time">Last trading time</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td>
-                <td>Direct referee</td>
-                <td>BTC/USDT trade</td>
-                <td class="ro-table__amount mono">+12.40 USDT</td>
-                <td class="ro-table__time mono">2026.05.29 13:57:18</td>
-              </tr>
-              <tr>
-                <td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td>
-                <td>Sub-Affiliate</td>
-                <td>ETH/USDT trade</td>
-                <td class="ro-table__amount mono">+8.72 USDT</td>
-                <td class="ro-table__time mono">2026.05.29 13:51:45</td>
-              </tr>
-              <tr>
-                <td><div class="mu-username"><span class="mu-username__name">Flipster_test03</span><span class="mu-username__uid">2BD18X0</span></div></td>
-                <td>Direct referee</td>
-                <td>SOL/USDT trade</td>
-                <td class="ro-table__amount mono">+5.18 USDT</td>
-                <td class="ro-table__time mono">2026.05.29 13:38:29</td>
-              </tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test02</span><span class="mu-username__uid">2BD18X1</span></div></td><td>Sub-Affiliate</td><td>BNB/USDT trade</td><td class="ro-table__amount mono">+3.92 USDT</td><td class="ro-table__time mono">2026.05.29 13:21:55</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test01</span><span class="mu-username__uid">2BD18X2</span></div></td><td>Direct referee</td><td>BTC/USDT trade</td><td class="ro-table__amount mono">+18.20 USDT</td><td class="ro-table__time mono">2026.05.29 13:05:11</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test00</span><span class="mu-username__uid">2BD18X3</span></div></td><td>Direct referee</td><td>ETH/USDT trade</td><td class="ro-table__amount mono">+6.58 USDT</td><td class="ro-table__time mono">2026.05.29 12:48:37</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_t-99</span><span class="mu-username__uid">2BD18X4</span></div></td><td>Sub-Affiliate</td><td>SOL/USDT trade</td><td class="ro-table__amount mono">+4.40 USDT</td><td class="ro-table__time mono">2026.05.29 12:32:04</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_t-98</span><span class="mu-username__uid">2BD18X5</span></div></td><td>Direct referee</td><td>BTC/USDT trade</td><td class="ro-table__amount mono">+22.15 USDT</td><td class="ro-table__time mono">2026.05.29 12:15:48</td></tr>
-              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_t-97</span><span class="mu-username__uid">2BD18X6</span></div></td><td>Direct referee</td><td>ETH/USDT trade</td><td class="ro-table__amount mono">+7.30 USDT</td><td class="ro-table__time mono">2026.05.29 11:59:22</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td><td><span class="ro-state ro-state--active">Active</span></td><td><span class="ro-state ro-state--active">Active</span></td><td class="ro-table__time mono">2026.05.29 13:57:18</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td><td><span class="ro-state ro-state--active">Active</span></td><td><span class="ro-state ro-state--inactive">Inactive</span></td><td class="ro-table__time mono">2026.05.29 13:51:45</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test03</span><span class="mu-username__uid">2BD18X0</span></div></td><td><span class="ro-state ro-state--active">Active</span></td><td><span class="ro-state ro-state--active">Active</span></td><td class="ro-table__time mono">2026.05.29 13:38:29</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test02</span><span class="mu-username__uid">2BD18X1</span></div></td><td><span class="ro-state ro-state--inactive">Inactive</span></td><td><span class="ro-state ro-state--inactive">Inactive</span></td><td class="ro-table__time mono">2026.05.29 13:21:55</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test01</span><span class="mu-username__uid">2BD18X2</span></div></td><td><span class="ro-state ro-state--active">Active</span></td><td><span class="ro-state ro-state--active">Active</span></td><td class="ro-table__time mono">2026.05.29 13:05:11</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test00</span><span class="mu-username__uid">2BD18X3</span></div></td><td><span class="ro-state ro-state--active">Active</span></td><td><span class="ro-state ro-state--inactive">Inactive</span></td><td class="ro-table__time mono">2026.05.29 12:48:37</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_t-99</span><span class="mu-username__uid">2BD18X4</span></div></td><td><span class="ro-state ro-state--active">Active</span></td><td><span class="ro-state ro-state--active">Active</span></td><td class="ro-table__time mono">2026.05.29 12:32:04</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_t-98</span><span class="mu-username__uid">2BD18X5</span></div></td><td><span class="ro-state ro-state--active">Active</span></td><td><span class="ro-state ro-state--active">Active</span></td><td class="ro-table__time mono">2026.05.29 12:15:48</td></tr>
+              <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_t-97</span><span class="mu-username__uid">2BD18X6</span></div></td><td><span class="ro-state ro-state--inactive">Inactive</span></td><td><span class="ro-state ro-state--inactive">Inactive</span></td><td class="ro-table__time mono">2026.05.29 11:59:22</td></tr>
             </tbody>
           </table>
         </div>
