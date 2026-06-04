@@ -2019,21 +2019,21 @@
   .date-range-btn svg { color: var(--content-default-level-3); flex-shrink: 0; }
 
   /* Status dropdown (re-uses dchip pattern but with neutral surface) */
-  /* FDS DropdownSelect — field-style trigger (rounded rectangle, not a pill) */
+  /* FDS Dropdown select — pill trigger, level-1 fill on web (matches bottom sheet), chevron */
   .dchip--neutral {
     height: 36px;
     padding: 0 var(--spacing-12);
     gap: var(--spacing-8);
-    border-radius: var(--radius-8);
+    border-radius: var(--radius-full);
     background: var(--background-default-level-1);
-    border: 1px solid var(--border-default-level-2);
+    border: none;
     font-weight: 500;
     color: var(--content-default-level-5);
   }
-  .dchip--neutral:hover { background: var(--background-interaction-hover); border-color: var(--border-default-level-3); }
-  .dchip--neutral svg { transition: transform 150ms ease; }
-  .dchip-wrap.is-open .dchip--neutral { background: var(--background-default-level-1); border-color: var(--border-default-level-3); }
-  .dchip-wrap.is-open .dchip--neutral > svg:last-child { transform: rotate(180deg); }
+  .dchip--neutral:hover { background: var(--background-interaction-hover); }
+  .dchip-wrap.is-open .dchip--neutral { background: var(--background-interaction-hover); }
+  /* Focus (web only) — accent ring per FDS spec */
+  .dchip--neutral:focus-visible { outline: 2px solid var(--content-accent-info); outline-offset: 1px; }
 
   /* =====================================================================
      Referee history
@@ -4746,8 +4746,9 @@
     document.querySelectorAll('[data-kpi-delta="referees"]').forEach(n => n.textContent = scaleNum(d.deltaRef));
     document.querySelectorAll('[data-period-suffix]').forEach(n => n.textContent = d.suffix);
     // Hide delta entirely when All time (no previous period to compare)
+    // Scope to the overview panel only — rewards-management deltas are governed by rmUpdateDelta().
     const hideDelta = currentPeriod === 'alltime';
-    document.querySelectorAll('.kpi__delta').forEach(n => { n.style.display = hideDelta ? 'none' : ''; });
+    document.querySelectorAll('#panel-overview .kpi__delta').forEach(n => { n.style.display = hideDelta ? 'none' : ''; });
     // Breakdown derived from Total rewards: Direct 54% / Sub 36% / Self 10%
     const totalRewards = parseFloat(d.rewards.replace(/,/g, '')) * s;
     const directRew = (totalRewards * 0.54).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
