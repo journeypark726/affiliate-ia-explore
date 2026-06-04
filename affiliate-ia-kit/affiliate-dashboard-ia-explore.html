@@ -1409,7 +1409,7 @@
   .tip::after {
     content: attr(data-tip);
     position: absolute;
-    left: 50%; bottom: calc(100% + 8px);
+    left: 50%; bottom: calc(100% + 9px);
     transform: translateX(-50%);
     padding: var(--spacing-8) var(--spacing-12);
     border-radius: var(--radius-8);
@@ -1432,15 +1432,16 @@
   .tip::before {
     content: "";
     position: absolute;
-    left: 50%; bottom: calc(100% + 2px);
+    left: 50%; bottom: calc(100% + 4px);
     transform: translateX(-50%);
     width: 0; height: 0;
-    border: 5px solid transparent;
-    border-top-color: var(--background-default-level-3);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--background-default-level-3);
     opacity: 0;
     pointer-events: none;
     transition: opacity 150ms ease;
-    z-index: 100;
+    z-index: 101;
   }
   .tip:hover::after, .tip:focus-visible::after,
   .tip:hover::before, .tip:focus-visible::before { opacity: 1; }
