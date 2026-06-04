@@ -1935,10 +1935,8 @@
     display: grid; grid-template-columns: 24px 1fr auto;
     align-items: center;
     gap: var(--spacing-12);
-    padding: var(--spacing-8) 0;
-    border-bottom: 1px solid var(--border-default-level-1);
+    padding: var(--spacing-12) 0;
   }
-  .contrib-row:last-child { border-bottom: none; }
   .contrib-row__rank { color: var(--content-default-level-2); font-family: var(--font-mono); font-size: 13px; display: grid; place-items: center; }
   .contrib-row__rank svg { width: 22px; height: 22px; display: block; }
   .contrib-row__name { color: var(--content-default-level-4); font-size: 13px; line-height: 1.2; }
@@ -4470,7 +4468,7 @@
       { name: 'Flipster_test29', amount: '2.44' },
       { name: 'Flipster_test30', amount: '1.18' },
     ];
-    const PAGE = 10;
+    const PAGE = 8; // first page shows ranks 1–8 (top 3 medals left, 4–8 right)
     const pages = Math.ceil(data.length / PAGE);
     let page = 0;
     const [prevBtn, nextBtn] = nav.querySelectorAll('.icon-btn');
