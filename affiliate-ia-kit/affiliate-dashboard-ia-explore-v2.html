@@ -2512,8 +2512,8 @@
 
   /* Sub-Affiliate / Affiliate list view — flat rows (match the standard table) */
   .mu-table--sa { border-collapse: collapse; }
-  /* Rewards management referee table — fit to container width (8 cols, drop the 1400 min-width) */
-  #panel-referee-history .mu-table { min-width: 0; width: 100%; }
+  /* Rewards management referee table — size to content (compact), never force the 1400 min-width or stretch full width */
+  #panel-referee-history .mu-table { min-width: 0; width: auto; }
   #panel-referee-history .mu-table thead th,
   #panel-referee-history .mu-table tbody td { padding-left: var(--spacing-12); padding-right: var(--spacing-12); }
   .mu-sa-th-toggle { width: 24px; }
