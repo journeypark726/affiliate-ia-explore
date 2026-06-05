@@ -4727,12 +4727,12 @@
           detail.innerHTML =
             '<td colspan="8"><div class="mu-sa-panel">' +
               '<div class="mu-sa-panel__row mu-sa-panel__row--labels">' +
-                '<span>Total rewards (USDT)</span><span>Self-rebate (USDT)</span><span>Referees</span><span>Active referees</span>' +
-                '<span>Total trading volume (USDT)</span><span>Total trading fee (USDT)</span>' +
+                '<span>Total rewards (USDT)</span><span>Referees</span><span>Active referees</span>' +
+                '<span>Total trading volume (USDT)</span><span>Total trading fee (USDT)</span><span>Self-rebate (USDT)</span>' +
               '</div>' +
               '<div class="mu-sa-panel__row mu-sa-panel__row--values">' +
-                '<span>' + fmt(s.rewards) + '</span><span>' + fmt(s.selfRebate) + '</span><span>' + s.referees + '</span><span>' + s.active + '</span>' +
-                '<span>' + fmt(s.volume) + '</span><span>' + fmt(s.fee) + '</span>' +
+                '<span>' + fmt(s.rewards) + '</span><span>' + s.referees + '</span><span>' + s.active + '</span>' +
+                '<span>' + fmt(s.volume) + '</span><span>' + fmt(s.fee) + '</span><span>' + fmt(s.selfRebate) + '</span>' +
               '</div>' +
             '</div></td>';
           row.after(detail);
