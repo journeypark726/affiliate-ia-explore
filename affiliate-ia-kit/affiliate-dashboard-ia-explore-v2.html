@@ -1763,16 +1763,16 @@
   .cp-ctx { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-16); flex-wrap: wrap; margin-bottom: var(--spacing-32); }
   .cp-ctx__left { display: flex; align-items: center; gap: var(--spacing-10); flex-wrap: wrap; font-size: 13px; color: var(--content-default-level-2); }
   .cp-ctx__period { color: var(--content-default-level-4); }
-  /* Campaign switcher — searchable dropdown styled as a button */
-  .cp-switcher .dchip.cp-switcher__trigger { display: inline-flex; align-items: center; gap: var(--spacing-8); padding: var(--spacing-6) var(--spacing-6) var(--spacing-6) var(--spacing-12); background: var(--background-default-level-1); border: 1px solid var(--border-default-level-2); border-radius: var(--radius-8); color: var(--content-default-level-5); font-weight: 600; cursor: pointer; }
-  .cp-switcher .dchip.cp-switcher__trigger:hover { background: var(--background-interaction-hover); }
-  .cp-switcher__chev { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: var(--radius-4); background: var(--background-default-level-2); }
-  .cp-switcher__chev svg { display: block; transition: transform 120ms ease; color: var(--content-default-level-3); }
-  .cp-campaign-wrap.is-open .cp-switcher__chev svg { transform: rotate(180deg); }
+  /* Campaign switcher — FDS dropdown chip (.dchip); chevron rotates when open, label never wraps */
+  .cp-campaign-wrap .dchip__text { white-space: nowrap; }
+  .cp-campaign-wrap .dchip svg { transition: transform 120ms ease; }
+  .cp-campaign-wrap.is-open .dchip svg { transform: rotate(180deg); }
   /* View campaign — FDS text button WITH trailing icon (icon variant) */
   .text-btn.cp-view-campaign { gap: var(--spacing-4); flex-shrink: 0; }
   .text-btn.cp-view-campaign svg { width: 14px; height: 14px; }
   .cp-summary { margin-bottom: var(--spacing-24); }
+  /* No extra bottom whitespace inside the summary card (single kpi-row) */
+  .cp-summary .kpi-row { margin-bottom: 0; }
   .cp-breakdown-title, .cp-summary-title { margin: 0 0 var(--spacing-16); color: var(--content-default-level-5); }
   .cp-row { cursor: pointer; }
   .cp-chev { display: inline-block; transition: transform 120ms ease; color: var(--content-default-level-3); }
@@ -4470,10 +4470,10 @@
         <!-- Campaign context — masthead line under the title (no card) -->
         <div class="cp-ctx">
           <div class="cp-ctx__left">
-            <div class="dchip-wrap cp-campaign-wrap cp-switcher" data-dchip="cp-campaign">
-              <button class="dchip cp-switcher__trigger" data-dchip-trigger>
+            <div class="dchip-wrap cp-campaign-wrap" data-dchip="cp-campaign">
+              <button class="dchip" data-dchip-trigger>
                 <span class="dchip__text">New Year</span>
-                <span class="cp-switcher__chev"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
               </button>
               <div class="dchip-menu cp-camp-menu" hidden>
                 <div class="cp-camp-search">
