@@ -1777,21 +1777,6 @@
   .cp-detail__inner { padding: var(--spacing-8) 0 var(--spacing-16) var(--spacing-24); border-left: 2px solid var(--border-default-level-1); margin-left: var(--spacing-8); }
   .cp-detail__label { font-size: 12px; font-weight: 600; color: var(--content-default-level-3); margin-bottom: var(--spacing-8); }
   .ro-table th.cp-num, .ro-table td.cp-num { text-align: right; }
-  /* Searchable campaign picker dropdown */
-  .cp-camp-menu { width: 520px; max-width: 78vw; padding: var(--spacing-8); }
-  .cp-camp-search { display: flex; align-items: center; gap: var(--spacing-8); padding: var(--spacing-8) var(--spacing-10); margin-bottom: var(--spacing-4); border-radius: var(--radius-8); background: var(--background-default-level-1); border: 1px solid var(--border-default-level-1); }
-  .cp-camp-search svg { color: var(--content-default-level-3); flex-shrink: 0; }
-  .cp-camp-search input { flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: var(--content-default-level-5); font-size: 13px; font-family: var(--font-sans); }
-  .cp-camp-search input::placeholder { color: var(--content-default-level-2); }
-  .cp-camp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .cp-camp-table thead th { text-align: left; font-weight: 500; color: var(--content-default-level-2); font-size: 12px; padding: var(--spacing-8) var(--spacing-10); }
-  .cp-camp-table th.cp-num { text-align: right; }
-  .cp-camp-table tbody td { padding: var(--spacing-10); color: var(--content-default-level-4); border-top: 1px solid var(--border-default-level-1); white-space: nowrap; }
-  .cp-camp-table td.cp-num { text-align: right; }
-  .cp-camp-row { cursor: pointer; }
-  .cp-camp-row:hover td { background: var(--background-interaction-hover); }
-  .cp-camp-row.is-selected td { background: var(--background-accent-secondary-tint); color: var(--content-default-level-5); }
-  .cp-camp-empty { padding: var(--spacing-16) var(--spacing-10); color: var(--content-default-level-2); font-size: 13px; text-align: center; }
 
   .events {
     display: flex;
@@ -2758,7 +2743,6 @@
       </span>
     </div>
     <div class="side-nav__sub">
-      <div class="side-nav__subitem" data-route="campaign-performance">Campaign performance</div>
       <div class="side-nav__subitem" data-route="payback-campaign">Payback campaign</div>
       <div class="side-nav__subitem" data-route="general-events">General events</div>
     </div>
@@ -4471,33 +4455,6 @@
 
         <div class="rm-page-filters">
           <div class="rm-filter-field">
-            <span class="rm-filter-field__label">Campaign</span>
-            <div class="dchip-wrap cp-campaign-wrap" data-dchip="cp-campaign">
-              <button class="dchip" data-dchip-trigger>
-                <span class="dchip__text">New Year</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-              </button>
-              <div class="dchip-menu cp-camp-menu" hidden>
-                <div class="cp-camp-search">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                  <input type="text" id="cp-camp-search" placeholder="Search campaign" autocomplete="off" />
-                </div>
-                <table class="cp-camp-table">
-                  <thead>
-                    <tr><th>Campaign</th><th>Status</th><th>Period</th><th class="cp-num">Payback rate</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr class="cp-camp-row is-selected" data-camp="new-year"><td>New Year</td><td><span class="status-pill status-pill--positive">Ongoing</span></td><td class="mono">2026.01.20 — 2026.01.30</td><td class="cp-num mono">20%</td></tr>
-                    <tr class="cp-camp-row" data-camp="cny-2026"><td>Chinese new year 2026</td><td><span class="status-pill status-pill--info">Upcoming</span></td><td class="mono">2026.02.01 — 2026.02.28</td><td class="cp-num mono">30%</td></tr>
-                    <tr class="cp-camp-row" data-camp="summer"><td>Summer trading fest</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.07.01 — 2025.07.31</td><td class="cp-num mono">15%</td></tr>
-                    <tr class="cp-camp-row" data-camp="autumn"><td>Autumn airdrop</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.09.01 — 2025.09.30</td><td class="cp-num mono">10%</td></tr>
-                  </tbody>
-                </table>
-                <div class="cp-camp-empty" hidden>No campaigns found</div>
-              </div>
-            </div>
-          </div>
-          <div class="rm-filter-field">
             <span class="rm-filter-field__label">Partner type</span>
             <div class="dchip-wrap" data-dchip="cp-ptype">
               <button class="dchip" data-dchip-trigger>
@@ -5126,7 +5083,6 @@
         if (dim === 'segment') currentSegment = li.dataset.value;
         if (dim === 'contrib-segment' && window.contribSetFilter) window.contribSetFilter('segment', li.dataset.value);
         if (dim === 'contrib-period' && window.contribSetFilter) window.contribSetFilter('period', li.dataset.value);
-        if (dim === 'cp-campaign' && window.cpSetCampaign) window.cpSetCampaign(li.dataset.value);
         if (dim === 'cp-ptype' && window.cpSetPartnerFilter) window.cpSetPartnerFilter(li.dataset.value);
         if (dim === 'rh-segment') {
           const RH_SCALE = { perp: 1.0, spot: 0.35, all: 1.35 };
@@ -5178,60 +5134,19 @@
       });
     };
 
-    // Campaign switch — update header meta line + trigger label + selected row
-    const CAMPAIGNS = {
-      'new-year':  { name: 'New Year',              period: '2026.01.20 — 2026.01.30 UTC', status: 'Ongoing',  pill: 'status-pill--positive' },
-      'cny-2026':  { name: 'Chinese new year 2026', period: '2026.02.01 — 2026.02.28 UTC', status: 'Upcoming', pill: 'status-pill--info' },
-      'summer':    { name: 'Summer trading fest',   period: '2025.07.01 — 2025.07.31 UTC', status: 'Ended',    pill: '' },
-      'autumn':    { name: 'Autumn airdrop',        period: '2025.09.01 — 2025.09.30 UTC', status: 'Ended',    pill: '' },
+    // Campaign context — set from the Event Center (General events) card the user opened.
+    // No cold-start selector: the campaign is fixed by the entry context.
+    const nameEl   = panel.querySelector('[data-cp-name]');
+    const periodEl = panel.querySelector('[data-cp-period]');
+    const statusEl = panel.querySelector('[data-cp-status]');
+    const STATE_PILL = { ongoing: { label: 'Ongoing', pill: 'status-pill--positive' }, upcoming: { label: 'Upcoming', pill: 'status-pill--info' }, ended: { label: 'Ended', pill: '' } };
+    window.cpSetCampaignContext = (ctx) => {
+      if (!ctx) return;
+      if (nameEl && ctx.name) nameEl.textContent = ctx.name;
+      if (periodEl && ctx.period) periodEl.textContent = ctx.period;
+      const s = STATE_PILL[ctx.state] || null;
+      if (statusEl && s) { statusEl.textContent = s.label; statusEl.className = 'status-pill ' + s.pill; }
     };
-    const nameEl    = panel.querySelector('[data-cp-name]');
-    const periodEl  = panel.querySelector('[data-cp-period]');
-    const statusEl  = panel.querySelector('[data-cp-status]');
-    const campWrap  = panel.querySelector('.cp-campaign-wrap');
-    const campLabel = campWrap?.querySelector('.dchip__text');
-    window.cpSetCampaign = (val) => {
-      const c = CAMPAIGNS[val];
-      if (!c) return;
-      if (nameEl)   nameEl.textContent = c.name;
-      if (periodEl) periodEl.textContent = c.period;
-      if (statusEl) { statusEl.textContent = c.status; statusEl.className = 'status-pill ' + c.pill; }
-      if (campLabel) campLabel.textContent = c.name;
-      campWrap?.querySelectorAll('.cp-camp-row').forEach(r => r.classList.toggle('is-selected', r.dataset.camp === val));
-    };
-
-    // Searchable campaign picker (search by name; pick a row to select)
-    if (campWrap) {
-      const menu   = campWrap.querySelector('.cp-camp-menu');
-      const search = campWrap.querySelector('#cp-camp-search');
-      const empty  = campWrap.querySelector('.cp-camp-empty');
-      const rows   = [...campWrap.querySelectorAll('.cp-camp-row')];
-      // Keep the menu open while interacting (don't bubble to the document close handler)
-      menu?.addEventListener('click', e => e.stopPropagation());
-      // Focus the search box when the dropdown opens
-      campWrap.querySelector('[data-dchip-trigger]')?.addEventListener('click', () => {
-        setTimeout(() => { if (campWrap.classList.contains('is-open')) search?.focus(); }, 0);
-      });
-      search?.addEventListener('input', () => {
-        const q = search.value.trim().toLowerCase();
-        let shown = 0;
-        rows.forEach(r => {
-          const name = (r.querySelector('td')?.textContent || '').toLowerCase();
-          const match = !q || name.includes(q);
-          r.style.display = match ? '' : 'none';
-          if (match) shown++;
-        });
-        if (empty) empty.hidden = shown !== 0;
-      });
-      rows.forEach(r => {
-        r.addEventListener('click', () => {
-          window.cpSetCampaign(r.dataset.camp);
-          campWrap.classList.remove('is-open');
-          if (menu) menu.hidden = true;
-          if (search) { search.value = ''; search.dispatchEvent(new Event('input')); }
-        });
-      });
-    }
   })();
 
   // ─────────────────────────────────────────────────────────────────
@@ -5631,6 +5546,19 @@
       });
     });
     applyFilter('ongoing');
+
+    // Card click → open the campaign's performance view (Event Center Detail context).
+    // The campaign is carried as context; no cold-start selector on the destination.
+    grid.addEventListener('click', (e) => {
+      const card = e.target.closest('.ge-card');
+      if (!card) return;
+      const name = (card.querySelector('.ge-card__campaign')?.textContent || '').trim();
+      const period = (card.querySelector('.ge-card__date')?.textContent || '').trim();
+      const state = card.dataset.eventState || 'ongoing';
+      if (window.cpSetCampaignContext) window.cpSetCampaignContext({ name, period, state });
+      if (window.goTo) window.goTo('campaign-performance');
+    });
+    grid.querySelectorAll('.ge-card').forEach(c => { c.style.cursor = 'pointer'; });
   })();
 
   // ─────────────────────────────────────────────────────────────────
