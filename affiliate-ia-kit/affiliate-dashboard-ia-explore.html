@@ -1773,7 +1773,7 @@
   .text-btn.cp-view-campaign { gap: var(--spacing-4); flex-shrink: 0; }
   .text-btn.cp-view-campaign svg { width: 14px; height: 14px; }
   .cp-summary { margin-bottom: var(--spacing-24); }
-  .cp-breakdown-title { margin: 0 0 var(--spacing-16); color: var(--content-default-level-5); }
+  .cp-breakdown-title, .cp-summary-title { margin: 0 0 var(--spacing-16); color: var(--content-default-level-5); }
   .cp-row { cursor: pointer; }
   .cp-chev { display: inline-block; transition: transform 120ms ease; color: var(--content-default-level-3); }
   .cp-row.is-open .cp-chev { transform: rotate(180deg); }
@@ -1794,8 +1794,9 @@
   .cp-camp-search svg { color: var(--content-default-level-3); flex-shrink: 0; }
   .cp-camp-search input { flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: var(--content-default-level-5); font-size: 13px; font-family: var(--font-sans); }
   .cp-camp-search input::placeholder { color: var(--content-default-level-2); }
+  .cp-camp-list { max-height: 240px; overflow-y: auto; }
   .cp-camp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .cp-camp-table thead th { text-align: left; font-weight: 500; color: var(--content-default-level-2); font-size: 12px; padding: var(--spacing-8) var(--spacing-10); }
+  .cp-camp-table thead th { text-align: left; font-weight: 500; color: var(--content-default-level-2); font-size: 12px; padding: var(--spacing-8) var(--spacing-10); position: sticky; top: 0; background: var(--background-default-level-2); z-index: 1; }
   .cp-camp-table th.cp-num { text-align: right; }
   .cp-camp-table tbody td { padding: var(--spacing-10); color: var(--content-default-level-4); border-top: 1px solid var(--border-default-level-1); white-space: nowrap; }
   .cp-camp-table td.cp-num { text-align: right; }
@@ -4479,18 +4480,20 @@
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                   <input type="text" id="cp-camp-search" placeholder="Search campaign" autocomplete="off" />
                 </div>
-                <table class="cp-camp-table">
-                  <thead>
-                    <tr><th>Campaign</th><th>Status</th><th>Period</th><th class="cp-num">Payback rate</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr class="cp-camp-row is-selected" data-camp="new-year"><td>New Year</td><td><span class="status-pill status-pill--positive">Ongoing</span></td><td class="mono">2026.01.20 — 2026.01.30</td><td class="cp-num mono">20%</td></tr>
-                    <tr class="cp-camp-row" data-camp="cny-2026"><td>Chinese new year 2026</td><td><span class="status-pill status-pill--info">Upcoming</span></td><td class="mono">2026.02.01 — 2026.02.28</td><td class="cp-num mono">30%</td></tr>
-                    <tr class="cp-camp-row" data-camp="summer"><td>Summer trading fest</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.07.01 — 2025.07.31</td><td class="cp-num mono">15%</td></tr>
-                    <tr class="cp-camp-row" data-camp="autumn"><td>Autumn airdrop</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.09.01 — 2025.09.30</td><td class="cp-num mono">10%</td></tr>
-                  </tbody>
-                </table>
-                <div class="cp-camp-empty" hidden>No campaigns found</div>
+                <div class="cp-camp-list">
+                  <table class="cp-camp-table">
+                    <thead>
+                      <tr><th>Campaign</th><th>Status</th><th>Period</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr class="cp-camp-row is-selected" data-camp="new-year"><td>New Year</td><td><span class="status-pill status-pill--positive">Ongoing</span></td><td class="mono">2026.01.20 — 2026.01.30</td></tr>
+                      <tr class="cp-camp-row" data-camp="cny-2026"><td>Chinese new year 2026</td><td><span class="status-pill status-pill--info">Upcoming</span></td><td class="mono">2026.02.01 — 2026.02.28</td></tr>
+                      <tr class="cp-camp-row" data-camp="summer"><td>Summer trading fest</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.07.01 — 2025.07.31</td></tr>
+                      <tr class="cp-camp-row" data-camp="autumn"><td>Autumn airdrop</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.09.01 — 2025.09.30</td></tr>
+                    </tbody>
+                  </table>
+                  <div class="cp-camp-empty" hidden>No campaigns found</div>
+                </div>
               </div>
             </div>
             <span class="cp-meta__dot">·</span>
@@ -4546,6 +4549,7 @@
       </div>
 
       <!-- Campaign summary — rollup of the breakdown table below -->
+      <h3 class="cp-summary-title title-s">Performance summary</h3>
       <section class="card cp-summary">
         <div class="kpi-row kpi-row--4">
           <div class="kpi-cell">
@@ -4571,7 +4575,7 @@
       <table class="ro-table cp-breakdown">
         <thead>
           <tr>
-            <th>Partner<span class="mu-th__sub">Type</span></th>
+            <th>Username<span class="mu-th__sub">Type</span></th>
             <th class="cp-num">Referees</th>
             <th class="cp-num">KYC</th>
             <th class="cp-num">Depositors</th>
@@ -5252,6 +5256,7 @@
     const campLabel = campWrap?.querySelector('.dchip__text');
     const ctxEl     = panel.querySelector('.cp-ctx');
     const filtersEl = panel.querySelector('.rm-page-filters');
+    const summaryTitleEl = panel.querySelector('.cp-summary-title');
     const summaryEl = panel.querySelector('.cp-summary');
     const bdTitleEl = panel.querySelector('.cp-breakdown-title');
     const bdTableEl = panel.querySelector('.cp-breakdown');
@@ -5272,7 +5277,7 @@
     // Use inline display (these elements have a class-level display that overrides [hidden]).
     function applyEmptyState() {
       const has = campaignIds.length > 0;
-      [ctxEl, filtersEl, summaryEl, bdTitleEl, bdTableEl].forEach(el => { if (el) el.style.display = has ? '' : 'none'; });
+      [ctxEl, filtersEl, summaryTitleEl, summaryEl, bdTitleEl, bdTableEl].forEach(el => { if (el) el.style.display = has ? '' : 'none'; });
       if (emptyEl) emptyEl.style.display = has ? 'none' : 'flex';
       return has;
     }
