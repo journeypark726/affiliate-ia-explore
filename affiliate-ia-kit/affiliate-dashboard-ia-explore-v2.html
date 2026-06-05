@@ -1761,16 +1761,20 @@
   .cp-meta__dot { color: var(--content-default-level-2); }
   /* Masthead title row — page title (left) + last-updated (right) */
   .cp-titlebar { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-16); flex-wrap: wrap; margin-bottom: var(--spacing-12); }
-  /* Campaign context — part of the masthead (title group), NOT a card */
-  .cp-ctx { display: flex; align-items: center; justify-content: flex-start; gap: var(--spacing-16); flex-wrap: wrap; margin-bottom: var(--spacing-32); }
-  .cp-ctx__left { display: flex; align-items: center; gap: var(--spacing-10); flex-wrap: wrap; font-size: 13px; color: var(--content-default-level-2); }
+  /* Campaign context — part of the masthead (title group), NOT a card.
+     Chip = primary (the campaign you're viewing); period/status/view = a subordinate caption beneath it. */
+  .cp-ctx { display: flex; align-items: flex-start; justify-content: flex-start; gap: var(--spacing-16); flex-wrap: wrap; margin-bottom: var(--spacing-40); }
+  .cp-ctx__left { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-8); }
+  .cp-ctx__meta { display: flex; align-items: center; gap: var(--spacing-8); flex-wrap: wrap; font-size: 12px; color: var(--content-default-level-2); }
   .cp-ctx__period { color: var(--content-default-level-4); }
   /* Campaign switcher — FDS dropdown chip (.dchip); chevron does NOT rotate (matches other chips), label never wraps */
   .cp-campaign-wrap .dchip__text { white-space: nowrap; }
   /* View campaign — FDS text button WITH trailing icon (icon variant) */
   .text-btn.cp-view-campaign { gap: var(--spacing-4); flex-shrink: 0; }
   .text-btn.cp-view-campaign svg { width: 14px; height: 14px; }
-  .cp-summary { margin-bottom: var(--spacing-24); }
+  .cp-summary { margin-bottom: var(--spacing-40); }
+  /* Leading drill-down toggle column */
+  .cp-breakdown th.cp-toggle, .cp-breakdown td.cp-toggle { width: 28px; padding-right: 0; text-align: left; }
   /* No extra bottom whitespace inside the summary card (single kpi-row) */
   .cp-summary .kpi-row { margin-bottom: 0; }
   .cp-breakdown-title, .cp-summary-title { margin: 0 0 var(--spacing-16); color: var(--content-default-level-5); }
@@ -4503,14 +4507,15 @@
                 </div>
               </div>
             </div>
-            <span class="cp-meta__dot">·</span>
-            <span class="mono cp-ctx__period" data-cp-period>2026.01.20 — 2026.01.30 UTC</span>
-            <span class="cp-meta__dot">·</span>
-            <span class="status-pill status-pill--positive" data-cp-status>Ongoing</span>
-            <span class="cp-meta__dot">·</span>
-            <a href="#" class="text-btn cp-view-campaign" data-route="payback-campaign">View campaign
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-            </a>
+            <div class="cp-ctx__meta">
+              <span class="mono cp-ctx__period" data-cp-period>2026.01.20 — 2026.01.30 UTC</span>
+              <span class="cp-meta__dot">·</span>
+              <span class="status-pill status-pill--positive" data-cp-status>Ongoing</span>
+              <span class="cp-meta__dot">·</span>
+              <a href="#" class="text-btn cp-view-campaign" data-route="payback-campaign">View campaign
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -4569,20 +4574,21 @@
             <div class="kpi__value mono"><span data-cp-sum="volume">27,087,361.74</span> <span class="kpi__unit">USDT</span></div>
           </div>
           <div class="kpi-cell">
-            <div class="kpi__label">Reward</div>
-            <div class="kpi__value mono"><span data-cp-sum="reward">4,450.61</span> <span class="kpi__unit">USDT</span></div>
-          </div>
-          <div class="kpi-cell">
             <div class="kpi__label tip tip--text" data-tip="Share of referees who reached their first trade." aria-label="Share of referees who reached their first trade." tabindex="0">Trade conversion</div>
             <div class="kpi__value mono"><span data-cp-sum="conversion">50.7%</span></div>
+          </div>
+          <div class="kpi-cell">
+            <div class="kpi__label">Reward</div>
+            <div class="kpi__value mono"><span data-cp-sum="reward">4,450.61</span> <span class="kpi__unit">USDT</span></div>
           </div>
         </div>
       </section>
 
-      <h3 class="cp-breakdown-title title-s">Breakdown by partner</h3>
+      <h3 class="cp-breakdown-title title-s">Referee list</h3>
       <table class="ro-table cp-breakdown">
         <thead>
           <tr>
+            <th class="cp-toggle" aria-label="Expand"></th>
             <th>Username<span class="mu-th__sub">Type</span></th>
             <th class="cp-num">Referees</th>
             <th class="cp-num">KYC</th>
@@ -4590,7 +4596,6 @@
             <th class="cp-num">Trading volume</th>
             <th class="cp-num">Trading commission</th>
             <th class="cp-num">Reward</th>
-            <th class="cp-num" aria-label="Expand"></th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -5200,10 +5205,10 @@
           + `<td>${r.k ? ST_YES : ST_NO}</td><td>${r.d ? ST_YES : ST_NO}</td>`
           + `<td class="cp-num mono">${fmt2(r.vol * f)}</td><td class="cp-num mono">${fmt2(r.rew * f)}</td></tr>`).join('');
         return `<tr class="cp-row" data-ptype="${p.pt}">`
+          + `<td class="cp-toggle">${CHEV}</td>`
           + `<td><div class="mu-username"><span class="mu-username__name">${p.n}</span><span class="cp-ptype">${p.t}</span></div></td>`
           + `<td class="cp-num mono">${fmtInt(ref)}</td><td class="cp-num mono">${fmtInt(kyc)}</td><td class="cp-num mono">${fmtInt(dep)}</td>`
-          + `<td class="cp-num mono">${fmt2(vol)}</td><td class="cp-num mono">${p.rate}</td><td class="cp-num mono">${fmt2(rew)}</td>`
-          + `<td class="cp-num">${CHEV}</td></tr>`
+          + `<td class="cp-num mono">${fmt2(vol)}</td><td class="cp-num mono">${p.rate}</td><td class="cp-num mono">${fmt2(rew)}</td></tr>`
           + `<tr class="cp-detail" style="display:none"><td colspan="8"><div class="cp-detail__inner">`
           + `<div class="cp-detail__label">Referees brought by ${p.n}</div>`
           + `<table class="ro-table"><thead><tr><th>Username<span class="mu-th__sub">UID</span></th><th>KYC</th><th>First deposit</th><th class="cp-num">Trading volume</th><th class="cp-num">Reward</th></tr></thead><tbody>${detail}</tbody></table>`
