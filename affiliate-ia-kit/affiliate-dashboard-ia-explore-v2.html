@@ -1768,10 +1768,13 @@
   .cp-ctx__meta { display: flex; align-items: center; gap: var(--spacing-8); flex-wrap: wrap; font-size: 12px; color: var(--content-default-level-2); }
   .cp-ctx__period { color: var(--content-default-level-4); }
   /* Campaign switcher — heading text + chevron (NOT a chip): the name is the heaviest element so it reads as the subject */
-  .cp-switcher { display: inline-flex; align-items: center; gap: var(--spacing-8); padding: var(--spacing-4) var(--spacing-8); margin-left: calc(-1 * var(--spacing-8)); border: 0; background: transparent; border-radius: var(--radius-8); cursor: pointer; color: var(--content-default-level-5); }
-  .cp-switcher:hover { background: var(--background-interaction-hover); }
+  .cp-switcher { display: inline-flex; align-items: center; gap: var(--spacing-8); padding: 0; border: 0; background: transparent; cursor: pointer; color: var(--content-default-level-5); }
   .cp-switcher__name { white-space: nowrap; }
-  .cp-switcher__chev { flex-shrink: 0; color: var(--content-default-level-3); transition: transform 120ms ease; }
+  /* Chevron rendered as the FDS ghost icon button; whole switcher is the click target */
+  .cp-switcher__iconbtn { flex-shrink: 0; }
+  .cp-switcher__iconbtn svg { width: 20px; height: 20px; }
+  .cp-switcher:hover .cp-switcher__iconbtn { background: var(--background-default-level-2); }
+  .cp-switcher__chev { transition: transform 120ms ease; }
   .cp-campaign-wrap.is-open .cp-switcher__chev { transform: rotate(180deg); }
   /* View campaign — FDS text button WITH trailing icon (icon variant) */
   .text-btn.cp-view-campaign { gap: var(--spacing-4); flex-shrink: 0; }
@@ -4483,7 +4486,9 @@
             <div class="dchip-wrap cp-campaign-wrap" data-dchip="cp-campaign">
               <button class="cp-switcher" data-dchip-trigger aria-haspopup="listbox">
                 <span class="cp-switcher__name title-l">Summer trading fest</span>
-                <svg class="cp-switcher__chev" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                <span class="cp-switcher__iconbtn icon-btn icon-btn--ghost" aria-hidden="true">
+                  <svg class="cp-switcher__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </span>
               </button>
               <div class="dchip-menu cp-camp-menu" hidden>
                 <div class="cp-camp-search">
