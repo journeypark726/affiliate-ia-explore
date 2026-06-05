@@ -5061,7 +5061,7 @@
         if (dim === 'contrib-segment' && window.contribSetFilter) window.contribSetFilter('segment', li.dataset.value);
         if (dim === 'contrib-period' && window.contribSetFilter) window.contribSetFilter('period', li.dataset.value);
         if (dim === 'cp-campaign' && window.cpSetCampaign) window.cpSetCampaign(li.dataset.value);
-        if (dim === 'cp-ptype' && window.cpSetPartnerFilter) window.cpSetPartnerFilter(li.dataset.value);
+        // cp-ptype is applied on Query (pending until then), not live
         if (dim === 'rh-segment') {
           const RH_SCALE = { perp: 1.0, spot: 0.35, all: 1.35 };
           const s = RH_SCALE[li.dataset.value] || 1;
@@ -5097,14 +5097,15 @@
       if (detail && detail.classList.contains('cp-detail')) detail.style.display = open ? '' : 'none';
     });
 
-    // Filters: Partner type (live) + committed UID search (applied on Query).
+    // Filters apply ONLY on Query — Partner type, UID (and date range) stay pending until then.
     let cpCommittedQ = '';
+    let cpCommittedPtype = 'all';
     function cpReadPartnerType() {
       const li = panel.querySelector('[data-dchip="cp-ptype"] li.is-selected');
       return li ? li.dataset.value : 'all';
     }
     function cpApplyFilters() {
-      const ptype = cpReadPartnerType();
+      const ptype = cpCommittedPtype;
       const q = cpCommittedQ;
       let shown = 0;
       panel.querySelectorAll('table.cp-breakdown > tbody > tr.cp-row').forEach(row => {
@@ -5127,9 +5128,6 @@
       });
       return shown;
     }
-    // Partner-type dropdown changes re-filter live (respecting the committed UID query)
-    window.cpSetPartnerFilter = () => cpApplyFilters();
-
     function cpResetPartnerDchip() {
       const wrap = panel.querySelector('[data-dchip="cp-ptype"]');
       if (!wrap) return;
@@ -5140,6 +5138,7 @@
     // Query — commit the UID and apply all filters
     document.getElementById('cp-query')?.addEventListener('click', () => {
       cpCommittedQ = (document.getElementById('cp-uid')?.value || '').trim().toLowerCase();
+      cpCommittedPtype = cpReadPartnerType();
       const n = cpApplyFilters();
       if (typeof showToast === 'function') showToast(cpCommittedQ ? `${n} partner${n === 1 ? '' : 's'} for "${cpCommittedQ}"` : 'Filters applied');
     });
@@ -5149,6 +5148,7 @@
       const uid = document.getElementById('cp-uid'); if (uid) uid.value = '';
       if (typeof resetDateRangeBtn === 'function') resetDateRangeBtn('#panel-campaign-performance .rm-page-filters');
       cpCommittedQ = '';
+      cpCommittedPtype = 'all';
       cpApplyFilters();
       if (typeof showToast === 'function') showToast('Filters reset');
     });
