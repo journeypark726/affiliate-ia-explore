@@ -1759,6 +1759,8 @@
 
   /* ── Campaign performance page (reuses rm-page / mu-table / ro-table components) ── */
   .cp-meta__dot { color: var(--content-default-level-2); }
+  /* Page label as an eyebrow so the campaign name reads as the primary subject below it */
+  .cp-eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.02em; color: var(--content-default-level-2); margin: 0 0 var(--spacing-6); }
   /* Campaign context — part of the masthead (title group), NOT a card.
      Chip = primary (the campaign you're viewing); period/status/view = a subordinate caption beneath it. */
   .cp-ctx { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-16); flex-wrap: wrap; margin-bottom: var(--spacing-40); }
@@ -1766,7 +1768,7 @@
   .cp-ctx__meta { display: flex; align-items: center; gap: var(--spacing-8); flex-wrap: wrap; font-size: 12px; color: var(--content-default-level-2); }
   .cp-ctx__period { color: var(--content-default-level-4); }
   /* Campaign switcher — heading text + chevron (NOT a chip): the name is the heaviest element so it reads as the subject */
-  .cp-switcher { display: inline-flex; align-items: center; gap: var(--spacing-6); padding: var(--spacing-4) var(--spacing-8); margin-left: calc(-1 * var(--spacing-8)); border: 0; background: transparent; border-radius: var(--radius-8); cursor: pointer; color: var(--content-default-level-5); }
+  .cp-switcher { display: inline-flex; align-items: center; gap: var(--spacing-4); padding: var(--spacing-4) var(--spacing-8); margin-left: calc(-1 * var(--spacing-8)); border: 0; background: transparent; border-radius: var(--radius-8); cursor: pointer; color: var(--content-default-level-5); }
   .cp-switcher:hover { background: var(--background-interaction-hover); }
   .cp-switcher__name { white-space: nowrap; }
   .cp-switcher__chev { flex-shrink: 0; color: var(--content-default-level-3); transition: transform 120ms ease; }
@@ -4473,9 +4475,9 @@
     <!-- ══════════════  PANEL: Campaign performance  ══════════════ -->
     <div id="panel-campaign-performance" class="tab-panel" hidden>
       <div class="rm-page-head">
-        <h2 class="panel-title title-l" style="margin:0 0 var(--spacing-12);">Campaign performance</h2>
+        <div class="cp-eyebrow">Campaign performance</div>
 
-        <!-- Campaign context — masthead line under the title (no card) -->
+        <!-- Campaign context — the campaign name is the subject (largest element here) -->
         <div class="cp-ctx">
           <div class="cp-ctx__left">
             <div class="dchip-wrap cp-campaign-wrap" data-dchip="cp-campaign">
