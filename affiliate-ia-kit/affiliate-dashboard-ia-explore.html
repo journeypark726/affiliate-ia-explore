@@ -1759,8 +1759,10 @@
 
   /* ── Campaign performance page (reuses rm-page / mu-table / ro-table components) ── */
   .cp-meta__dot { color: var(--content-default-level-2); }
+  /* Masthead title row — page title (left) + last-updated (right) */
+  .cp-titlebar { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-16); flex-wrap: wrap; margin-bottom: var(--spacing-12); }
   /* Campaign context — part of the masthead (title group), NOT a card */
-  .cp-ctx { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-16); flex-wrap: wrap; margin-bottom: var(--spacing-32); }
+  .cp-ctx { display: flex; align-items: center; justify-content: flex-start; gap: var(--spacing-16); flex-wrap: wrap; margin-bottom: var(--spacing-32); }
   .cp-ctx__left { display: flex; align-items: center; gap: var(--spacing-10); flex-wrap: wrap; font-size: 13px; color: var(--content-default-level-2); }
   .cp-ctx__period { color: var(--content-default-level-4); }
   /* Campaign switcher — FDS dropdown chip (.dchip); chevron does NOT rotate (matches other chips), label never wraps */
@@ -1792,7 +1794,7 @@
   .cp-camp-search svg { color: var(--content-default-level-3); flex-shrink: 0; }
   .cp-camp-search input { flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: var(--content-default-level-5); font-size: 13px; font-family: var(--font-sans); }
   .cp-camp-search input::placeholder { color: var(--content-default-level-2); }
-  .cp-camp-list { max-height: 240px; overflow-y: auto; }
+  .cp-camp-list { max-height: 316px; overflow-y: auto; }
   .cp-camp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
   .cp-camp-table thead th { text-align: left; font-weight: 500; color: var(--content-default-level-2); font-size: 12px; padding: var(--spacing-8) var(--spacing-10); position: sticky; top: 0; background: var(--background-default-level-2); z-index: 1; }
   .cp-camp-table th.cp-num { text-align: right; }
@@ -4463,7 +4465,10 @@
     <!-- ══════════════  PANEL: Campaign performance  ══════════════ -->
     <div id="panel-campaign-performance" class="tab-panel" hidden>
       <div class="rm-page-head">
-        <h2 class="panel-title title-l" style="margin:0 0 var(--spacing-12);">Campaign performance</h2>
+        <div class="cp-titlebar">
+          <h2 class="panel-title title-l" style="margin:0;">Campaign performance</h2>
+          <span class="panel-updated">Last updated at: <span class="mono">2026.05.28 09:00:00 UTC</span></span>
+        </div>
 
         <!-- Campaign context — masthead line under the title (no card) -->
         <div class="cp-ctx">
@@ -4486,8 +4491,12 @@
                     <tbody>
                       <tr class="cp-camp-row is-selected" data-camp="new-year"><td>New Year</td><td><span class="status-pill status-pill--positive">Ongoing</span></td><td class="mono">2026.01.20 — 2026.01.30</td></tr>
                       <tr class="cp-camp-row" data-camp="cny-2026"><td>Chinese new year 2026</td><td><span class="status-pill status-pill--info">Upcoming</span></td><td class="mono">2026.02.01 — 2026.02.28</td></tr>
+                      <tr class="cp-camp-row" data-camp="world-cup"><td>World Cup fever</td><td><span class="status-pill status-pill--info">Upcoming</span></td><td class="mono">2026.03.01 — 2026.03.20</td></tr>
                       <tr class="cp-camp-row" data-camp="summer"><td>Summer trading fest</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.07.01 — 2025.07.31</td></tr>
                       <tr class="cp-camp-row" data-camp="autumn"><td>Autumn airdrop</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.09.01 — 2025.09.30</td></tr>
+                      <tr class="cp-camp-row" data-camp="halloween"><td>Halloween bonus</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.10.20 — 2025.10.31</td></tr>
+                      <tr class="cp-camp-row" data-camp="black-friday"><td>Black Friday</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.11.24 — 2025.11.30</td></tr>
+                      <tr class="cp-camp-row" data-camp="spring"><td>Spring fest</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.04.01 — 2025.04.30</td></tr>
                     </tbody>
                   </table>
                   <div class="cp-camp-empty" hidden>No campaigns found</div>
@@ -4498,10 +4507,11 @@
             <span class="mono cp-ctx__period" data-cp-period>2026.01.20 — 2026.01.30 UTC</span>
             <span class="cp-meta__dot">·</span>
             <span class="status-pill status-pill--positive" data-cp-status>Ongoing</span>
+            <span class="cp-meta__dot">·</span>
+            <a href="#" class="text-btn cp-view-campaign" data-route="payback-campaign">View campaign
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            </a>
           </div>
-          <a href="#" class="text-btn cp-view-campaign" data-route="payback-campaign">View campaign
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-          </a>
         </div>
 
         <div class="rm-page-filters">
@@ -4552,19 +4562,19 @@
         <div class="kpi-row kpi-row--4">
           <div class="kpi-cell">
             <div class="kpi__label">Total referees</div>
-            <div class="kpi__value mono">685</div>
+            <div class="kpi__value mono"><span data-cp-sum="referees">685</span></div>
           </div>
           <div class="kpi-cell">
             <div class="kpi__label">Trading volume</div>
-            <div class="kpi__value mono">27,087,361.74 <span class="kpi__unit">USDT</span></div>
+            <div class="kpi__value mono"><span data-cp-sum="volume">27,087,361.74</span> <span class="kpi__unit">USDT</span></div>
           </div>
           <div class="kpi-cell">
             <div class="kpi__label">Reward</div>
-            <div class="kpi__value mono">4,450.61 <span class="kpi__unit">USDT</span></div>
+            <div class="kpi__value mono"><span data-cp-sum="reward">4,450.61</span> <span class="kpi__unit">USDT</span></div>
           </div>
           <div class="kpi-cell">
             <div class="kpi__label tip tip--text" data-tip="Share of referees who reached their first trade." aria-label="Share of referees who reached their first trade." tabindex="0">Trade conversion</div>
-            <div class="kpi__value mono">50.7%</div>
+            <div class="kpi__value mono"><span data-cp-sum="conversion">50.7%</span></div>
           </div>
         </div>
       </section>
@@ -4583,119 +4593,7 @@
             <th class="cp-num" aria-label="Expand"></th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Partner 1 -->
-          <tr class="cp-row" data-ptype="sub">
-            <td><div class="mu-username"><span class="mu-username__name">Mark_Trades</span><span class="cp-ptype">Sub-affiliate</span></div></td>
-            <td class="cp-num mono">128</td>
-            <td class="cp-num mono">96</td>
-            <td class="cp-num mono">71</td>
-            <td class="cp-num mono">4,821,560.73</td>
-            <td class="cp-num mono">1.00%</td>
-            <td class="cp-num mono">808.73</td>
-            <td class="cp-num"><svg class="cp-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
-          </tr>
-          <tr class="cp-detail" style="display:none"><td colspan="8"><div class="cp-detail__inner">
-            <div class="cp-detail__label">Referees brought by Mark_Trades</div>
-            <table class="ro-table">
-              <thead><tr><th>Username<span class="mu-th__sub">UID</span></th><th>KYC</th><th>First deposit</th><th class="cp-num">Trading volume</th><th class="cp-num">Reward</th></tr></thead>
-              <tbody>
-                <tr><td><div class="mu-username"><span class="mu-username__name">trader_lee</span><span class="mu-username__uid">ZE701AA</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="cp-num mono">312,440.18</td><td class="cp-num mono">62.49</td></tr>
-                <tr><td><div class="mu-username"><span class="mu-username__name">moon_kim</span><span class="mu-username__uid">ZE702BB</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td class="cp-num mono">88,210.55</td><td class="cp-num mono">17.64</td></tr>
-                <tr><td><div class="mu-username"><span class="mu-username__name">hodl_park</span><span class="mu-username__uid">ZE703CC</span></div></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td class="cp-num mono">0.00</td><td class="cp-num mono">0.00</td></tr>
-              </tbody>
-            </table>
-          </div></td></tr>
-
-          <!-- Partner 2 -->
-          <tr class="cp-row" data-ptype="sub">
-            <td><div class="mu-username"><span class="mu-username__name">crypto_jin</span><span class="cp-ptype">Sub-affiliate</span></div></td>
-            <td class="cp-num mono">96</td>
-            <td class="cp-num mono">70</td>
-            <td class="cp-num mono">48</td>
-            <td class="cp-num mono">3,120,480.18</td>
-            <td class="cp-num mono">1.00%</td>
-            <td class="cp-num mono">612.40</td>
-            <td class="cp-num"><svg class="cp-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
-          </tr>
-          <tr class="cp-detail" style="display:none"><td colspan="8"><div class="cp-detail__inner">
-            <div class="cp-detail__label">Referees brought by crypto_jin</div>
-            <table class="ro-table">
-              <thead><tr><th>Username<span class="mu-th__sub">UID</span></th><th>KYC</th><th>First deposit</th><th class="cp-num">Trading volume</th><th class="cp-num">Reward</th></tr></thead>
-              <tbody>
-                <tr><td><div class="mu-username"><span class="mu-username__name">jin_alpha</span><span class="mu-username__uid">ZE711DD</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="cp-num mono">204,118.40</td><td class="cp-num mono">40.82</td></tr>
-                <tr><td><div class="mu-username"><span class="mu-username__name">seo_won</span><span class="mu-username__uid">ZE712EE</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td class="cp-num mono">61,902.13</td><td class="cp-num mono">12.38</td></tr>
-              </tbody>
-            </table>
-          </div></td></tr>
-
-          <!-- Partner 3 -->
-          <tr class="cp-row" data-ptype="direct">
-            <td><div class="mu-username"><span class="mu-username__name">whale_07</span><span class="cp-ptype">Direct affiliate</span></div></td>
-            <td class="cp-num mono">213</td>
-            <td class="cp-num mono">158</td>
-            <td class="cp-num mono">112</td>
-            <td class="cp-num mono">9,842,110.66</td>
-            <td class="cp-num mono">1.20%</td>
-            <td class="cp-num mono">1,452.90</td>
-            <td class="cp-num"><svg class="cp-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
-          </tr>
-          <tr class="cp-detail" style="display:none"><td colspan="8"><div class="cp-detail__inner">
-            <div class="cp-detail__label">Referees brought by whale_07</div>
-            <table class="ro-table">
-              <thead><tr><th>Username<span class="mu-th__sub">UID</span></th><th>KYC</th><th>First deposit</th><th class="cp-num">Trading volume</th><th class="cp-num">Reward</th></tr></thead>
-              <tbody>
-                <tr><td><div class="mu-username"><span class="mu-username__name">big_whale</span><span class="mu-username__uid">ZE721FF</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="cp-num mono">1,204,330.90</td><td class="cp-num mono">240.87</td></tr>
-                <tr><td><div class="mu-username"><span class="mu-username__name">deep_sea</span><span class="mu-username__uid">ZE722GG</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="cp-num mono">742,556.21</td><td class="cp-num mono">148.51</td></tr>
-                <tr><td><div class="mu-username"><span class="mu-username__name">tide_ryu</span><span class="mu-username__uid">ZE723HH</span></div></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td class="cp-num mono">0.00</td><td class="cp-num mono">0.00</td></tr>
-              </tbody>
-            </table>
-          </div></td></tr>
-
-          <!-- Partner 4 -->
-          <tr class="cp-row" data-ptype="direct">
-            <td><div class="mu-username"><span class="mu-username__name">alpha_min</span><span class="cp-ptype">Direct affiliate</span></div></td>
-            <td class="cp-num mono">64</td>
-            <td class="cp-num mono">41</td>
-            <td class="cp-num mono">27</td>
-            <td class="cp-num mono">1,872,330.05</td>
-            <td class="cp-num mono">0.80%</td>
-            <td class="cp-num mono">388.21</td>
-            <td class="cp-num"><svg class="cp-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
-          </tr>
-          <tr class="cp-detail" style="display:none"><td colspan="8"><div class="cp-detail__inner">
-            <div class="cp-detail__label">Referees brought by alpha_min</div>
-            <table class="ro-table">
-              <thead><tr><th>Username<span class="mu-th__sub">UID</span></th><th>KYC</th><th>First deposit</th><th class="cp-num">Trading volume</th><th class="cp-num">Reward</th></tr></thead>
-              <tbody>
-                <tr><td><div class="mu-username"><span class="mu-username__name">min_one</span><span class="mu-username__uid">ZE731II</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="cp-num mono">410,225.60</td><td class="cp-num mono">82.05</td></tr>
-                <tr><td><div class="mu-username"><span class="mu-username__name">quiet_ko</span><span class="mu-username__uid">ZE732JJ</span></div></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td class="cp-num mono">0.00</td><td class="cp-num mono">0.00</td></tr>
-              </tbody>
-            </table>
-          </div></td></tr>
-
-          <!-- Partner 5 -->
-          <tr class="cp-row" data-ptype="sub">
-            <td><div class="mu-username"><span class="mu-username__name">seoul_bull</span><span class="cp-ptype">Sub-affiliate</span></div></td>
-            <td class="cp-num mono">184</td>
-            <td class="cp-num mono">132</td>
-            <td class="cp-num mono">89</td>
-            <td class="cp-num mono">7,430,880.12</td>
-            <td class="cp-num mono">1.00%</td>
-            <td class="cp-num mono">1,188.37</td>
-            <td class="cp-num"><svg class="cp-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></td>
-          </tr>
-          <tr class="cp-detail" style="display:none"><td colspan="8"><div class="cp-detail__inner">
-            <div class="cp-detail__label">Referees brought by seoul_bull</div>
-            <table class="ro-table">
-              <thead><tr><th>Username<span class="mu-th__sub">UID</span></th><th>KYC</th><th>First deposit</th><th class="cp-num">Trading volume</th><th class="cp-num">Reward</th></tr></thead>
-              <tbody>
-                <tr><td><div class="mu-username"><span class="mu-username__name">bull_run</span><span class="mu-username__uid">ZE741KK</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td class="cp-num mono">588,940.77</td><td class="cp-num mono">117.79</td></tr>
-                <tr><td><div class="mu-username"><span class="mu-username__name">han_river</span><span class="mu-username__uid">ZE742LL</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td class="cp-num mono">132,005.44</td><td class="cp-num mono">26.40</td></tr>
-              </tbody>
-            </table>
-          </div></td></tr>
-        </tbody>
+        <tbody></tbody>
       </table>
 
       <!-- Empty state — shown only when there are no campaigns at all -->
@@ -5172,15 +5070,14 @@
     const panel = document.getElementById('panel-campaign-performance');
     if (!panel) return;
 
-    // Row expand / collapse (drill-down to referee table)
-    panel.querySelectorAll('table.cp-breakdown > tbody > tr.cp-row').forEach(row => {
-      row.addEventListener('click', () => {
-        const open = row.classList.toggle('is-open');
-        const detail = row.nextElementSibling;
-        if (detail && detail.classList.contains('cp-detail')) {
-          detail.style.display = open ? '' : 'none';
-        }
-      });
+    // Row drill-down — delegated (breakdown rows are re-rendered per campaign)
+    const bdTable = panel.querySelector('.cp-breakdown');
+    bdTable?.addEventListener('click', (e) => {
+      const row = e.target.closest('tr.cp-row');
+      if (!row || !bdTable.contains(row)) return;
+      const open = row.classList.toggle('is-open');
+      const detail = row.nextElementSibling;
+      if (detail && detail.classList.contains('cp-detail')) detail.style.display = open ? '' : 'none';
     });
 
     // Filters: Partner type (live) + committed UID search (applied on Query).
@@ -5241,10 +5138,14 @@
 
     // Campaign data (mock attribution — static prototype). Dates as YYYYMMDD for sorting.
     const CAMPAIGNS = {
-      'new-year':  { name: 'New Year',              period: '2026.01.20 — 2026.01.30 UTC', status: 'Ongoing',  pill: 'status-pill--positive', state: 'ongoing',  start: 20260120, end: 20260130 },
-      'cny-2026':  { name: 'Chinese new year 2026', period: '2026.02.01 — 2026.02.28 UTC', status: 'Upcoming', pill: 'status-pill--info',     state: 'upcoming', start: 20260201, end: 20260228 },
-      'summer':    { name: 'Summer trading fest',   period: '2025.07.01 — 2025.07.31 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20250701, end: 20250731 },
-      'autumn':    { name: 'Autumn airdrop',        period: '2025.09.01 — 2025.09.30 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20250901, end: 20250930 },
+      'new-year':    { name: 'New Year',              period: '2026.01.20 — 2026.01.30 UTC', status: 'Ongoing',  pill: 'status-pill--positive', state: 'ongoing',  start: 20260120, end: 20260130, factor: 1.00 },
+      'cny-2026':    { name: 'Chinese new year 2026', period: '2026.02.01 — 2026.02.28 UTC', status: 'Upcoming', pill: 'status-pill--info',     state: 'upcoming', start: 20260201, end: 20260228, factor: 0.12 },
+      'world-cup':   { name: 'World Cup fever',       period: '2026.03.01 — 2026.03.20 UTC', status: 'Upcoming', pill: 'status-pill--info',     state: 'upcoming', start: 20260301, end: 20260320, factor: 0.20 },
+      'summer':      { name: 'Summer trading fest',   period: '2025.07.01 — 2025.07.31 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20250701, end: 20250731, factor: 1.35 },
+      'autumn':      { name: 'Autumn airdrop',        period: '2025.09.01 — 2025.09.30 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20250901, end: 20250930, factor: 0.78 },
+      'halloween':   { name: 'Halloween bonus',       period: '2025.10.20 — 2025.10.31 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20251020, end: 20251031, factor: 0.95 },
+      'black-friday':{ name: 'Black Friday',          period: '2025.11.24 — 2025.11.30 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20251124, end: 20251130, factor: 1.60 },
+      'spring':      { name: 'Spring fest',           period: '2025.04.01 — 2025.04.30 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20250401, end: 20250430, factor: 0.55 },
     };
     const campaignIds = Object.keys(CAMPAIGNS);
     const nameEl    = panel.querySelector('[data-cp-name]');
@@ -5261,6 +5162,61 @@
     const emptyEl   = panel.querySelector('.cp-empty');
     const switcherField = campWrap?.closest('.rm-filter-field');
 
+    // Base partner dataset (New Year = factor 1.0). Each campaign scales this by its factor,
+    // so the summary always equals the rollup of the breakdown for the selected campaign.
+    const BASE_PARTNERS = [
+      { n:'Mark_Trades', t:'Sub-affiliate',   pt:'sub',    ref:128, kyc:96,  dep:71,  vol:4821560.73, rate:'1.00%', rew:808.73,  refs:[
+        {u:'trader_lee',uid:'ZE701AA',k:1,d:1,vol:312440.18,rew:62.49},{u:'moon_kim',uid:'ZE702BB',k:1,d:0,vol:88210.55,rew:17.64},{u:'hodl_park',uid:'ZE703CC',k:0,d:0,vol:0,rew:0}] },
+      { n:'crypto_jin', t:'Sub-affiliate',    pt:'sub',    ref:96,  kyc:70,  dep:48,  vol:3120480.18, rate:'1.00%', rew:612.40,  refs:[
+        {u:'jin_alpha',uid:'ZE711DD',k:1,d:1,vol:204118.40,rew:40.82},{u:'seo_won',uid:'ZE712EE',k:1,d:0,vol:61902.13,rew:12.38}] },
+      { n:'whale_07',   t:'Direct affiliate', pt:'direct', ref:213, kyc:158, dep:112, vol:9842110.66, rate:'1.20%', rew:1452.90, refs:[
+        {u:'big_whale',uid:'ZE721FF',k:1,d:1,vol:1204330.90,rew:240.87},{u:'deep_sea',uid:'ZE722GG',k:1,d:1,vol:742556.21,rew:148.51},{u:'tide_ryu',uid:'ZE723HH',k:0,d:0,vol:0,rew:0}] },
+      { n:'alpha_min',  t:'Direct affiliate', pt:'direct', ref:64,  kyc:41,  dep:27,  vol:1872330.05, rate:'0.80%', rew:388.21,  refs:[
+        {u:'min_one',uid:'ZE731II',k:1,d:1,vol:410225.60,rew:82.05},{u:'quiet_ko',uid:'ZE732JJ',k:0,d:0,vol:0,rew:0}] },
+      { n:'seoul_bull', t:'Sub-affiliate',    pt:'sub',    ref:184, kyc:132, dep:89,  vol:7430880.12, rate:'1.00%', rew:1188.37, refs:[
+        {u:'bull_run',uid:'ZE741KK',k:1,d:1,vol:588940.77,rew:117.79},{u:'han_river',uid:'ZE742LL',k:1,d:0,vol:132005.44,rew:26.40}] },
+    ];
+    const fmt2 = (n) => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmtInt = (n) => Math.round(n).toLocaleString('en-US');
+    const ST_YES = '<span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>';
+    const ST_NO  = '<span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span>';
+    const CHEV   = '<svg class="cp-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>';
+    const sumRefEl  = panel.querySelector('[data-cp-sum="referees"]');
+    const sumVolEl  = panel.querySelector('[data-cp-sum="volume"]');
+    const sumRewEl  = panel.querySelector('[data-cp-sum="reward"]');
+    const sumConvEl = panel.querySelector('[data-cp-sum="conversion"]');
+    const tbodyEl   = bdTable?.querySelector('tbody');
+
+    function renderCampaign(id) {
+      const f = (CAMPAIGNS[id] && CAMPAIGNS[id].factor != null) ? CAMPAIGNS[id].factor : 1;
+      let tRef = 0, tVol = 0, tRew = 0, tDep = 0;
+      const html = BASE_PARTNERS.map((p) => {
+        const ref = Math.round(p.ref * f), kyc = Math.round(p.kyc * f), dep = Math.round(p.dep * f);
+        // round per-partner to 2 decimals so the summary equals the sum of displayed values
+        const vol = Math.round(p.vol * f * 100) / 100, rew = Math.round(p.rew * f * 100) / 100;
+        tRef += ref; tVol += vol; tRew += rew; tDep += dep;
+        const detail = p.refs.map((r) =>
+          `<tr><td><div class="mu-username"><span class="mu-username__name">${r.u}</span><span class="mu-username__uid">${r.uid}</span></div></td>`
+          + `<td>${r.k ? ST_YES : ST_NO}</td><td>${r.d ? ST_YES : ST_NO}</td>`
+          + `<td class="cp-num mono">${fmt2(r.vol * f)}</td><td class="cp-num mono">${fmt2(r.rew * f)}</td></tr>`).join('');
+        return `<tr class="cp-row" data-ptype="${p.pt}">`
+          + `<td><div class="mu-username"><span class="mu-username__name">${p.n}</span><span class="cp-ptype">${p.t}</span></div></td>`
+          + `<td class="cp-num mono">${fmtInt(ref)}</td><td class="cp-num mono">${fmtInt(kyc)}</td><td class="cp-num mono">${fmtInt(dep)}</td>`
+          + `<td class="cp-num mono">${fmt2(vol)}</td><td class="cp-num mono">${p.rate}</td><td class="cp-num mono">${fmt2(rew)}</td>`
+          + `<td class="cp-num">${CHEV}</td></tr>`
+          + `<tr class="cp-detail" style="display:none"><td colspan="8"><div class="cp-detail__inner">`
+          + `<div class="cp-detail__label">Referees brought by ${p.n}</div>`
+          + `<table class="ro-table"><thead><tr><th>Username<span class="mu-th__sub">UID</span></th><th>KYC</th><th>First deposit</th><th class="cp-num">Trading volume</th><th class="cp-num">Reward</th></tr></thead><tbody>${detail}</tbody></table>`
+          + `</div></td></tr>`;
+      }).join('');
+      if (tbodyEl) tbodyEl.innerHTML = html;
+      if (sumRefEl)  sumRefEl.textContent  = fmtInt(tRef);
+      if (sumVolEl)  sumVolEl.textContent  = fmt2(tVol);
+      if (sumRewEl)  sumRewEl.textContent  = fmt2(tRew);
+      if (sumConvEl) sumConvEl.textContent = (tRef ? (tDep / tRef * 100) : 0).toFixed(1) + '%';
+      if (typeof cpApplyFilters === 'function') cpApplyFilters(); // re-apply active partner-type / UID filter
+    }
+
     window.cpSetCampaign = (val) => {
       const c = CAMPAIGNS[val];
       if (!c) return;
@@ -5269,6 +5225,7 @@
       if (statusEl) { statusEl.textContent = c.status; statusEl.className = 'status-pill ' + c.pill; }
       if (campLabel) campLabel.textContent = c.name;
       campWrap?.querySelectorAll('.cp-camp-row').forEach(r => r.classList.toggle('is-selected', r.dataset.camp === val));
+      renderCampaign(val);
     };
 
     // Empty state — when there are no campaigns at all, hide meta/filters/summary/table.
