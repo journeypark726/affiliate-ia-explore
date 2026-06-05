@@ -1763,10 +1763,8 @@
   .cp-ctx { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-16); flex-wrap: wrap; margin-bottom: var(--spacing-32); }
   .cp-ctx__left { display: flex; align-items: center; gap: var(--spacing-10); flex-wrap: wrap; font-size: 13px; color: var(--content-default-level-2); }
   .cp-ctx__period { color: var(--content-default-level-4); }
-  /* Campaign switcher — FDS dropdown chip (.dchip); chevron rotates when open, label never wraps */
+  /* Campaign switcher — FDS dropdown chip (.dchip); chevron does NOT rotate (matches other chips), label never wraps */
   .cp-campaign-wrap .dchip__text { white-space: nowrap; }
-  .cp-campaign-wrap .dchip svg { transition: transform 120ms ease; }
-  .cp-campaign-wrap.is-open .dchip svg { transform: rotate(180deg); }
   /* View campaign — FDS text button WITH trailing icon (icon variant) */
   .text-btn.cp-view-campaign { gap: var(--spacing-4); flex-shrink: 0; }
   .text-btn.cp-view-campaign svg { width: 14px; height: 14px; }
@@ -3457,7 +3455,7 @@
     <div id="panel-referee-history" class="tab-panel" hidden>
 
     <div class="history-head" style="margin-top: var(--spacing-64);">
-      <h2 class="history-head__title title-l">Referee history</h2>
+      <h2 class="history-head__title title-s">Referee history</h2>
       <div class="history-head__controls">
         <button class="fds-btn fds-btn--secondary fds-btn--neutral" style="margin-left: auto;" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
