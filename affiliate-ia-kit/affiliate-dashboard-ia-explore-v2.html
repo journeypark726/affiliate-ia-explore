@@ -1671,6 +1671,7 @@
   .breakdown__dot--direct { background: var(--palette-blue-500); }
   .breakdown__dot--sub    { background: var(--palette-lime-500); }
   .breakdown__dot--self   { background: var(--content-default-level-1); }
+  .breakdown__dot--self   { background: var(--content-default-level-1); }
   .breakdown__num { font-family: var(--font-mono); color: var(--content-default-level-4); text-align: right; }
   .breakdown__num--with-pct { display: inline-flex; align-items: center; gap: var(--spacing-8); justify-content: flex-end; }
 
@@ -2883,8 +2884,9 @@
       <section class="card kpi-section__breakdown">
         <div class="breakdown__caption">Rewards <span class="breakdown__caption-sub">by referee type</span></div>
         <div class="breakdown__bar">
-          <span class="bar--direct" style="width: 60%"></span>
-          <span class="bar--sub"    style="width: 40%"></span>
+          <span class="bar--direct" style="width: 54%"></span>
+          <span class="bar--sub"    style="width: 36%"></span>
+          <span class="bar--self"   style="width: 10%"></span>
         </div>
 
         <div class="breakdown__table">
@@ -2905,6 +2907,12 @@
             <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="sub">6,188.52</span><span class="pct-badge pct-badge--outline mono">36%</span></span>
             <span class="breakdown__num" data-bd="sub-ref">5</span>
             <span class="breakdown__num" data-bd="sub-avg">1,237.70</span>
+          </div>
+          <div class="breakdown__row">
+            <span class="breakdown__type"><span class="breakdown__dot breakdown__dot--self"></span>Self-rebating reward</span>
+            <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="self">1,719.03</span><span class="pct-badge pct-badge--outline mono">10%</span></span>
+            <span class="breakdown__num">—</span>
+            <span class="breakdown__num">—</span>
           </div>
         </div>
       </section>
