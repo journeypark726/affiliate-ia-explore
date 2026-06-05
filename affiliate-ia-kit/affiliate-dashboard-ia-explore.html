@@ -4704,15 +4704,15 @@
   (function () {
     const fmt = (n) => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const stats = [
-      { rewards: 12334.00, referees: 128, active: 34,  volume: 4821560.73,  fee: 808.73 },
-      { rewards: 8740.55,  referees: 96,  active: 27,  volume: 3120480.18,  fee: 612.40 },
-      { rewards: 21560.12, referees: 213, active: 71,  volume: 9842110.66,  fee: 1452.90 },
-      { rewards: 5210.80,  referees: 64,  active: 19,  volume: 1872330.05,  fee: 388.21 },
-      { rewards: 33120.47, referees: 305, active: 102, volume: 14233900.41, fee: 2210.65 },
-      { rewards: 9430.33,  referees: 110, active: 31,  volume: 3540120.77,  fee: 668.55 },
-      { rewards: 15720.90, referees: 158, active: 48,  volume: 6120440.29,  fee: 1024.18 },
-      { rewards: 4015.27,  referees: 52,  active: 14,  volume: 1340220.60,  fee: 295.04 },
-      { rewards: 18250.66, referees: 184, active: 59,  volume: 7430880.12,  fee: 1188.37 },
+      { rewards: 12334.00, referees: 128, active: 34,  volume: 4821560.73,  fee: 808.73,  selfRebate: 142.18 },
+      { rewards: 8740.55,  referees: 96,  active: 27,  volume: 3120480.18,  fee: 612.40,  selfRebate: 98.40 },
+      { rewards: 21560.12, referees: 213, active: 71,  volume: 9842110.66,  fee: 1452.90, selfRebate: 256.73 },
+      { rewards: 5210.80,  referees: 64,  active: 19,  volume: 1872330.05,  fee: 388.21,  selfRebate: 61.05 },
+      { rewards: 33120.47, referees: 305, active: 102, volume: 14233900.41, fee: 2210.65, selfRebate: 402.16 },
+      { rewards: 9430.33,  referees: 110, active: 31,  volume: 3540120.77,  fee: 668.55,  selfRebate: 110.72 },
+      { rewards: 15720.90, referees: 158, active: 48,  volume: 6120440.29,  fee: 1024.18, selfRebate: 183.49 },
+      { rewards: 4015.27,  referees: 52,  active: 14,  volume: 1340220.60,  fee: 295.04,  selfRebate: 47.33 },
+      { rewards: 18250.66, referees: 184, active: 59,  volume: 7430880.12,  fee: 1188.37, selfRebate: 214.90 },
     ];
     document.querySelectorAll('.mu-table--sa tbody tr.mu-sa-row').forEach((row, i) => {
       const toggle = row.querySelector('.mu-sa-toggle');
@@ -4727,11 +4727,11 @@
           detail.innerHTML =
             '<td colspan="8"><div class="mu-sa-panel">' +
               '<div class="mu-sa-panel__row mu-sa-panel__row--labels">' +
-                '<span>Total rewards (USDT)</span><span>Referees</span><span>Active referees</span>' +
+                '<span>Total rewards (USDT)</span><span>Self-rebate (USDT)</span><span>Referees</span><span>Active referees</span>' +
                 '<span>Total trading volume (USDT)</span><span>Total trading fee (USDT)</span>' +
               '</div>' +
               '<div class="mu-sa-panel__row mu-sa-panel__row--values">' +
-                '<span>' + fmt(s.rewards) + '</span><span>' + s.referees + '</span><span>' + s.active + '</span>' +
+                '<span>' + fmt(s.rewards) + '</span><span>' + fmt(s.selfRebate) + '</span><span>' + s.referees + '</span><span>' + s.active + '</span>' +
                 '<span>' + fmt(s.volume) + '</span><span>' + fmt(s.fee) + '</span>' +
               '</div>' +
             '</div></td>';
