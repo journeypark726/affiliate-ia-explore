@@ -1759,8 +1759,6 @@
 
   /* ── Campaign performance page (reuses rm-page / mu-table / ro-table components) ── */
   .cp-meta__dot { color: var(--content-default-level-2); }
-  /* Masthead title row — page title (left) + last-updated (right) */
-  .cp-titlebar { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-16); flex-wrap: wrap; margin-bottom: var(--spacing-12); }
   /* Campaign context — part of the masthead (title group), NOT a card.
      Chip = primary (the campaign you're viewing); period/status/view = a subordinate caption beneath it. */
   .cp-ctx { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-16); flex-wrap: wrap; margin-bottom: var(--spacing-40); }
@@ -1781,7 +1779,9 @@
   .cp-breakdown th.cp-toggle, .cp-breakdown td.cp-toggle { width: 28px; padding-right: 0; text-align: left; }
   /* No extra bottom whitespace inside the summary card (single kpi-row) */
   .cp-summary .kpi-row { margin-bottom: 0; }
-  .cp-breakdown-title, .cp-summary-title { margin: 0 0 var(--spacing-16); color: var(--content-default-level-5); }
+  .cp-breakdown-title, .cp-summary-title { margin: 0; color: var(--content-default-level-5); }
+  /* Section head — title (left) + last-updated (far right) */
+  .cp-section-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-16); flex-wrap: wrap; margin: 0 0 var(--spacing-16); }
   .cp-row { cursor: pointer; }
   .cp-chev { display: inline-block; transition: transform 120ms ease; color: var(--content-default-level-3); }
   .cp-row.is-open .cp-chev { transform: rotate(180deg); }
@@ -4473,17 +4473,14 @@
     <!-- ══════════════  PANEL: Campaign performance  ══════════════ -->
     <div id="panel-campaign-performance" class="tab-panel" hidden>
       <div class="rm-page-head">
-        <div class="cp-titlebar">
-          <h2 class="panel-title title-l" style="margin:0;">Campaign performance</h2>
-          <span class="panel-updated">Last updated at: <span class="mono">2026.05.28 09:00:00 UTC</span></span>
-        </div>
+        <h2 class="panel-title title-l" style="margin:0 0 var(--spacing-12);">Campaign performance</h2>
 
         <!-- Campaign context — masthead line under the title (no card) -->
         <div class="cp-ctx">
           <div class="cp-ctx__left">
             <div class="dchip-wrap cp-campaign-wrap" data-dchip="cp-campaign">
               <button class="cp-switcher" data-dchip-trigger aria-haspopup="listbox">
-                <span class="cp-switcher__name title-s">New Year</span>
+                <span class="cp-switcher__name title-s">Summer trading fest</span>
                 <svg class="cp-switcher__chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
               </button>
               <div class="dchip-menu cp-camp-menu" hidden>
@@ -4497,14 +4494,14 @@
                       <tr><th>Campaign</th><th>Status</th><th>Period</th></tr>
                     </thead>
                     <tbody>
-                      <tr class="cp-camp-row is-selected" data-camp="new-year"><td>New Year</td><td><span class="status-pill status-pill--positive">Ongoing</span></td><td class="mono">2026.01.20 — 2026.01.30</td></tr>
-                      <tr class="cp-camp-row" data-camp="cny-2026"><td>Chinese new year 2026</td><td><span class="status-pill status-pill--info">Upcoming</span></td><td class="mono">2026.02.01 — 2026.02.28</td></tr>
-                      <tr class="cp-camp-row" data-camp="world-cup"><td>World Cup fever</td><td><span class="status-pill status-pill--info">Upcoming</span></td><td class="mono">2026.03.01 — 2026.03.20</td></tr>
-                      <tr class="cp-camp-row" data-camp="summer"><td>Summer trading fest</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.07.01 — 2025.07.31</td></tr>
-                      <tr class="cp-camp-row" data-camp="autumn"><td>Autumn airdrop</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.09.01 — 2025.09.30</td></tr>
-                      <tr class="cp-camp-row" data-camp="halloween"><td>Halloween bonus</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.10.20 — 2025.10.31</td></tr>
-                      <tr class="cp-camp-row" data-camp="black-friday"><td>Black Friday</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.11.24 — 2025.11.30</td></tr>
-                      <tr class="cp-camp-row" data-camp="spring"><td>Spring fest</td><td><span class="status-pill">Ended</span></td><td class="mono">2025.04.01 — 2025.04.30</td></tr>
+                      <tr class="cp-camp-row is-selected" data-camp="summer"><td>Summer trading fest</td><td><span class="status-pill status-pill--positive">Ongoing</span></td><td class="mono">2026.06.01 — 2026.06.30</td></tr>
+                      <tr class="cp-camp-row" data-camp="world-cup"><td>World Cup fever</td><td><span class="status-pill status-pill--info">Upcoming</span></td><td class="mono">2026.07.01 — 2026.07.20</td></tr>
+                      <tr class="cp-camp-row" data-camp="autumn"><td>Autumn airdrop</td><td><span class="status-pill status-pill--info">Upcoming</span></td><td class="mono">2026.09.01 — 2026.09.30</td></tr>
+                      <tr class="cp-camp-row" data-camp="halloween"><td>Halloween bonus</td><td><span class="status-pill status-pill--info">Upcoming</span></td><td class="mono">2026.10.20 — 2026.10.31</td></tr>
+                      <tr class="cp-camp-row" data-camp="black-friday"><td>Black Friday</td><td><span class="status-pill status-pill--info">Upcoming</span></td><td class="mono">2026.11.24 — 2026.11.30</td></tr>
+                      <tr class="cp-camp-row" data-camp="spring"><td>Spring fest</td><td><span class="status-pill">Ended</span></td><td class="mono">2026.04.01 — 2026.04.30</td></tr>
+                      <tr class="cp-camp-row" data-camp="cny-2026"><td>Chinese new year 2026</td><td><span class="status-pill">Ended</span></td><td class="mono">2026.02.01 — 2026.02.28</td></tr>
+                      <tr class="cp-camp-row" data-camp="new-year"><td>New Year</td><td><span class="status-pill">Ended</span></td><td class="mono">2026.01.20 — 2026.01.30</td></tr>
                     </tbody>
                   </table>
                   <div class="cp-camp-empty" hidden>No campaigns found</div>
@@ -4512,7 +4509,7 @@
               </div>
             </div>
             <div class="cp-ctx__meta">
-              <span class="mono cp-ctx__period" data-cp-period>2026.01.20 — 2026.01.30 UTC</span>
+              <span class="mono cp-ctx__period" data-cp-period>2026.06.01 — 2026.06.30 UTC</span>
               <span class="cp-meta__dot">·</span>
               <span class="status-pill status-pill--positive" data-cp-status>Ongoing</span>
             </div>
@@ -4565,7 +4562,10 @@
       </div>
 
       <!-- Campaign summary — rollup of the breakdown table below -->
-      <h3 class="cp-summary-title title-s">Performance summary</h3>
+      <div class="cp-section-head cp-summary-head">
+        <h3 class="cp-summary-title title-s">Performance summary</h3>
+        <span class="panel-updated">Last updated at: <span class="mono">2026.06.05 09:00:00 UTC</span></span>
+      </div>
       <section class="card cp-summary">
         <div class="kpi-row kpi-row--4">
           <div class="kpi-cell">
@@ -4587,7 +4587,10 @@
         </div>
       </section>
 
-      <h3 class="cp-breakdown-title title-s">Referee list</h3>
+      <div class="cp-section-head cp-breakdown-head">
+        <h3 class="cp-breakdown-title title-s">Referee list</h3>
+        <span class="panel-updated">Last updated at: <span class="mono">2026.06.05 09:00:00 UTC</span></span>
+      </div>
       <table class="ro-table cp-breakdown">
         <thead>
           <tr>
@@ -5146,14 +5149,14 @@
 
     // Campaign data (mock attribution — static prototype). Dates as YYYYMMDD for sorting.
     const CAMPAIGNS = {
-      'new-year':    { name: 'New Year',              period: '2026.01.20 — 2026.01.30 UTC', status: 'Ongoing',  pill: 'status-pill--positive', state: 'ongoing',  start: 20260120, end: 20260130, factor: 1.00 },
-      'cny-2026':    { name: 'Chinese new year 2026', period: '2026.02.01 — 2026.02.28 UTC', status: 'Upcoming', pill: 'status-pill--info',     state: 'upcoming', start: 20260201, end: 20260228, factor: 0.12 },
-      'world-cup':   { name: 'World Cup fever',       period: '2026.03.01 — 2026.03.20 UTC', status: 'Upcoming', pill: 'status-pill--info',     state: 'upcoming', start: 20260301, end: 20260320, factor: 0.20 },
-      'summer':      { name: 'Summer trading fest',   period: '2025.07.01 — 2025.07.31 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20250701, end: 20250731, factor: 1.35 },
-      'autumn':      { name: 'Autumn airdrop',        period: '2025.09.01 — 2025.09.30 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20250901, end: 20250930, factor: 0.78 },
-      'halloween':   { name: 'Halloween bonus',       period: '2025.10.20 — 2025.10.31 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20251020, end: 20251031, factor: 0.95 },
-      'black-friday':{ name: 'Black Friday',          period: '2025.11.24 — 2025.11.30 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20251124, end: 20251130, factor: 1.60 },
-      'spring':      { name: 'Spring fest',           period: '2025.04.01 — 2025.04.30 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20250401, end: 20250430, factor: 0.55 },
+      'summer':      { name: 'Summer trading fest',   period: '2026.06.01 — 2026.06.30 UTC', status: 'Ongoing',  pill: 'status-pill--positive', state: 'ongoing',  start: 20260601, end: 20260630, factor: 1.35 },
+      'world-cup':   { name: 'World Cup fever',       period: '2026.07.01 — 2026.07.20 UTC', status: 'Upcoming', pill: 'status-pill--info',     state: 'upcoming', start: 20260701, end: 20260720, factor: 0.20 },
+      'autumn':      { name: 'Autumn airdrop',        period: '2026.09.01 — 2026.09.30 UTC', status: 'Upcoming', pill: 'status-pill--info',     state: 'upcoming', start: 20260901, end: 20260930, factor: 0.78 },
+      'halloween':   { name: 'Halloween bonus',       period: '2026.10.20 — 2026.10.31 UTC', status: 'Upcoming', pill: 'status-pill--info',     state: 'upcoming', start: 20261020, end: 20261031, factor: 0.95 },
+      'black-friday':{ name: 'Black Friday',          period: '2026.11.24 — 2026.11.30 UTC', status: 'Upcoming', pill: 'status-pill--info',     state: 'upcoming', start: 20261124, end: 20261130, factor: 1.60 },
+      'spring':      { name: 'Spring fest',           period: '2026.04.01 — 2026.04.30 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20260401, end: 20260430, factor: 0.55 },
+      'cny-2026':    { name: 'Chinese new year 2026', period: '2026.02.01 — 2026.02.28 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20260201, end: 20260228, factor: 0.12 },
+      'new-year':    { name: 'New Year',              period: '2026.01.20 — 2026.01.30 UTC', status: 'Ended',    pill: '',                      state: 'ended',    start: 20260120, end: 20260130, factor: 1.00 },
     };
     const campaignIds = Object.keys(CAMPAIGNS);
     const nameEl    = panel.querySelector('[data-cp-name]');
@@ -5163,9 +5166,9 @@
     const campLabel = campWrap?.querySelector('.cp-switcher__name');
     const ctxEl     = panel.querySelector('.cp-ctx');
     const filtersEl = panel.querySelector('.rm-page-filters');
-    const summaryTitleEl = panel.querySelector('.cp-summary-title');
+    const summaryHeadEl = panel.querySelector('.cp-summary-head');
     const summaryEl = panel.querySelector('.cp-summary');
-    const bdTitleEl = panel.querySelector('.cp-breakdown-title');
+    const bdHeadEl = panel.querySelector('.cp-breakdown-head');
     const bdTableEl = panel.querySelector('.cp-breakdown');
     const emptyEl   = panel.querySelector('.cp-empty');
     const switcherField = campWrap?.closest('.rm-filter-field');
@@ -5240,7 +5243,7 @@
     // Use inline display (these elements have a class-level display that overrides [hidden]).
     function applyEmptyState() {
       const has = campaignIds.length > 0;
-      [ctxEl, filtersEl, summaryTitleEl, summaryEl, bdTitleEl, bdTableEl].forEach(el => { if (el) el.style.display = has ? '' : 'none'; });
+      [ctxEl, filtersEl, summaryHeadEl, summaryEl, bdHeadEl, bdTableEl].forEach(el => { if (el) el.style.display = has ? '' : 'none'; });
       if (emptyEl) emptyEl.style.display = has ? 'none' : 'flex';
       return has;
     }
