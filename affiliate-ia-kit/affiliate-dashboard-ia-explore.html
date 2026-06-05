@@ -1759,10 +1759,9 @@
 
   /* ── Campaign performance page (reuses rm-page / mu-table / ro-table components) ── */
   .cp-meta__dot { color: var(--content-default-level-2); }
-  /* Campaign context bar — single home for campaign identity + switch + view */
-  .cp-ctx { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-16); flex-wrap: wrap; padding: var(--spacing-10) var(--spacing-16); margin-bottom: var(--spacing-24); background: var(--background-default-level-2); border: 1px solid var(--border-default-level-1); border-radius: var(--radius-12); }
+  /* Campaign context — part of the masthead (title group), NOT a card */
+  .cp-ctx { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-16); flex-wrap: wrap; margin-bottom: var(--spacing-32); }
   .cp-ctx__left { display: flex; align-items: center; gap: var(--spacing-10); flex-wrap: wrap; font-size: 13px; color: var(--content-default-level-2); }
-  .cp-ctx__label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--content-default-level-2); }
   .cp-ctx__period { color: var(--content-default-level-4); }
   /* Campaign switcher — searchable dropdown styled as a button */
   .cp-switcher .dchip.cp-switcher__trigger { display: inline-flex; align-items: center; gap: var(--spacing-8); padding: var(--spacing-6) var(--spacing-6) var(--spacing-6) var(--spacing-12); background: var(--background-default-level-1); border: 1px solid var(--border-default-level-2); border-radius: var(--radius-8); color: var(--content-default-level-5); font-weight: 600; cursor: pointer; }
@@ -4465,12 +4464,11 @@
     <!-- ══════════════  PANEL: Campaign performance  ══════════════ -->
     <div id="panel-campaign-performance" class="tab-panel" hidden>
       <div class="rm-page-head">
-        <h2 class="panel-title title-l" style="margin:0 0 var(--spacing-16);">Campaign performance</h2>
+        <h2 class="panel-title title-l" style="margin:0 0 var(--spacing-12);">Campaign performance</h2>
 
-        <!-- Campaign context bar — single place for campaign identity + switch + view -->
+        <!-- Campaign context — masthead line under the title (no card) -->
         <div class="cp-ctx">
           <div class="cp-ctx__left">
-            <span class="cp-ctx__label">CAMPAIGN</span>
             <div class="dchip-wrap cp-campaign-wrap cp-switcher" data-dchip="cp-campaign">
               <button class="dchip cp-switcher__trigger" data-dchip-trigger>
                 <span class="dchip__text">New Year</span>
