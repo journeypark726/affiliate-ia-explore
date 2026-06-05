@@ -1758,11 +1758,18 @@
   .text-btn:hover { color: var(--content-default-level-4); }
 
   /* ── Campaign performance page (reuses rm-page / mu-table / ro-table components) ── */
-  .cp-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-16); }
-  .cp-head__main { display: flex; flex-direction: column; gap: var(--spacing-8); }
-  .cp-meta { display: flex; align-items: center; gap: var(--spacing-8); flex-wrap: wrap; font-size: 13px; color: var(--content-default-level-2); }
-  .cp-meta__name { color: var(--content-default-level-4); font-weight: 600; }
   .cp-meta__dot { color: var(--content-default-level-2); }
+  /* Campaign context bar — single home for campaign identity + switch + view */
+  .cp-ctx { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-16); flex-wrap: wrap; padding: var(--spacing-10) var(--spacing-16); margin-bottom: var(--spacing-24); background: var(--background-default-level-2); border: 1px solid var(--border-default-level-1); border-radius: var(--radius-12); }
+  .cp-ctx__left { display: flex; align-items: center; gap: var(--spacing-10); flex-wrap: wrap; font-size: 13px; color: var(--content-default-level-2); }
+  .cp-ctx__label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--content-default-level-2); }
+  .cp-ctx__period { color: var(--content-default-level-4); }
+  /* Campaign switcher — searchable dropdown styled as a button */
+  .cp-switcher .dchip.cp-switcher__trigger { display: inline-flex; align-items: center; gap: var(--spacing-8); padding: var(--spacing-6) var(--spacing-6) var(--spacing-6) var(--spacing-12); background: var(--background-default-level-1); border: 1px solid var(--border-default-level-2); border-radius: var(--radius-8); color: var(--content-default-level-5); font-weight: 600; cursor: pointer; }
+  .cp-switcher .dchip.cp-switcher__trigger:hover { background: var(--background-interaction-hover); }
+  .cp-switcher__chev { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: var(--radius-4); background: var(--background-default-level-2); }
+  .cp-switcher__chev svg { display: block; transition: transform 120ms ease; color: var(--content-default-level-3); }
+  .cp-campaign-wrap.is-open .cp-switcher__chev svg { transform: rotate(180deg); }
   /* View campaign — FDS text button WITH trailing icon (icon variant) */
   .text-btn.cp-view-campaign { gap: var(--spacing-4); flex-shrink: 0; }
   .text-btn.cp-view-campaign svg { width: 14px; height: 14px; }
@@ -4458,29 +4465,16 @@
     <!-- ══════════════  PANEL: Campaign performance  ══════════════ -->
     <div id="panel-campaign-performance" class="tab-panel" hidden>
       <div class="rm-page-head">
-        <div class="cp-head">
-          <div class="cp-head__main">
-            <h2 class="panel-title title-l" style="margin:0;">Campaign performance</h2>
-            <div class="cp-meta">
-              <span class="cp-meta__name" data-cp-name>New Year</span>
-              <span class="cp-meta__dot">·</span>
-              <span class="mono" data-cp-period>2026.01.20 — 2026.01.30 UTC</span>
-              <span class="cp-meta__dot">·</span>
-              <span class="status-pill status-pill--positive" data-cp-status>Ongoing</span>
-            </div>
-          </div>
-          <a href="#" class="text-btn cp-view-campaign" data-route="payback-campaign">View campaign
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-          </a>
-        </div>
+        <h2 class="panel-title title-l" style="margin:0 0 var(--spacing-16);">Campaign performance</h2>
 
-        <div class="rm-page-filters">
-          <div class="rm-filter-field">
-            <span class="rm-filter-field__label">Campaign</span>
-            <div class="dchip-wrap cp-campaign-wrap" data-dchip="cp-campaign">
-              <button class="dchip" data-dchip-trigger>
+        <!-- Campaign context bar — single place for campaign identity + switch + view -->
+        <div class="cp-ctx">
+          <div class="cp-ctx__left">
+            <span class="cp-ctx__label">CAMPAIGN</span>
+            <div class="dchip-wrap cp-campaign-wrap cp-switcher" data-dchip="cp-campaign">
+              <button class="dchip cp-switcher__trigger" data-dchip-trigger>
                 <span class="dchip__text">New Year</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                <span class="cp-switcher__chev"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></span>
               </button>
               <div class="dchip-menu cp-camp-menu" hidden>
                 <div class="cp-camp-search">
@@ -4501,7 +4495,17 @@
                 <div class="cp-camp-empty" hidden>No campaigns found</div>
               </div>
             </div>
+            <span class="cp-meta__dot">·</span>
+            <span class="mono cp-ctx__period" data-cp-period>2026.01.20 — 2026.01.30 UTC</span>
+            <span class="cp-meta__dot">·</span>
+            <span class="status-pill status-pill--positive" data-cp-status>Ongoing</span>
           </div>
+          <a href="#" class="text-btn cp-view-campaign" data-route="payback-campaign">View campaign
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+        </div>
+
+        <div class="rm-page-filters">
           <div class="rm-filter-field">
             <span class="rm-filter-field__label">Partner type</span>
             <div class="dchip-wrap" data-dchip="cp-ptype">
@@ -5206,7 +5210,7 @@
     const statusEl  = panel.querySelector('[data-cp-status]');
     const campWrap  = panel.querySelector('.cp-campaign-wrap');
     const campLabel = campWrap?.querySelector('.dchip__text');
-    const metaEl    = panel.querySelector('.cp-meta');
+    const ctxEl     = panel.querySelector('.cp-ctx');
     const filtersEl = panel.querySelector('.rm-page-filters');
     const summaryEl = panel.querySelector('.cp-summary');
     const bdTitleEl = panel.querySelector('.cp-breakdown-title');
@@ -5228,7 +5232,7 @@
     // Use inline display (these elements have a class-level display that overrides [hidden]).
     function applyEmptyState() {
       const has = campaignIds.length > 0;
-      [metaEl, filtersEl, summaryEl, bdTitleEl, bdTableEl].forEach(el => { if (el) el.style.display = has ? '' : 'none'; });
+      [ctxEl, filtersEl, summaryEl, bdTitleEl, bdTableEl].forEach(el => { if (el) el.style.display = has ? '' : 'none'; });
       if (emptyEl) emptyEl.style.display = has ? 'none' : 'flex';
       return has;
     }
