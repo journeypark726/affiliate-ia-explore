@@ -2054,6 +2054,9 @@
     border-left: 1px solid var(--border-default-level-1);
     padding-left: var(--spacing-24);
   }
+  .contrib-head { display: grid; grid-template-columns: 24px 1fr auto; gap: var(--spacing-12); padding: 0 0 var(--spacing-8); margin-bottom: var(--spacing-4); border-bottom: 1px solid var(--border-default-level-1); }
+  .contrib-head span { color: var(--content-default-level-1); font-size: 11px; font-weight: 500; }
+  .contrib-head span:last-child { text-align: right; }
   .contrib-row {
     display: grid; grid-template-columns: 24px 1fr auto;
     align-items: center;
@@ -3067,6 +3070,7 @@
     <section class="card">
             <div class="contributors__grid">
               <div>
+                <div class="contrib-head"><span></span><span>UID</span><span>Rewards</span></div>
                 <div class="contrib-row">
                   <span class="contrib-row__rank is-top"><svg viewBox="0 0 28 28" fill="none"><path d="M8.68016 13.7939L12.3462 6.58452L12.9718 5.31708C13.3992 4.45097 14.6338 4.4497 15.0631 5.31493L19.2589 13.7726C19.4137 14.0846 19.8058 14.1923 20.0983 14.0032L24.4131 11.213C25.3004 10.6392 26.4324 11.4463 26.1793 12.4722L23.6558 22.6982C23.5915 22.9587 23.3578 23.1418 23.0894 23.1418H4.55819C4.28418 23.1418 4.04709 22.9511 3.9884 22.6834L1.7787 12.6066C1.55817 11.601 2.65339 10.8234 3.53004 11.3633L7.85432 14.0262C8.14459 14.205 8.52564 14.0978 8.68016 13.7939Z" fill="#FFE291"/><path d="M26.2186 12.4728L23.6953 22.6988C23.631 22.9593 23.3973 23.1424 23.129 23.1424H13.8579L14.0362 5.15069C14.0411 4.65998 14.7029 4.50831 14.9209 4.94793L19.2988 13.7731C19.4536 14.0852 19.8456 14.1929 20.1381 14.0037L24.4523 11.2137C25.3396 10.6399 26.4717 11.4469 26.2186 12.4728Z" fill="#E5B33E"/><path d="M14.8434 13.3198V20.125H13.4241V14.6639H13.3865L11.8262 15.6415V14.3914L13.5087 13.3198H14.8434Z" fill="black"/></svg></span>
                   <div class="contrib-row__name">Flipster_test1<small>Sub-Affiliates</small></div>
@@ -3079,11 +3083,9 @@
                 </div>
                 <div class="contrib-row">
                   <span class="contrib-row__rank is-top"><svg viewBox="0 0 28 28" fill="none"><path d="M8.68016 13.7939L12.3462 6.58452L12.9718 5.31708C13.3992 4.45097 14.6338 4.4497 15.0631 5.31493L19.2589 13.7726C19.4137 14.0846 19.8058 14.1923 20.0983 14.0032L24.4131 11.213C25.3004 10.6392 26.4324 11.4463 26.1793 12.4722L23.6558 22.6982C23.5915 22.9587 23.3578 23.1418 23.0894 23.1418H4.55819C4.28418 23.1418 4.04709 22.9511 3.9884 22.6834L1.7787 12.6066C1.55817 11.601 2.65339 10.8234 3.53004 11.3633L7.85432 14.0262C8.14459 14.205 8.52564 14.0978 8.68016 13.7939Z" fill="#F1C591"/><path d="M26.2186 12.4728L23.6953 22.6988C23.631 22.9593 23.3973 23.1424 23.129 23.1424H13.8579L14.0362 5.15069C14.0411 4.65998 14.7029 4.50831 14.9209 4.94793L19.2988 13.7731C19.4536 14.0852 19.8456 14.1929 20.1381 14.0037L24.4523 11.2137C25.3396 10.6399 26.4717 11.4469 26.2186 12.4728Z" fill="#CF9A5E"/><path d="M14.0278 20.3164C12.5333 20.3164 11.4618 19.4893 11.4336 18.3049H12.8623C12.8905 18.8125 13.3793 19.1509 14.0372 19.1509C14.714 19.1509 15.2028 18.7655 15.1934 18.2203C15.2028 17.6658 14.7046 17.271 13.9056 17.271H13.2759V16.2277H13.9056C14.573 16.2277 15.043 15.8611 15.043 15.3253C15.043 14.8083 14.6482 14.4512 14.0466 14.4512C13.4451 14.4512 12.9469 14.7896 12.9281 15.3065H11.5746C11.5934 14.1316 12.6555 13.3232 14.0466 13.3232C15.4659 13.3232 16.4153 14.1598 16.4059 15.2407C16.4153 16.0021 15.8795 16.5472 15.1182 16.6788V16.7352C16.1145 16.8574 16.6691 17.4684 16.6597 18.3143C16.6691 19.4799 15.5599 20.3164 14.0278 20.3164Z" fill="black"/></svg></span>
-                  <div class="contrib-row__name">Flipster_test2<small>Direct referee</small></div>
+                  <div class="contrib-row__name">Flipster_test3<small>Direct referee</small></div>
                   <span class="contrib-row__amount mono">142.07</span>
                 </div>
-              </div>
-              <div>
                 <div class="contrib-row">
                   <span class="contrib-row__rank">4</span>
                   <div class="contrib-row__name">Flipster_test4</div>
@@ -3108,6 +3110,119 @@
                   <span class="contrib-row__rank">8</span>
                   <div class="contrib-row__name">Flipster_test8</div>
                   <span class="contrib-row__amount mono">51.34</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">9</span>
+                  <div class="contrib-row__name">Flipster_test9</div>
+                  <span class="contrib-row__amount mono">48.91</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">10</span>
+                  <div class="contrib-row__name">Flipster_test10</div>
+                  <span class="contrib-row__amount mono">45.20</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">11</span>
+                  <div class="contrib-row__name">Flipster_test11</div>
+                  <span class="contrib-row__amount mono">42.77</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">12</span>
+                  <div class="contrib-row__name">Flipster_test12</div>
+                  <span class="contrib-row__amount mono">39.85</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">13</span>
+                  <div class="contrib-row__name">Flipster_test13</div>
+                  <span class="contrib-row__amount mono">37.10</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">14</span>
+                  <div class="contrib-row__name">Flipster_test14</div>
+                  <span class="contrib-row__amount mono">34.62</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">15</span>
+                  <div class="contrib-row__name">Flipster_test15</div>
+                  <span class="contrib-row__amount mono">31.98</span>
+                </div>
+              </div>
+              <div>
+                <div class="contrib-head"><span></span><span>UID</span><span>Rewards</span></div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">16</span>
+                  <div class="contrib-row__name">Flipster_test16</div>
+                  <span class="contrib-row__amount mono">29.40</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">17</span>
+                  <div class="contrib-row__name">Flipster_test17</div>
+                  <span class="contrib-row__amount mono">27.15</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">18</span>
+                  <div class="contrib-row__name">Flipster_test18</div>
+                  <span class="contrib-row__amount mono">25.03</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">19</span>
+                  <div class="contrib-row__name">Flipster_test19</div>
+                  <span class="contrib-row__amount mono">23.44</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">20</span>
+                  <div class="contrib-row__name">Flipster_test20</div>
+                  <span class="contrib-row__amount mono">21.10</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">21</span>
+                  <div class="contrib-row__name">Flipster_test21</div>
+                  <span class="contrib-row__amount mono">19.87</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">22</span>
+                  <div class="contrib-row__name">Flipster_test22</div>
+                  <span class="contrib-row__amount mono">18.22</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">23</span>
+                  <div class="contrib-row__name">Flipster_test23</div>
+                  <span class="contrib-row__amount mono">16.95</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">24</span>
+                  <div class="contrib-row__name">Flipster_test24</div>
+                  <span class="contrib-row__amount mono">15.40</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">25</span>
+                  <div class="contrib-row__name">Flipster_test25</div>
+                  <span class="contrib-row__amount mono">14.08</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">26</span>
+                  <div class="contrib-row__name">Flipster_test26</div>
+                  <span class="contrib-row__amount mono">12.77</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">27</span>
+                  <div class="contrib-row__name">Flipster_test27</div>
+                  <span class="contrib-row__amount mono">11.33</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">28</span>
+                  <div class="contrib-row__name">Flipster_test28</div>
+                  <span class="contrib-row__amount mono">10.05</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">29</span>
+                  <div class="contrib-row__name">Flipster_test29</div>
+                  <span class="contrib-row__amount mono">8.42</span>
+                </div>
+                <div class="contrib-row">
+                  <span class="contrib-row__rank">30</span>
+                  <div class="contrib-row__name">Flipster_test30</div>
+                  <span class="contrib-row__amount mono">7.10</span>
                 </div>
               </div>
             </div>
@@ -3631,7 +3746,7 @@
                 <th>UID<span class="mu-th__sub">Username</span></th>
                 <th>First Trade</th>
                 <th>Asset Range</th>
-                <th>Trading Status <span class="th-info" tabindex="0" title="Whether the user has placed a trade within the last 30 days"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></span></th>
+                <th><span class="th-tip" title="Whether the user has placed a trade within the last 30 days">Trading Status</span></th>
               </tr>
             </thead>
             <tbody>
@@ -4486,10 +4601,8 @@
       { name: 'Flipster_test29', amount: '2.44' },
       { name: 'Flipster_test30', amount: '1.18' },
     ];
-    const PAGE = 8; // first page shows ranks 1–8 (top 3 medals left, 4–8 right)
-    const pages = Math.ceil(data.length / PAGE);
-    let page = 0;
-    const [prevBtn, nextBtn] = nav.querySelectorAll('.icon-btn');
+    // Show all 30 ranks at once — 1–15 left, 16–30 right (no pagination).
+    nav.closest('.contributors__footer')?.style.setProperty('display', 'none');
     // Filter state — mirrors Data overview chips (product segment + period window).
     // Base amounts above are Today/Perp; other selections scale them.
     let cSegment = 'perp', cPeriod = 'today';
@@ -4509,26 +4622,15 @@
         '<div class="contrib-row__name">' + c.name + sub + '</div>' +
         '<span class="contrib-row__amount mono">' + scaleAmount(c.amount) + '</span></div>';
     };
+    const HEAD = '<div class="contrib-head"><span></span><span>UID</span><span>Rewards</span></div>';
+    const colHTML = (arr, offset) => '<div>' + HEAD + arr.map((c, i) => rowHTML(c, offset + i + 1)).join('') + '</div>';
     const render = () => {
-      const start = page * PAGE;
-      const slice = data.slice(start, start + PAGE);
-      // First page: left column holds the top 3 medal ranks (rest flow right).
-      // Other pages have no medals — split evenly.
-      const left = page === 0 ? 3 : Math.ceil(slice.length / 2);
-      const cols = [slice.slice(0, left), slice.slice(left)];
-      grid.innerHTML = cols.map((col, ci) =>
-        '<div>' + col.map((c, ri) => rowHTML(c, start + (ci === 0 ? ri : left + ri) + 1)).join('') + '</div>'
-      ).join('');
-      prevBtn.disabled = page === 0;
-      nextBtn.disabled = page === pages - 1;
+      grid.innerHTML = colHTML(data.slice(0, 15), 0) + colHTML(data.slice(15, 30), 15);
     };
-    prevBtn.addEventListener('click', () => { if (page > 0) { page--; render(); } });
-    nextBtn.addEventListener('click', () => { if (page < pages - 1) { page++; render(); } });
     // Exposed so the contributors filter chips can re-scale the leaderboard
     window.contribSetFilter = (dim, val) => {
       if (dim === 'segment') cSegment = val;
       if (dim === 'period') cPeriod = val;
-      page = 0;
       render();
     };
     render();
