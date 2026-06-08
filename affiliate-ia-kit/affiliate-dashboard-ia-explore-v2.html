@@ -2785,7 +2785,7 @@
       </span>
     </div>
     <div class="side-nav__sub">
-      <div class="side-nav__subitem" data-route="referral-overview">Referee activity</div>
+      <div class="side-nav__subitem" data-route="referral-overview">Referee conversion</div>
       <div class="side-nav__subitem" data-route="user-list">User list</div>
       <div class="side-nav__subitem" data-route="affiliate-management">Affiliate list</div>
     </div>
@@ -2962,6 +2962,8 @@
     </div>
 
     <!-- ──────────────  My Referral Link + Notification center  ────────────── -->
+    <p class="overview-disclaimer">The displayed data is for reference only, and the actual settlement amount is subject to the platform's final settlement.</p>
+
     <div class="home-row">
 
     <div class="home-col home-col--mrl">
@@ -3295,7 +3297,6 @@
       })();
     </script>
 
-    <p class="overview-disclaimer">The displayed data is for reference only, and the actual settlement amount is subject to the platform's final settlement.</p>
 
     </div><!-- /panel-overview -->
 
@@ -3604,7 +3605,7 @@
     <div id="panel-referral-overview" class="tab-panel" hidden>
       <div class="rm-page-head">
         <div class="rm-page-titlebar">
-          <h2 class="panel-title title-l" style="margin:0; display:inline-flex; align-items:center; gap:var(--spacing-8);">Referee activity <span class="live-badge"><span class="live-badge__dot"></span>Live</span></h2>
+          <h2 class="panel-title title-l" style="margin:0;">Referee conversion</h2>
         </div>
         <div class="rm-page-filters">
           <div class="rm-filter-field">
@@ -3633,6 +3634,18 @@
           </div>
         </div>
       </div>
+      <h3 class="section-title title-s" style="margin: 0 0 var(--spacing-16); color: var(--content-default-level-5);">Conversion overview</h3>
+      <div class="mid-grid mid-grid--single">
+        <section class="card">
+          <div class="funnel">
+            <div class="funnel-row"><div class="funnel-row__label">Sign ups</div><div class="funnel-row__metric"><span class="funnel-row__value mono">30</span><span class="funnel-row__pct">100%</span></div><div class="funnel-row__bar"><span style="width: 100%"></span></div></div>
+            <div class="funnel-row"><div class="funnel-row__label">KYCs</div><div class="funnel-row__metric"><span class="funnel-row__value mono">15</span><span class="funnel-row__pct">50%</span></div><div class="funnel-row__bar"><span style="width: 50%"></span></div></div>
+            <div class="funnel-row"><div class="funnel-row__label">First deposit</div><div class="funnel-row__metric"><span class="funnel-row__value mono">12</span><span class="funnel-row__pct">40%</span></div><div class="funnel-row__bar"><span style="width: 40%"></span></div></div>
+            <div class="funnel-row"><div class="funnel-row__label">First trade</div><div class="funnel-row__metric"><span class="funnel-row__value mono">3</span><span class="funnel-row__pct">10%</span></div><div class="funnel-row__bar"><span style="width: 10%"></span></div></div>
+          </div>
+        </section>
+      </div>
+
       <section class="ro-activity">
         <div class="ro-activity__head">
           <h3 class="ro-activity__title title-s">Activity history</h3>
@@ -3805,15 +3818,15 @@
             <th>Rewards (USDT)</th>
             <th><span class="th-tip" title="Net trading volume excludes self-trades and canceled orders.">Net trading volume (USDT)</span></th>
             <th><span class="th-tip" title="Net trading fee after applicable rebates and discounts.">Net trading fee (USDT)</span></th>
+            <th>Signup</th>
             <th>First Deposit</th>
             <th>First Trade</th>
-            <th>Last Login</th>
             <th>VIP Tier</th>
             <th>Asset Range</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="mu-row--me" data-signup="2026.06.05"><td><div class="mu-username"><span class="mu-username__name">GateUser-18a77fca</span><span class="mu-username__uid">ZE000ME</span></div></td><td>Myself</td><td><span class="mu-dash">—</span></td><td>5,231,094.20</td><td class="mu-td--dim">1,642.55</td><td class="mono">2025.07.01</td><td class="mono">2025.07.02</td><td class="mono">2025.08.25 16:10</td><td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td><td class="mono">$50K – $100K</td></tr>
+          <tr class="mu-row--me" data-signup="2026.06.05"><td><div class="mu-username"><span class="mu-username__name">GateUser-18a77fca</span><span class="mu-username__uid">ZE000ME</span></div></td><td>Myself</td><td><span class="mu-dash">—</span></td><td>5,231,094.20</td><td class="mu-td--dim">1,642.55</td><td class="mono">2026.06.05</td><td class="mono">2025.07.01</td><td class="mono">2025.07.02</td><td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td><td class="mono">$50K – $100K</td></tr>
           <tr data-signup="2026.06.14"><td>
               <div class="mu-username">
                 <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
@@ -4631,7 +4644,7 @@
   const ROUTES = {
     'home':                  { panel: 'panel-overview',              title: 'Affiliate' },
     'user-list':             { panel: 'panel-user-list',             title: 'User list' },
-    'referral-overview':     { panel: 'panel-referral-overview',     title: 'Referee activity' },
+    'referral-overview':     { panel: 'panel-referral-overview',     title: 'Referee conversion' },
     'affiliate-management':  { panel: 'panel-affiliate-management',  title: 'Affiliate list' },
     'referee-history':       { panel: ['panel-rewards-trend', 'panel-referee-history'], title: 'Rewards management' },
     'rewards-trend':         { panel: ['panel-rewards-trend', 'panel-referee-history'], title: 'Rewards management' },
@@ -5560,8 +5573,10 @@
       { name: 'NewbieTrader',   uid: 'ZE019XL', rewards: '12.84',   volume: '95,440.20',    taker: null,    vip: null,    fee: '28.63',    firstTrade: '2025.08.22', firstDeposit: '2025.08.21', lastLogin: '2025.08.22', kyc: 'L1', tier: '—',       assets: '<$1K',      deposit: '<$500' },
       { name: 'DCA_Andre',      uid: 'ZE019XM', rewards: '178.92',  volume: '1,287,455.78', taker: '0.04%', vip: 'VIP 1', fee: '386.24',   firstTrade: '2025.07.18', firstDeposit: '2025.07.10', lastLogin: '2025.08.24', kyc: 'L2', tier: 'VIP 1',  assets: '$5K-10K',   deposit: '$1K-5K' },
     ];
-    rows.forEach((tr, i) => {
-      const d = samples[i % samples.length];
+    let si = 0;
+    rows.forEach((tr) => {
+      if (tr.classList.contains('mu-row--me')) return; // keep "my" row static
+      const d = samples[si % samples.length]; si++;
       const nameEl = tr.querySelector('.mu-username__name');
       const uidEl = tr.querySelector('.mu-username__uid');
       if (nameEl) {
@@ -5571,31 +5586,17 @@
       }
       if (uidEl) uidEl.textContent = d.uid;
       const tds = tr.querySelectorAll('td');
+      // cols: 0 UID | 1 Referee type | 2 Rewards | 3 Net vol | 4 Net fee | 5 Signup | 6 First Deposit | 7 First Trade | 8 VIP Tier | 9 Asset Range
       if (tds[2]) tds[2].textContent = d.rewards;
       if (tds[3]) tds[3].textContent = d.volume;
-      if (tds[4]) {
-        // Taker fee column — fee value only (no VIP badge)
-        if (d.taker) {
-          tds[4].innerHTML = `<span class="mu-fee-rate mono">${d.taker}</span>`;
-        } else {
-          tds[4].innerHTML = '<span class="mu-dash">—</span>';
-        }
-      }
-      if (tds[5]) tds[5].textContent = d.fee;
-      if (tds[6]) tds[6].textContent = d.firstTrade;
-      if (tds[7]) tds[7].textContent = d.firstDeposit;
-      if (tds[8]) tds[8].textContent = d.lastLogin;
-      if (tds[9]) tds[9].textContent = d.kyc;
-      if (tds[10]) {
-        // VIP Tier column — render as FDS vip-badge (or dash when no tier)
-        if (d.vip) {
-          tds[10].innerHTML = `<span class="vip-badge"><span class="vip-badge__icon">F</span>${d.vip}</span>`;
-        } else {
-          tds[10].innerHTML = '<span class="mu-dash">—</span>';
-        }
-      }
-      if (tds[11]) tds[11].textContent = d.assets;
-      if (tds[12]) tds[12].textContent = d.deposit;
+      if (tds[4]) tds[4].textContent = d.fee;
+      if (tds[5]) tds[5].textContent = tr.getAttribute('data-signup') || '';
+      if (tds[6]) tds[6].textContent = d.firstDeposit;
+      if (tds[7]) tds[7].textContent = d.firstTrade;
+      if (tds[8]) tds[8].innerHTML = d.vip
+        ? `<span class="vip-badge"><span class="vip-badge__icon">F</span>${d.vip}</span>`
+        : '<span class="mu-dash">—</span>';
+      if (tds[9]) tds[9].textContent = d.assets;
     });
   })();
 
