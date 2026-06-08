@@ -720,16 +720,12 @@
   .ro-table tbody td.ro-table__muted { color: var(--content-default-level-2); }
   .ro-pagination {
     display: flex; align-items: center; justify-content: space-between;
+    flex-direction: row-reverse;
     margin-top: var(--spacing-16);
     padding-top: var(--spacing-12);
   }
   .ro-pagination__info { color: var(--content-default-level-2); font-size: 13px; }
   .ro-pagination__nav { display: flex; gap: var(--spacing-4); }
-  .ro-pagination__nav .icon-btn { width: 32px; height: 32px; background: var(--background-default-level-2); }
-  .ro-pagination__nav .icon-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .ro-activity .ro-pagination__nav .icon-btn { width: 40px; height: 40px; background: transparent; }
-  .ro-activity .ro-pagination__nav .icon-btn svg { width: 20px; height: 20px; }
-  .ro-activity .ro-pagination__nav .icon-btn:disabled { opacity: 0.3; }
 
   /* =====================================================================
      Notification center
@@ -1914,11 +1910,12 @@
   .ha-live { margin: 0; color: var(--content-default-level-2); font-size: 13px; line-height: 1.45; }
   @keyframes ha-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
   /* Match Top 30 contributors paginator exactly */
-  .events-nav .icon-btn { width: 40px; height: 40px; background: transparent; color: var(--content-default-level-4); }
-  .events-nav .icon-btn:hover { background: var(--background-interaction-hover); }
-  .events-nav .icon-btn svg { width: 20px; height: 20px; }
-  .events-nav .icon-btn:disabled { opacity: 0.3; cursor: default; }
-  .events-nav .icon-btn:disabled:hover { background: transparent; }
+  /* ── Unified paginator icon buttons — edit here, applies to ALL paginators ── */
+  .contributors__nav .icon-btn, .events-nav .icon-btn, .ro-pagination__nav .icon-btn { width: 40px; height: 40px; background: transparent; color: var(--content-default-level-4); }
+  .contributors__nav .icon-btn:hover, .events-nav .icon-btn:hover, .ro-pagination__nav .icon-btn:hover { background: var(--background-interaction-hover); }
+  .contributors__nav .icon-btn svg, .events-nav .icon-btn svg, .ro-pagination__nav .icon-btn svg { width: 20px; height: 20px; }
+  .contributors__nav .icon-btn:disabled, .events-nav .icon-btn:disabled, .ro-pagination__nav .icon-btn:disabled { opacity: 0.3; cursor: default; }
+  .contributors__nav .icon-btn:disabled:hover, .events-nav .icon-btn:disabled:hover, .ro-pagination__nav .icon-btn:disabled:hover { background: transparent; }
 
   /* =====================================================================
      Rewards trend
@@ -2040,23 +2037,13 @@
   .contributors__sub { color: var(--content-default-level-1); font-size: 13px; }
   .rm-filter-field__hint { color: var(--content-default-level-1); font-weight: 400; }
   .contributors__nav { display: flex; gap: var(--spacing-8); }
-  .contributors__nav .icon-btn { width: 40px; height: 40px; background: transparent; color: var(--content-default-level-4); }
-  .contributors__nav .icon-btn:hover { background: var(--background-interaction-hover); }
-  .contributors__nav .icon-btn svg { width: 20px; height: 20px; }
-  .contributors__nav .icon-btn:disabled { opacity: 0.3; cursor: default; }
-  .contributors__nav .icon-btn:disabled:hover { background: transparent; }
   .contributors__footer { display: flex; justify-content: flex-start; margin-top: var(--spacing-16); margin-bottom: var(--spacing-64); }
   .section-head--contributors { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--spacing-16); }
   .contributors__titlewrap { display: flex; flex-direction: column; gap: var(--spacing-8); }
   .contributors__controls { margin-bottom: var(--spacing-16); }
   .contributors__grid {
     display: grid; grid-template-columns: 1fr 1fr;
-    column-gap: 0;
-  }
-  .contributors__grid > div:first-child { padding-right: var(--spacing-24); }
-  .contributors__grid > div + div {
-    border-left: 1px solid var(--border-default-level-1);
-    padding-left: var(--spacing-24);
+    column-gap: 60px;
   }
   .contrib-head { display: grid; grid-template-columns: 24px 1fr auto; gap: var(--spacing-12); padding: 0 0 var(--spacing-8); margin-bottom: var(--spacing-4); border-bottom: 1px solid var(--border-default-level-1); }
   .contrib-head span { color: var(--content-default-level-1); font-size: 11px; font-weight: 500; }
@@ -3551,12 +3538,8 @@
     <div class="ro-pagination">
       <span class="ro-pagination__info mono">1 – 10 of 84</span>
       <div class="ro-pagination__nav">
-        <button class="icon-btn" aria-label="Previous page" disabled>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-        </button>
-        <button class="icon-btn" aria-label="Next page">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
-        </button>
+        <button class="icon-btn" aria-label="Previous page" disabled><svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.2071 3.79289C11.5976 4.18342 11.5976 4.81658 11.2071 5.20711L5.41421 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H5.41421L11.2071 18.7929C11.5976 19.1834 11.5976 19.8166 11.2071 20.2071C10.8166 20.5976 10.1834 20.5976 9.79289 20.2071L2.29289 12.7071C1.90237 12.3166 1.90237 11.6834 2.29289 11.2929L9.79289 3.79289C10.1834 3.40237 10.8166 3.40237 11.2071 3.79289Z" fill="currentColor"/></svg></button>
+        <button class="icon-btn" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289L21.7071 11.2929C22.0976 11.6834 22.0976 12.3166 21.7071 12.7071L14.2071 20.2071C13.8166 20.5976 13.1834 20.5976 12.7929 20.2071C12.4024 19.8166 12.4024 19.1834 12.7929 18.7929L18.5858 13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H18.5858L12.7929 5.20711C12.4024 4.81658 12.4024 4.18342 12.7929 3.79289Z" fill="currentColor"/></svg></button>
       </div>
     </div>
 
@@ -3885,12 +3868,8 @@
       <div class="ro-pagination">
         <span class="ro-pagination__info mono">1 – 8 of 156</span>
         <div class="ro-pagination__nav">
-          <button class="icon-btn" aria-label="Previous page" disabled>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-          </button>
-          <button class="icon-btn" aria-label="Next page">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
-          </button>
+          <button class="icon-btn" aria-label="Previous page" disabled><svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.2071 3.79289C11.5976 4.18342 11.5976 4.81658 11.2071 5.20711L5.41421 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H5.41421L11.2071 18.7929C11.5976 19.1834 11.5976 19.8166 11.2071 20.2071C10.8166 20.5976 10.1834 20.5976 9.79289 20.2071L2.29289 12.7071C1.90237 12.3166 1.90237 11.6834 2.29289 11.2929L9.79289 3.79289C10.1834 3.40237 10.8166 3.40237 11.2071 3.79289Z" fill="currentColor"/></svg></button>
+          <button class="icon-btn" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289L21.7071 11.2929C22.0976 11.6834 22.0976 12.3166 21.7071 12.7071L14.2071 20.2071C13.8166 20.5976 13.1834 20.5976 12.7929 20.2071C12.4024 19.8166 12.4024 19.1834 12.7929 18.7929L18.5858 13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H18.5858L12.7929 5.20711C12.4024 4.81658 12.4024 4.18342 12.7929 3.79289Z" fill="currentColor"/></svg></button>
         </div>
       </div>
 
@@ -4624,7 +4603,7 @@
     const render = () => {
       const start = page * PAGE;
       const slice = data.slice(start, start + PAGE);
-      const leftN = Math.floor(slice.length / 2);
+      const leftN = page === 0 ? Math.floor(slice.length / 2) : Math.ceil(slice.length / 2);
       const cols = [slice.slice(0, leftN), slice.slice(leftN)];
       grid.innerHTML = cols.map((col, ci) => {
         const base = start + (ci === 0 ? 0 : leftN);
