@@ -1889,6 +1889,12 @@
     margin-bottom: var(--spacing-40);
   }
   .overview-disclaimer { margin: var(--spacing-24) 0 0; color: var(--content-default-level-2); font-size: 12px; line-height: 1.5; }
+  /* Live (real-time) indicator under the Recent referee activity title */
+  .home-col__head-main { display: flex; flex-direction: column; gap: var(--spacing-4); }
+  .ha-live { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--content-default-level-2); }
+  .ha-live__dot { position: relative; width: 7px; height: 7px; border-radius: 50%; background: var(--content-state-positive); flex-shrink: 0; }
+  .ha-live__dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--content-state-positive); animation: ha-pulse 1.6s ease-out infinite; }
+  @keyframes ha-pulse { 0% { transform: scale(1); opacity: 0.55; } 100% { transform: scale(2.8); opacity: 0; } }
   /* Match Top 30 contributors paginator exactly */
   .events-nav .icon-btn { width: 40px; height: 40px; background: transparent; color: var(--content-default-level-4); }
   .events-nav .icon-btn:hover { background: var(--background-interaction-hover); }
@@ -2970,171 +2976,35 @@
     <!-- ──────────────  Notification center  ────────────── -->
     <div class="home-col home-col--nc">
     <div class="home-col__head">
-      <h2 class="home-col__title title-m">
-        Recent referee activity
-        <span class="tip" data-tip="Last updated at: 2026.05.28 09:00:00 UTC" aria-label="Last updated at: 2026.05.28 09:00:00 UTC" tabindex="0">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75ZM13.35 7.875C13.35 8.63439 12.7344 9.25 11.975 9.25C11.2156 9.25 10.6 8.63439 10.6 7.875C10.6 7.11561 11.2156 6.5 11.975 6.5C12.7344 6.5 13.35 7.11561 13.35 7.875ZM10.72 11.2502C10.72 10.836 11.0558 10.5002 11.47 10.5002H12.47C12.8842 10.5002 13.22 10.836 13.22 11.2502V16.7502C13.22 17.1644 12.8842 17.5002 12.47 17.5002H11.47C11.0558 17.5002 10.72 17.1644 10.72 16.7502V11.2502Z" fill="currentColor"/></svg>
-        </span>
-      </h2>
+      <div class="home-col__head-main">
+        <h2 class="home-col__title title-m" style="margin:0;">Recent referee activity</h2>
+        <div class="ha-live"><span class="ha-live__dot"></span>Updating in real-time</div>
+      </div>
       <a href="#" class="text-btn" data-route="referral-overview">View all</a>
     </div>
     <section class="card ha-activity">
-      <div class="ro-activity__chips" role="tablist">
-        <button class="choice-chip is-selected" data-ha-tab="signups">Signups</button>
-        <button class="choice-chip" data-ha-tab="kycs">KYCs</button>
-        <button class="choice-chip" data-ha-tab="deposits">Deposits</button>
-        <button class="choice-chip" data-ha-tab="trades">Trades</button>
-      </div>
-
-      <div class="ro-activity__panels">
-        <table class="ro-table" data-ha-panel="signups">
-          <thead>
-            <tr>
-              <th>Username<span class="mu-th__sub">UID</span></th>
-              <th>Identity verification</th>
-              <th>First deposit</th>
-              <th class="ro-table__time">Signup time</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test12</span><span class="mu-username__uid">2BD18WR</span></div></td>
-              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
-              <td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td>
-              <td class="ro-table__time mono">2026.05.29 13:58:02</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test11</span><span class="mu-username__uid">2BD18WS</span></div></td>
-              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
-              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
-              <td class="ro-table__time mono">2026.05.29 13:46:14</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test10</span><span class="mu-username__uid">2BD18WT</span></div></td>
-              <td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td>
-              <td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td>
-              <td class="ro-table__time mono">2026.05.29 13:00:48</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test09</span><span class="mu-username__uid">2BD18WU</span></div></td>
-              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
-              <td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td>
-              <td class="ro-table__time mono">2026.05.29 12:42:09</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <table class="ro-table" data-ha-panel="kycs" hidden>
-          <thead>
-            <tr>
-              <th>Username<span class="mu-th__sub">UID</span></th>
-              <th>KYC status</th>
-              <th>KYC level</th>
-              <th class="ro-table__time">KYC completion time</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test12</span><span class="mu-username__uid">2BD18WR</span></div></td>
-              <td><span class="ro-kyc ro-kyc--verified">Verified</span></td>
-              <td>L2</td>
-              <td class="ro-table__time mono">2026.05.29 13:58:02</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test11</span><span class="mu-username__uid">2BD18WS</span></div></td>
-              <td><span class="ro-kyc ro-kyc--verified">Verified</span></td>
-              <td>L3</td>
-              <td class="ro-table__time mono">2026.05.29 13:46:14</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test10</span><span class="mu-username__uid">2BD18WT</span></div></td>
-              <td><span class="ro-kyc ro-kyc--pending">Pending</span></td>
-              <td>L1</td>
-              <td class="ro-table__time mono ro-table__muted">—</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test08</span><span class="mu-username__uid">2BD18WV</span></div></td>
-              <td><span class="ro-kyc ro-kyc--rejected">Rejected</span></td>
-              <td class="ro-table__muted">—</td>
-              <td class="ro-table__time mono ro-table__muted">—</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <table class="ro-table" data-ha-panel="deposits" hidden>
-          <thead>
-            <tr>
-              <th>Username<span class="mu-th__sub">UID</span></th>
-              <th>First deposit</th>
-              <th class="ro-table__amount">Recent deposit amount</th>
-              <th class="ro-table__time">Last deposit time</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test07</span><span class="mu-username__uid">2BD18WW</span></div></td>
-              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
-              <td class="ro-table__amount mono">+1,250.00 USDT</td>
-              <td class="ro-table__time mono">2026.05.29 13:42:18</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test06</span><span class="mu-username__uid">2BD18WX</span></div></td>
-              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
-              <td class="ro-table__amount mono">+500.00 USDT</td>
-              <td class="ro-table__time mono">2026.05.29 12:08:52</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td>
-              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
-              <td class="ro-table__amount mono">+820.00 USDT</td>
-              <td class="ro-table__time mono">2026.05.29 11:37:14</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td>
-              <td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td>
-              <td class="ro-table__amount mono">+2,400.00 USDT</td>
-              <td class="ro-table__time mono">2026.05.29 10:54:39</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <table class="ro-table" data-ha-panel="trades" hidden>
-          <thead>
-            <tr>
-              <th>Username<span class="mu-th__sub">UID</span></th>
-              <th>Asset status</th>
-              <th>Trading status</th>
-              <th class="ro-table__time">Last trading time</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td>
-              <td><span class="ro-state ro-state--active">Active</span></td>
-              <td><span class="ro-state ro-state--active">Active</span></td>
-              <td class="ro-table__time mono">2026.05.29 13:57:18</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td>
-              <td><span class="ro-state ro-state--active">Active</span></td>
-              <td><span class="ro-state ro-state--inactive">Inactive</span></td>
-              <td class="ro-table__time mono">2026.05.29 13:51:45</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test03</span><span class="mu-username__uid">2BD18X0</span></div></td>
-              <td><span class="ro-state ro-state--active">Active</span></td>
-              <td><span class="ro-state ro-state--active">Active</span></td>
-              <td class="ro-table__time mono">2026.05.29 13:38:29</td>
-            </tr>
-            <tr>
-              <td><div class="mu-username"><span class="mu-username__name">Flipster_test02</span><span class="mu-username__uid">2BD18X1</span></div></td>
-              <td><span class="ro-state ro-state--inactive">Inactive</span></td>
-              <td><span class="ro-state ro-state--inactive">Inactive</span></td>
-              <td class="ro-table__time mono">2026.05.29 13:21:55</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <table class="ro-table ha-table">
+        <thead>
+          <tr>
+            <th>UID<span class="mu-th__sub">Username</span></th>
+            <th>KYC Complete</th>
+            <th>First Deposit</th>
+            <th>First Trade</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test12</span><span class="mu-username__uid">2BD18WR</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test11</span><span class="mu-username__uid">2BD18WS</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test10</span><span class="mu-username__uid">2BD18WT</span></div></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test09</span><span class="mu-username__uid">2BD18WU</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test08</span><span class="mu-username__uid">2BD18WV</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test07</span><span class="mu-username__uid">2BD18WW</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test06</span><span class="mu-username__uid">2BD18WX</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test05</span><span class="mu-username__uid">2BD18WY</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test04</span><span class="mu-username__uid">2BD18WZ</span></div></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test03</span><span class="mu-username__uid">2BD18X0</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
+        </tbody>
+      </table>
     </section>
     </div><!-- /home-col nc -->
 
@@ -3148,7 +3018,24 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75ZM13.35 7.875C13.35 8.63439 12.7344 9.25 11.975 9.25C11.2156 9.25 10.6 8.63439 10.6 7.875C10.6 7.11561 11.2156 6.5 11.975 6.5C12.7344 6.5 13.35 7.11561 13.35 7.875ZM10.72 11.2502C10.72 10.836 11.0558 10.5002 11.47 10.5002H12.47C12.8842 10.5002 13.22 10.836 13.22 11.2502V16.7502C13.22 17.1644 12.8842 17.5002 12.47 17.5002H11.47C11.0558 17.5002 10.72 17.1644 10.72 16.7502V11.2502Z" fill="currentColor"/></svg>
           </span>
         </h2>
-        <div class="contributors__sub">Referees who brought most rewards (USDT)</div>
+        <div class="contributors__sub">Referees who brought most rewards (USDT) · Displayed name is the UID</div>
+      </div>
+    </div>
+    <div class="contributors__controls">
+      <div class="kpi-section__chips">
+        <div class="dchip-wrap" data-dchip="contrib-period">
+          <button class="dchip" data-dchip-trigger type="button" aria-haspopup="listbox" aria-expanded="false">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M17.25 2.25C17.4489 2.25 17.6396 2.32907 17.7803 2.46973C17.9209 2.61038 18 2.80109 18 3V4.5H18.75C19.5456 4.5 20.3085 4.8163 20.8711 5.37891C21.4337 5.94152 21.75 6.70435 21.75 7.5V18.75C21.75 19.5456 21.4337 20.3085 20.8711 20.8711C20.3085 21.4337 19.5456 21.75 18.75 21.75H5.25C4.45435 21.75 3.69152 21.4337 3.12891 20.8711C2.5663 20.3085 2.25 19.5456 2.25 18.75V7.5C2.25 6.70435 2.5663 5.94152 3.12891 5.37891C3.69152 4.8163 4.45435 4.5 5.25 4.5H6V3C6 2.80109 6.07907 2.61038 6.21973 2.46973C6.36038 2.32907 6.55109 2.25 6.75 2.25C6.94891 2.25 7.13962 2.32907 7.28027 2.46973C7.42093 2.61038 7.5 2.80109 7.5 3V4.5H16.5V3C16.5 2.80109 16.5791 2.61038 16.7197 2.46973C16.8604 2.32907 17.0511 2.25 17.25 2.25ZM5.25 9.75C4.85218 9.75 4.47076 9.90815 4.18945 10.1895C3.90815 10.4708 3.75 10.8522 3.75 11.25V18.75C3.75 19.1478 3.90815 19.5292 4.18945 19.8105C4.47076 20.0919 4.85218 20.25 5.25 20.25H18.75C19.1478 20.25 19.5292 20.0919 19.8105 19.8105C20.0919 19.5292 20.25 19.1478 20.25 18.75V11.25C20.25 10.8522 20.0919 10.4708 19.8105 10.1895C19.5292 9.90815 19.1478 9.75 18.75 9.75H5.25Z" fill="currentColor"/></svg>
+            <span class="dchip__text">Today</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul class="dchip-menu" role="listbox" hidden>
+            <li role="option" data-value="today" class="is-selected">Today</li>
+            <li role="option" data-value="7day">Last 7 days</li>
+            <li role="option" data-value="30day">Last 30 days</li>
+            <li role="option" data-value="alltime">All time</li>
+          </ul>
+        </div>
       </div>
     </div>
     <section class="card">
@@ -3425,7 +3312,7 @@
         <thead>
           <tr>
             <th class="mu-sa-th-toggle"></th>
-            <th>Username<span class="mu-th__sub">UID</span></th>
+            <th>UID<span class="mu-th__sub">Username</span></th>
             <th>Level</th>
             <th>Commission<br>rate</th>
             <th>Referral code</th>
@@ -3671,7 +3558,7 @@
           <table class="ro-table" data-ro-panel="signups">
             <thead>
               <tr>
-                <th>Username<span class="mu-th__sub">UID</span></th>
+                <th>UID<span class="mu-th__sub">Username</span></th>
                 <th>Identity verification</th>
                 <th>First deposit</th>
                 <th class="ro-table__time">Signup time</th>
@@ -3694,7 +3581,7 @@
           <table class="ro-table" data-ro-panel="kycs" hidden>
             <thead>
               <tr>
-                <th>Username<span class="mu-th__sub">UID</span></th>
+                <th>UID<span class="mu-th__sub">Username</span></th>
                 <th>KYC status</th>
                 <th>KYC level</th>
                 <th class="ro-table__time">KYC completion time</th>
@@ -3717,7 +3604,7 @@
           <table class="ro-table" data-ro-panel="deposits" hidden>
             <thead>
               <tr>
-                <th>Username<span class="mu-th__sub">UID</span></th>
+                <th>UID<span class="mu-th__sub">Username</span></th>
                 <th>First deposit</th>
                 <th class="ro-table__amount">Recent deposit amount</th>
                 <th class="ro-table__time">Last deposit time</th>
@@ -3738,7 +3625,7 @@
           <table class="ro-table" data-ro-panel="trades" hidden>
             <thead>
               <tr>
-                <th>Username<span class="mu-th__sub">UID</span></th>
+                <th>UID<span class="mu-th__sub">Username</span></th>
                 <th>Asset status</th>
                 <th>Trading status</th>
                 <th class="ro-table__time">Last trading time</th>
@@ -3819,7 +3706,7 @@
       <table class="mu-table">
         <thead>
           <tr>
-            <th>Username<span class="mu-th__sub">UID</span></th>
+            <th>UID<span class="mu-th__sub">Username</span></th>
             <th>Referee type</th>
             <th>Rewards (USDT)</th>
             <th>Trading volume (USDT)</th>
@@ -4016,7 +3903,7 @@
         <thead>
           <tr>
             <th class="mu-sa-th-toggle"></th>
-            <th>Username<span class="mu-th__sub">UID</span></th>
+            <th>UID<span class="mu-th__sub">Username</span></th>
             <th>Level</th>
             <th>Commission<br>rate</th>
             <th>Referral code</th>
@@ -5179,7 +5066,7 @@
           + `<td class="cp-num mono">${fmt2(vol)}</td><td class="cp-num mono">${p.rate}</td><td class="cp-num mono">${fmt2(rew)}</td></tr>`
           + `<tr class="cp-detail" style="display:none"><td colspan="8"><div class="cp-detail__inner">`
           + `<div class="cp-detail__label">Referees brought by ${p.n}</div>`
-          + `<table class="ro-table"><thead><tr><th>Username<span class="mu-th__sub">UID</span></th><th>KYC</th><th>First deposit</th><th class="cp-num">Trading volume</th><th class="cp-num">Reward</th></tr></thead><tbody>${detail}</tbody></table>`
+          + `<table class="ro-table"><thead><tr><th>UID<span class="mu-th__sub">Username</span></th><th>KYC</th><th>First deposit</th><th class="cp-num">Trading volume</th><th class="cp-num">Reward</th></tr></thead><tbody>${detail}</tbody></table>`
           + `</div></td></tr>`;
       }).join('');
       if (tbodyEl) tbodyEl.innerHTML = html;
