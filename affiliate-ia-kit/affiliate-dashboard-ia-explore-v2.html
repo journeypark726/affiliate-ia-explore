@@ -1666,7 +1666,7 @@
   }
   .breakdown__row {
     display: grid;
-    grid-template-columns: minmax(0, 160px) minmax(0, 1fr) minmax(0, 0.8fr);
+    grid-template-columns: minmax(0, 160px) minmax(0, 0.8fr) minmax(0, 1fr);
     align-items: center;
     gap: var(--spacing-8);
     padding: var(--spacing-8) 0;
@@ -2878,12 +2878,12 @@
             <div class="kpi__delta"><span class="kpi__delta-num mono" data-kpi-delta="rewards">+460.84</span> <span class="kpi__delta-suffix" data-period-suffix>vs yesterday</span></div>
           </div>
           <div class="kpi-cell">
-            <div class="kpi__label">Net trading volume</div>
+            <div class="kpi__label tip tip--text" data-tip="Net trading volume of your referees during the selected period." aria-label="Net trading volume of your referees during the selected period." tabindex="0">Net trading volume</div>
             <div class="kpi__value mono"><span data-kpi="volume" data-unit="USDT">9,126,340.67</span> <span class="kpi__unit">USDT</span></div>
             <div class="kpi__delta"><span class="kpi__delta-num mono" data-kpi-delta="volume">+1,921,612.09</span> <span class="kpi__delta-suffix" data-period-suffix>vs yesterday</span></div>
           </div>
           <div class="kpi-cell">
-            <div class="kpi__label">Active referees</div>
+            <div class="kpi__label tip tip--text" data-tip="Referees with at least one trade during the selected period." aria-label="Referees with at least one trade during the selected period." tabindex="0">Active referees</div>
             <div class="kpi__value mono"><span data-kpi="referees">46</span></div>
             <div class="kpi__delta"><span class="kpi__delta-num mono" data-kpi-delta="referees">+4</span> <span class="kpi__delta-suffix" data-period-suffix>vs yesterday</span></div>
           </div>
@@ -2901,23 +2901,23 @@
         <div class="breakdown__table">
           <div class="breakdown__row breakdown__row--head">
             <span>Referee type</span>
-            <span style="text-align:right">Total rewards</span>
             <span style="text-align:right">Referees</span>
+            <span style="text-align:right">Total rewards</span>
           </div>
           <div class="breakdown__row">
             <span class="breakdown__type"><span class="breakdown__dot breakdown__dot--direct"></span>Direct referees</span>
-            <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="direct">9,282.77</span><span class="pct-badge pct-badge--outline mono">54%</span></span>
             <span class="breakdown__num" data-bd="direct-ref">41</span>
+            <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="direct">9,282.77</span><span class="pct-badge pct-badge--outline mono">54%</span></span>
           </div>
           <div class="breakdown__row">
             <span class="breakdown__type"><span class="breakdown__dot breakdown__dot--sub"></span>Sub-Affiliates</span>
-            <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="sub">6,188.52</span><span class="pct-badge pct-badge--outline mono">36%</span></span>
             <span class="breakdown__num" data-bd="sub-ref">5</span>
+            <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="sub">6,188.52</span><span class="pct-badge pct-badge--outline mono">36%</span></span>
           </div>
           <div class="breakdown__row">
             <span class="breakdown__type"><span class="breakdown__dot breakdown__dot--self"></span>Self-rebating reward</span>
-            <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="self">1,719.03</span><span class="pct-badge pct-badge--outline mono">10%</span></span>
             <span class="breakdown__num">—</span>
+            <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="self">1,719.03</span><span class="pct-badge pct-badge--outline mono">10%</span></span>
           </div>
         </div>
       </section>
@@ -3007,23 +3007,18 @@
       <table class="ro-table ha-table">
         <thead>
           <tr>
-            <th>UID</th>
+            <th>UID<span class="mu-th__sub">Username</span></th>
             <th>KYC Complete</th>
             <th>First Deposit</th>
             <th>First Trade</th>
           </tr>
         </thead>
         <tbody>
-            <tr><td><div class="mu-username"><span class="mu-username__uid">2BD18WR</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
-            <tr><td><div class="mu-username"><span class="mu-username__uid">2BD18WS</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
-            <tr><td><div class="mu-username"><span class="mu-username__uid">2BD18WT</span></div></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
-            <tr><td><div class="mu-username"><span class="mu-username__uid">2BD18WU</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
-            <tr><td><div class="mu-username"><span class="mu-username__uid">2BD18WV</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
-            <tr><td><div class="mu-username"><span class="mu-username__uid">2BD18WW</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
-            <tr><td><div class="mu-username"><span class="mu-username__uid">2BD18WX</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
-            <tr><td><div class="mu-username"><span class="mu-username__uid">2BD18WY</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
-            <tr><td><div class="mu-username"><span class="mu-username__uid">2BD18WZ</span></div></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
-            <tr><td><div class="mu-username"><span class="mu-username__uid">2BD18X0</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test12</span><span class="mu-username__uid">2BD18WR</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test11</span><span class="mu-username__uid">2BD18WS</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test10</span><span class="mu-username__uid">2BD18WT</span></div></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test09</span><span class="mu-username__uid">2BD18WU</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></td></tr>
+            <tr><td><div class="mu-username"><span class="mu-username__name">Flipster_test08</span><span class="mu-username__uid">2BD18WV</span></div></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td><td><span class="ro-stat ro-stat--yes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></td></tr>
         </tbody>
       </table>
     </section>
@@ -3035,7 +3030,7 @@
     <div class="section-head section-head--contributors">
       <div class="contributors__titlewrap">
         <h2 class="section-head__title title-m">Top 30 contributors</h2>
-        <div class="contributors__sub">Last updated at: 2026.05.28 09:00:00 UTC</div>
+        <div class="contributors__sub">Referees who brought most rewards (USDT)<br>Last updated at: 2026.05.28 09:00:00 UTC</div>
       </div>
       <div class="dchip-wrap" data-dchip="contrib-period">
           <button class="dchip" data-dchip-trigger type="button" aria-haspopup="listbox" aria-expanded="false">
