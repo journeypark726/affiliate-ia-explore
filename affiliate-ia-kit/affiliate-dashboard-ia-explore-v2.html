@@ -1656,7 +1656,7 @@
   }
   .breakdown__row {
     display: grid;
-    grid-template-columns: minmax(0, 130px) minmax(0, 1.2fr) minmax(0, 0.6fr) minmax(0, 1.4fr);
+    grid-template-columns: minmax(0, 160px) minmax(0, 1fr) minmax(0, 0.8fr);
     align-items: center;
     gap: var(--spacing-8);
     padding: var(--spacing-8) 0;
@@ -1888,6 +1888,7 @@
     display: flex; justify-content: flex-start; gap: var(--spacing-8);
     margin-bottom: var(--spacing-40);
   }
+  .overview-disclaimer { margin: var(--spacing-24) 0 0; color: var(--content-default-level-2); font-size: 12px; line-height: 1.5; }
   /* Match Top 30 contributors paginator exactly */
   .events-nav .icon-btn { width: 40px; height: 40px; background: transparent; color: var(--content-default-level-4); }
   .events-nav .icon-btn:hover { background: var(--background-interaction-hover); }
@@ -2827,13 +2828,8 @@
       <div class="kpi-section">
       <div class="kpi-section__header">
         <div class="kpi-section__title-group">
-          <h2 class="kpi-section__title title-m">
-            Data overview
-            <span class="tip" data-tip="Last updated at: 05/28/2026 09:00:00 UTC" aria-label="Last updated at: 05/28/2026 09:00:00 UTC" tabindex="0">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75ZM13.35 7.875C13.35 8.63439 12.7344 9.25 11.975 9.25C11.2156 9.25 10.6 8.63439 10.6 7.875C10.6 7.11561 11.2156 6.5 11.975 6.5C12.7344 6.5 13.35 7.11561 13.35 7.875ZM10.72 11.2502C10.72 10.836 11.0558 10.5002 11.47 10.5002H12.47C12.8842 10.5002 13.22 10.836 13.22 11.2502V16.7502C13.22 17.1644 12.8842 17.5002 12.47 17.5002H11.47C11.0558 17.5002 10.72 17.1644 10.72 16.7502V11.2502Z" fill="currentColor"/></svg>
-            </span>
-          </h2>
-          <p class="kpi-section__desc">Data is calculated based on UTC.</p>
+          <h2 class="kpi-section__title title-m">Data overview</h2>
+          <p class="kpi-section__desc">Data is calculated based on UTC. Last updated at: 2026.05.28 09:00:00 UTC</p>
         </div>
         <a href="#" class="text-btn kpi-section__details" data-route="rewards-trend">View details</a>
       </div>
@@ -2887,24 +2883,20 @@
             <span>Referee type</span>
             <span style="text-align:right">Total rewards</span>
             <span style="text-align:right">Referees</span>
-            <span style="text-align:right">Avg. reward per referee</span>
           </div>
           <div class="breakdown__row">
             <span class="breakdown__type"><span class="breakdown__dot breakdown__dot--direct"></span>Direct referees</span>
             <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="direct">9,282.77</span><span class="pct-badge pct-badge--outline mono">54%</span></span>
             <span class="breakdown__num" data-bd="direct-ref">41</span>
-            <span class="breakdown__num" data-bd="direct-avg">226.41</span>
           </div>
           <div class="breakdown__row">
             <span class="breakdown__type"><span class="breakdown__dot breakdown__dot--sub"></span>Sub-Affiliates</span>
             <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="sub">6,188.52</span><span class="pct-badge pct-badge--outline mono">36%</span></span>
             <span class="breakdown__num" data-bd="sub-ref">5</span>
-            <span class="breakdown__num" data-bd="sub-avg">1,237.70</span>
           </div>
           <div class="breakdown__row">
             <span class="breakdown__type"><span class="breakdown__dot breakdown__dot--self"></span>Self-rebating reward</span>
             <span class="breakdown__num breakdown__num--with-pct"><span class="mono" data-bd="self">1,719.03</span><span class="pct-badge pct-badge--outline mono">10%</span></span>
-            <span class="breakdown__num">—</span>
             <span class="breakdown__num">—</span>
           </div>
         </div>
@@ -2925,25 +2917,9 @@
           </div>
         </div>
 
-        <div class="greet-stat">
-          <div class="greet-stat__label">Total balance</div>
-          <div class="greet-stat__value mono">53,534.32 <span class="kpi__unit">USDT</span></div>
-        </div>
-
         <div class="greet-history">
           <div class="greet-history__head">
             <span class="greet-stat__label">Referral reward history</span>
-            <div class="dchip-wrap" data-dchip="rh-segment">
-              <button class="dchip dchip--neutral" data-dchip-trigger type="button" aria-haspopup="listbox" aria-expanded="false">
-                <span class="dchip__text">Perp</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-              </button>
-              <ul class="dchip-menu" role="listbox" hidden>
-                <li role="option" data-value="perp" class="is-selected">Perp</li>
-                <li role="option" data-value="spot">Spot</li>
-                <li role="option" data-value="all">All</li>
-              </ul>
-            </div>
           </div>
           <div class="balance__list">
             <div class="balance__list__head">
@@ -3311,6 +3287,8 @@
         updateNav();
       })();
     </script>
+
+    <p class="overview-disclaimer">The displayed data is for reference only, and the actual settlement amount is subject to the platform's final settlement.</p>
 
     </div><!-- /panel-overview -->
 
