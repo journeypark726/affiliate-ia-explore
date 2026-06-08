@@ -2519,9 +2519,9 @@
   .mu-csv svg { width: 16px; height: 16px; }
   /* Underlined table header with hover tooltip (native title) */
   .th-tip { text-decoration: underline dotted; text-decoration-thickness: 1px; text-underline-offset: 3px; cursor: help; }
-  /* "Myself" row — highlighted at the top of the user list */
-  .mu-row--me > td { background: var(--background-accent-secondary-tint); }
-  .mu-me-tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: var(--radius-full); background: var(--background-state-positive-tint); color: var(--content-state-positive); font-size: 12px; font-weight: 600; }
+  /* "Myself" row — subtle highlight (level-1), incl. the sticky first column */
+  .mu-row--me > td, .mu-row--me:hover > td { background: var(--background-default-level-1); }
+  .mu-table tbody tr.mu-row--me td:first-child, .mu-table tbody tr.mu-row--me:hover td:first-child { background: var(--background-default-level-1); }
 
   /* Affiliate management — List/Tree view tabs */
   .am-view-tabs {
@@ -3723,7 +3723,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="mu-row--me"><td><div class="mu-username"><span class="mu-username__name">GateUser-18a77fca</span><span class="mu-username__uid">ZE000ME</span></div></td><td><span class="mu-me-tag">Myself</span></td><td><span class="mu-dash">—</span></td><td>5,231,094.20</td><td class="mu-td--dim">1,642.55</td><td class="mono">2025.07.01</td><td class="mono">2025.07.02</td><td class="mono">2025.08.25 16:10</td><td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td><td class="mono">$50K – $100K</td></tr>
+          <tr class="mu-row--me"><td><div class="mu-username"><span class="mu-username__name">GateUser-18a77fca</span><span class="mu-username__uid">ZE000ME</span></div></td><td>Myself</td><td><span class="mu-dash">—</span></td><td>5,231,094.20</td><td class="mu-td--dim">1,642.55</td><td class="mono">2025.07.01</td><td class="mono">2025.07.02</td><td class="mono">2025.08.25 16:10</td><td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td><td class="mono">$50K – $100K</td></tr>
           <tr><td>
               <div class="mu-username">
                 <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
