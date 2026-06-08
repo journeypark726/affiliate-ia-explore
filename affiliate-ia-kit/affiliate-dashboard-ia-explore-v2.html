@@ -660,6 +660,7 @@
   ===================================================================== */
   .ro-activity { margin-top: var(--spacing-40); }
   .ha-activity { display: block; }
+  .card.ha-activity { padding-top: var(--spacing-16); padding-bottom: var(--spacing-16); }
   .ha-activity .ro-activity__chips { margin-bottom: var(--spacing-16); }
   .ro-activity__title { margin: 0 0 var(--spacing-16); color: var(--content-default-level-5); }
   .ro-activity__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-16); margin-bottom: var(--spacing-16); }
@@ -1904,10 +1905,10 @@
   /* Live badge to the right of the title (green pill, dot on the left) */
   .live-badge { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 8px; border-radius: var(--radius-full); background: var(--background-state-positive-tint); color: var(--content-state-positive); font-size: 11px; font-weight: 600; line-height: 1; }
   .live-badge__dot { position: relative; width: 6px; height: 6px; border-radius: 50%; background: var(--content-state-positive); flex-shrink: 0; }
-  .live-badge__dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--content-state-positive); animation: ha-pulse 1.6s ease-out infinite; }
+  .live-badge__dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--content-state-positive); animation: ha-blink 1.8s ease-in-out infinite; }
   /* Description line under the title — matches the Data overview section description */
   .ha-live { margin: 0; color: var(--content-default-level-2); font-size: 13px; line-height: 1.45; }
-  @keyframes ha-pulse { 0% { transform: scale(1); opacity: 0.55; } 100% { transform: scale(2.8); opacity: 0; } }
+  @keyframes ha-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
   /* Match Top 30 contributors paginator exactly */
   .events-nav .icon-btn { width: 40px; height: 40px; background: transparent; color: var(--content-default-level-4); }
   .events-nav .icon-btn:hover { background: var(--background-interaction-hover); }
@@ -2514,6 +2515,13 @@
     margin-bottom: var(--spacing-24);
   }
   .mu-topbar--single { justify-content: flex-start; }
+  .mu-csv { margin-left: auto; flex-shrink: 0; }
+  .mu-csv svg { width: 16px; height: 16px; }
+  /* Underlined table header with hover tooltip (native title) */
+  .th-tip { text-decoration: underline dotted; text-decoration-thickness: 1px; text-underline-offset: 3px; cursor: help; }
+  /* "Myself" row — highlighted at the top of the user list */
+  .mu-row--me > td { background: var(--background-accent-secondary-tint); }
+  .mu-me-tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: var(--radius-full); background: var(--background-state-positive-tint); color: var(--content-state-positive); font-size: 12px; font-weight: 600; }
 
   /* Affiliate management — List/Tree view tabs */
   .am-view-tabs {
@@ -3039,7 +3047,7 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75ZM13.35 7.875C13.35 8.63439 12.7344 9.25 11.975 9.25C11.2156 9.25 10.6 8.63439 10.6 7.875C10.6 7.11561 11.2156 6.5 11.975 6.5C12.7344 6.5 13.35 7.11561 13.35 7.875ZM10.72 11.2502C10.72 10.836 11.0558 10.5002 11.47 10.5002H12.47C12.8842 10.5002 13.22 10.836 13.22 11.2502V16.7502C13.22 17.1644 12.8842 17.5002 12.47 17.5002H11.47C11.0558 17.5002 10.72 17.1644 10.72 16.7502V11.2502Z" fill="currentColor"/></svg>
           </span>
         </h2>
-        <div class="contributors__sub">Referees who brought most rewards (USDT) · Displayed name is the UID</div>
+        <div class="contributors__sub">Referees who brought most rewards (USDT)<br>Displayed name is the UID</div>
       </div>
     </div>
     <div class="contributors__controls">
@@ -3432,13 +3440,16 @@
       </table>
     </div>
 
-    <div class="pagination">
-      <button class="icon-btn" aria-label="Previous page">
-        <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.2071 3.79289C11.5976 4.18342 11.5976 4.81658 11.2071 5.20711L5.41421 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H5.41421L11.2071 18.7929C11.5976 19.1834 11.5976 19.8166 11.2071 20.2071C10.8166 20.5976 10.1834 20.5976 9.79289 20.2071L2.29289 12.7071C1.90237 12.3166 1.90237 11.6834 2.29289 11.2929L9.79289 3.79289C10.1834 3.40237 10.8166 3.40237 11.2071 3.79289Z" fill="currentColor"/></svg>
-      </button>
-      <button class="icon-btn" aria-label="Next page">
-        <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289L21.7071 11.2929C22.0976 11.6834 22.0976 12.3166 21.7071 12.7071L14.2071 20.2071C13.8166 20.5976 13.1834 20.5976 12.7929 20.2071C12.4024 19.8166 12.4024 19.1834 12.7929 18.7929L18.5858 13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H18.5858L12.7929 5.20711C12.4024 4.81658 12.4024 4.18342 12.7929 3.79289Z" fill="currentColor"/></svg>
-      </button>
+    <div class="ro-pagination">
+      <span class="ro-pagination__info mono">1 – 10 of 84</span>
+      <div class="ro-pagination__nav">
+        <button class="icon-btn" aria-label="Previous page" disabled>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Next page">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
     </div>
 
     </div><!-- /panel-referee-history -->
@@ -3507,7 +3518,6 @@
       <div class="rm-page-head">
         <div class="rm-page-titlebar">
           <h2 class="panel-title title-l" style="margin:0;">Referee conversion</h2>
-          <span class="panel-updated">Last updated at: <span class="mono">2026.05.28 09:00:00 UTC</span></span>
         </div>
         <div class="rm-page-filters">
           <div class="rm-filter-field">
@@ -3536,36 +3546,6 @@
           </div>
         </div>
       </div>
-      <h3 class="section-title title-s" style="margin: 0 0 var(--spacing-16); color: var(--content-default-level-5);">Conversion overview</h3>
-      <div class="mid-grid mid-grid--single">
-        <section class="card">
-          <div class="funnel">
-            <div class="funnel-row">
-              <div class="funnel-row__label">Sign ups</div>
-              <div class="funnel-row__metric"><span class="funnel-row__value mono">30</span><span class="funnel-row__pct">100%</span></div>
-              <div class="funnel-row__bar"><span style="width: 100%"></span></div>
-            </div>
-            <div class="funnel-row">
-              <div class="funnel-row__label">KYCs</div>
-              <div class="funnel-row__metric"><span class="funnel-row__value mono">15</span><span class="funnel-row__pct">50%</span></div>
-              <div class="funnel-row__bar"><span style="width: 50%"></span></div>
-            </div>
-            <div class="funnel-row">
-              <div class="funnel-row__label">First deposit</div>
-              <div class="funnel-row__metric"><span class="funnel-row__value mono">12</span><span class="funnel-row__pct">40%</span></div>
-              <div class="funnel-row__bar"><span style="width: 40%"></span></div>
-            </div>
-            <div class="funnel-row">
-              <div class="funnel-row__label">First trade</div>
-              <div class="funnel-row__metric"><span class="funnel-row__value mono">3</span><span class="funnel-row__pct">10%</span></div>
-              <div class="funnel-row__bar"><span style="width: 10%"></span></div>
-            </div>
-          </div>
-        </section>
-
-
-      </div>
-
       <section class="ro-activity">
         <div class="ro-activity__head">
           <h3 class="ro-activity__title title-s">Activity history</h3>
@@ -3720,11 +3700,12 @@
         </div>
       </div>
 
-      <!-- Top bar: commission only (chip toggle moved to Affiliate management) -->
+      <!-- Top bar: Download CSV (top-right) -->
       <div class="mu-topbar mu-topbar--single">
-        <div class="mu-commission">
-          <span class="commission-badge"><span class="commission-badge__label">Trading commission</span><span class="commission-badge__value mono">0.5%</span></span>
-        </div>
+        <button class="fds-btn fds-btn--secondary fds-btn--neutral mu-csv" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path></svg>
+          Download CSV
+        </button>
       </div>
 
       <!-- Users table — Referee view -->
@@ -3735,178 +3716,74 @@
             <th>UID<span class="mu-th__sub">Username</span></th>
             <th>Referee type</th>
             <th>Rewards (USDT)</th>
-            <th>Trading volume (USDT)</th>
-            <th>Taker fee</th>
-            <th>Trading fee (USDT)</th>
-            <th>First Trade</th>
+            <th><span class="th-tip" title="Net trading volume excludes self-trades and canceled orders.">Net trading volume (USDT)</span></th>
+            <th><span class="th-tip" title="Net trading fee after applicable rebates and discounts.">Net trading fee (USDT)</span></th>
             <th>First Deposit</th>
+            <th>First Trade</th>
             <th>Last Login</th>
-            <th>KYC stage</th>
             <th>VIP Tier</th>
             <th>Asset Range</th>
-            <th>Deposit Range</th>
           </tr>
         </thead>
         <tbody>
-          <!-- Row 1 — Sub-Affiliate -->
-          <tr>
-            <td>
+          <tr class="mu-row--me"><td><div class="mu-username"><span class="mu-username__name">GateUser-18a77fca</span><span class="mu-username__uid">ZE000ME</span></div></td><td><span class="mu-me-tag">Myself</span></td><td><span class="mu-dash">—</span></td><td>5,231,094.20</td><td class="mu-td--dim">1,642.55</td><td class="mono">2025.07.01</td><td class="mono">2025.07.02</td><td class="mono">2025.08.25 16:10</td><td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td><td class="mono">$50K – $100K</td></tr>
+          <tr><td>
               <div class="mu-username">
                 <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
-            </td>
-            <td>Sub-Affiliate</td>
-            <td>121.31</td>
-            <td>2,695,766.93</td>
-            <td class="mu-td--vip"><span class="mu-dash">—</span></td>
-            <td class="mu-td--dim">808.73</td>
-            <td class="mono">2025.08.12</td>
-            <td class="mono">2025.08.10</td>
-            <td class="mono">2025.08.25 14:32</td>
-            <td><span class="kyc-pill kyc-pill--full">KYC2</span> <span class="mu-fee-rate mono">2025.08.10</span></td>
-            <td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td>
-            <td class="mono">$10K – $50K</td>
-            <td class="mono">$1K – $10K</td>
-          </tr>
-          <!-- Row 2 — Direct referee, VIP 4 -->
-          <tr>
-            <td>
+            </td><td>Sub-Affiliate</td><td>121.31</td><td>2,695,766.93</td><td class="mu-td--dim">808.73</td><td class="mono">2025.08.10</td><td class="mono">2025.08.12</td><td class="mono">2025.08.25 14:32</td><td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td><td class="mono">$10K – $50K</td></tr>
+          <tr><td>
               <div class="mu-username">
                 <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
-            </td>
-            <td>Direct referee</td>
-            <td>121.31</td>
-            <td>2,695,766.93</td>
-            <td class="mu-td--vip"><span class="mu-fee-rate mono">0.03%</span></td>
-            <td class="mu-td--dim">808.73</td>
-            <td class="mono">2025.08.12</td>
-            <td class="mono">2025.08.10</td>
-            <td class="mono">2025.08.25 14:32</td>
-            <td><span class="kyc-pill kyc-pill--full">KYC2</span> <span class="mu-fee-rate mono">2025.08.10</span></td>
-            <td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td>
-            <td class="mono">$10K – $50K</td>
-            <td class="mono">$1K – $10K</td>
-          </tr>
-          <!-- Row 3 — Direct referee, VIP 4 -->
-          <tr>
-            <td>
+            </td><td>Direct referee</td><td>121.31</td><td>2,695,766.93</td><td class="mu-td--dim">808.73</td><td class="mono">2025.08.10</td><td class="mono">2025.08.12</td><td class="mono">2025.08.25 14:32</td><td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td><td class="mono">$10K – $50K</td></tr>
+          <tr><td>
               <div class="mu-username">
                 <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
-            </td>
-            <td>Direct referee</td>
-            <td>121.31</td>
-            <td>2,695,766.93</td>
-            <td class="mu-td--vip"><span class="mu-fee-rate mono">0.03%</span></td>
-            <td class="mu-td--dim">808.73</td>
-            <td class="mono">2025.08.12</td>
-            <td class="mono">2025.08.10</td>
-            <td class="mono">2025.08.25 14:32</td>
-            <td><span class="kyc-pill kyc-pill--full">KYC2</span> <span class="mu-fee-rate mono">2025.08.10</span></td>
-            <td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td>
-            <td class="mono">$10K – $50K</td>
-            <td class="mono">$1K – $10K</td>
-          </tr>
-          <!-- Row 4 — Direct referee, no VIP -->
-          <tr>
-            <td>
+            </td><td>Direct referee</td><td>121.31</td><td>2,695,766.93</td><td class="mu-td--dim">808.73</td><td class="mono">2025.08.10</td><td class="mono">2025.08.12</td><td class="mono">2025.08.25 14:32</td><td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td><td class="mono">$10K – $50K</td></tr>
+          <tr><td>
               <div class="mu-username">
                 <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
-            </td>
-            <td>Direct referee</td>
-            <td>121.31</td>
-            <td>2,695,766.93</td>
-            <td class="mu-td--vip"><span class="mu-dash">—</span></td>
-            <td class="mu-td--dim">808.73</td>
-            <td class="mono">2025.08.12</td>
-            <td class="mono">2025.08.10</td>
-            <td class="mono">2025.08.25 14:32</td>
-            <td><span class="kyc-pill kyc-pill--full">KYC2</span> <span class="mu-fee-rate mono">2025.08.10</span></td>
-            <td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td>
-            <td class="mono">$10K – $50K</td>
-            <td class="mono">$1K – $10K</td>
-          </tr>
-          <!-- Row 5 — Direct referee, VIP 4 -->
-          <tr>
-            <td>
+            </td><td>Direct referee</td><td>121.31</td><td>2,695,766.93</td><td class="mu-td--dim">808.73</td><td class="mono">2025.08.10</td><td class="mono">2025.08.12</td><td class="mono">2025.08.25 14:32</td><td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td><td class="mono">$10K – $50K</td></tr>
+          <tr><td>
               <div class="mu-username">
                 <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
-            </td>
-            <td>Direct referee</td>
-            <td>121.31</td>
-            <td>2,695,766.93</td>
-            <td class="mu-td--vip"><span class="mu-fee-rate mono">0.03%</span></td>
-            <td class="mu-td--dim">808.73</td>
-            <td class="mono">2025.08.12</td>
-            <td class="mono">2025.08.10</td>
-            <td class="mono">2025.08.25 14:32</td>
-            <td><span class="kyc-pill kyc-pill--full">KYC2</span> <span class="mu-fee-rate mono">2025.08.10</span></td>
-            <td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td>
-            <td class="mono">$10K – $50K</td>
-            <td class="mono">$1K – $10K</td>
-          </tr>
-          <!-- Row 6 — Direct referee, VIP 4 -->
-          <tr>
-            <td>
+            </td><td>Direct referee</td><td>121.31</td><td>2,695,766.93</td><td class="mu-td--dim">808.73</td><td class="mono">2025.08.10</td><td class="mono">2025.08.12</td><td class="mono">2025.08.25 14:32</td><td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td><td class="mono">$10K – $50K</td></tr>
+          <tr><td>
               <div class="mu-username">
                 <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
-            </td>
-            <td>Direct referee</td>
-            <td>121.31</td>
-            <td>2,695,766.93</td>
-            <td class="mu-td--vip"><span class="mu-fee-rate mono">0.03%</span></td>
-            <td class="mu-td--dim">808.73</td>
-            <td class="mono">2025.08.12</td>
-            <td class="mono">2025.08.10</td>
-            <td class="mono">2025.08.25 14:32</td>
-            <td><span class="kyc-pill kyc-pill--full">KYC2</span> <span class="mu-fee-rate mono">2025.08.10</span></td>
-            <td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td>
-            <td class="mono">$10K – $50K</td>
-            <td class="mono">$1K – $10K</td>
-          </tr>
-          <!-- Row 7 — Direct referee, VIP 4 -->
-          <tr>
-            <td>
+            </td><td>Direct referee</td><td>121.31</td><td>2,695,766.93</td><td class="mu-td--dim">808.73</td><td class="mono">2025.08.10</td><td class="mono">2025.08.12</td><td class="mono">2025.08.25 14:32</td><td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td><td class="mono">$10K – $50K</td></tr>
+          <tr><td>
               <div class="mu-username">
                 <span class="mu-username__name">Nickname01 <svg class="copy-inline" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18C8.45 18 7.97917 17.8042 7.5875 17.4125C7.19583 17.0208 7 16.55 7 16V4C7 3.45 7.19583 2.97917 7.5875 2.5875C7.97917 2.19583 8.45 2 9 2H18C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V16C20 16.55 19.8042 17.0208 19.4125 17.4125C19.0208 17.8042 18.55 18 18 18H9ZM5 22C4.45 22 3.97917 21.8042 3.5875 21.4125C3.19583 21.0208 3 20.55 3 20V7C3 6.44772 3.44772 6 4 6C4.55228 6 5 6.44772 5 7V20H15C15.5523 20 16 20.4477 16 21C16 21.5523 15.5523 22 15 22H5Z"/></svg></span>
                 <span class="mu-username__uid">ZE019XG</span>
               </div>
-            </td>
-            <td>Direct referee</td>
-            <td>121.31</td>
-            <td>2,695,766.93</td>
-            <td class="mu-td--vip"><span class="mu-fee-rate mono">0.03%</span></td>
-            <td class="mu-td--dim">808.73</td>
-            <td class="mono">2025.08.12</td>
-            <td class="mono">2025.08.10</td>
-            <td class="mono">2025.08.25 14:32</td>
-            <td><span class="kyc-pill kyc-pill--full">KYC2</span> <span class="mu-fee-rate mono">2025.08.10</span></td>
-            <td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td>
-            <td class="mono">$10K – $50K</td>
-            <td class="mono">$1K – $10K</td>
-          </tr>
+            </td><td>Direct referee</td><td>121.31</td><td>2,695,766.93</td><td class="mu-td--dim">808.73</td><td class="mono">2025.08.10</td><td class="mono">2025.08.12</td><td class="mono">2025.08.25 14:32</td><td><span class="vip-badge"><span class="vip-badge__icon">F</span>VIP 4</span></td><td class="mono">$10K – $50K</td></tr>
         </tbody>
       </table>
       </div><!-- /mu-view referee -->
 
       <!-- Pagination -->
-      <div class="pagination">
-        <button class="icon-btn" aria-label="Previous page">
-          <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.2071 3.79289C11.5976 4.18342 11.5976 4.81658 11.2071 5.20711L5.41421 11H21C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H5.41421L11.2071 18.7929C11.5976 19.1834 11.5976 19.8166 11.2071 20.2071C10.8166 20.5976 10.1834 20.5976 9.79289 20.2071L2.29289 12.7071C1.90237 12.3166 1.90237 11.6834 2.29289 11.2929L9.79289 3.79289C10.1834 3.40237 10.8166 3.40237 11.2071 3.79289Z" fill="currentColor"/></svg>
-        </button>
-        <button class="icon-btn" aria-label="Next page">
-          <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.7929 3.79289C13.1834 3.40237 13.8166 3.40237 14.2071 3.79289L21.7071 11.2929C22.0976 11.6834 22.0976 12.3166 21.7071 12.7071L14.2071 20.2071C13.8166 20.5976 13.1834 20.5976 12.7929 20.2071C12.4024 19.8166 12.4024 19.1834 12.7929 18.7929L18.5858 13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H18.5858L12.7929 5.20711C12.4024 4.81658 12.4024 4.18342 12.7929 3.79289Z" fill="currentColor"/></svg>
-        </button>
+      <div class="ro-pagination">
+        <span class="ro-pagination__info mono">1 – 8 of 156</span>
+        <div class="ro-pagination__nav">
+          <button class="icon-btn" aria-label="Previous page" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="icon-btn" aria-label="Next page">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
       </div>
 
     </div><!-- /panel-user-list -->
