@@ -1399,7 +1399,7 @@
     color: var(--content-default-level-5);
     display: inline-flex; align-items: center; gap: var(--spacing-8);
   }
-  .kpi-section__title-group { display: flex; flex-direction: column; gap: var(--spacing-4); }
+  .kpi-section__title-group { display: flex; flex-direction: column; gap: var(--spacing-12); }
   .kpi-section__titlerow { display: inline-flex; align-items: center; gap: var(--spacing-12); }
   .kpi-section__desc {
     margin: 0;
@@ -3044,7 +3044,7 @@
     <div class="section-head section-head--contributors">
       <div>
         <h2 class="section-head__title title-m" style="margin-bottom: var(--spacing-4);">Top 30 contributors</h2>
-        <div class="contributors__sub">Displayed name is the UID<br>Last updated at: 2026.05.28 09:00:00 UTC</div>
+        <div class="contributors__sub">Last updated at: 2026.05.28 09:00:00 UTC</div>
       </div>
       <div class="dchip-wrap" data-dchip="contrib-period">
           <button class="dchip" data-dchip-trigger type="button" aria-haspopup="listbox" aria-expanded="false">
@@ -4621,7 +4621,7 @@
     const render = () => {
       const start = page * PAGE;
       const slice = data.slice(start, start + PAGE);
-      const leftN = Math.ceil(slice.length / 2);
+      const leftN = Math.floor(slice.length / 2);
       const cols = [slice.slice(0, leftN), slice.slice(leftN)];
       grid.innerHTML = cols.map((col, ci) => {
         const base = start + (ci === 0 ? 0 : leftN);
