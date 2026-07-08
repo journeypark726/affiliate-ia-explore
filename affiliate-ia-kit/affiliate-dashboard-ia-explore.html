@@ -2691,12 +2691,117 @@
     font-family: var(--font-sans);
     line-height: 1;
   }
+
+  /* =====================================================================
+     Responsive — mobile / small tablet
+     Focus: Overview + Referee conversion. Global chrome (GNB, side-nav)
+     adapts too, since it is shared across every panel.
+  ===================================================================== */
+  /* Drawer scaffolding is inert on desktop */
+  .gnb__menu-btn { display: none; }
+  .nav-scrim { display: none; }
+
+  @media (max-width: 1024px) {
+    .kpi-cards--row3 { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    /* Release the desktop-only fixed minimum width */
+    body { min-width: 0; }
+
+    /* ---- GNB ---- */
+    .gnb { padding: 0 var(--spacing-16); gap: var(--spacing-12); }
+    .gnb__nav { display: none; }
+    .gnb__menu-btn {
+      display: inline-grid; place-items: center;
+      width: 32px; height: 32px; flex-shrink: 0;
+      background: transparent; border: 0; cursor: pointer;
+      color: var(--content-default-level-4);
+      border-radius: var(--radius-4);
+    }
+    .gnb__menu-btn:hover { background: var(--background-default-level-2); }
+    .gnb__menu-btn svg { width: 20px; height: 20px; }
+    .gnb__actions { margin-left: auto; gap: var(--spacing-4); }
+    .gnb-deposit-btn { display: none; }
+
+    /* ---- Side-nav → off-canvas drawer ---- */
+    .side-nav {
+      transform: translateX(-100%);
+      transition: transform 240ms ease;
+      width: 280px; max-width: 82vw;
+      z-index: 40;
+    }
+    body.nav-open .side-nav { transform: translateX(0); }
+    .nav-scrim {
+      display: block;
+      position: fixed; inset: 60px 0 0 0;
+      background: rgba(0, 0, 0, 0.55);
+      opacity: 0; visibility: hidden;
+      transition: opacity 240ms ease, visibility 240ms;
+      z-index: 30;
+    }
+    body.nav-open .nav-scrim { opacity: 1; visibility: visible; }
+
+    /* ---- Page shell ---- */
+    .page { padding: var(--spacing-24) var(--spacing-16) var(--spacing-40); }
+    body.no-sidebar .page { padding-left: var(--spacing-16); padding-right: var(--spacing-16); }
+
+    /* ---- Overview grids ---- */
+    .kpi-section__header { flex-wrap: wrap; }
+    .kpi-section__actions { flex-wrap: wrap; }
+    .summary-cards { grid-template-columns: 1fr; }
+    .top-grid { grid-template-columns: 1fr; margin-bottom: var(--spacing-40); }
+    .kpi-row, .kpi-row--4, .kpi-row--6 { grid-template-columns: repeat(2, 1fr); gap: var(--spacing-16); }
+    .mid-grid { grid-template-columns: 1fr; }
+    .contributors__grid { grid-template-columns: 1fr; column-gap: 0; }
+    .home-row { grid-template-columns: 1fr; gap: var(--spacing-24); margin-bottom: var(--spacing-40); }
+
+    /* ---- Events carousel — full-bleed offset must match the 16px page padding ---- */
+    .events { margin-right: calc(-1 * var(--spacing-16)); padding-right: var(--spacing-16); }
+    .event-card { flex-basis: 82vw; width: 82vw; max-width: 82vw; }
+
+    /* ---- Funnel (Referee conversion + Overview) ---- */
+    .funnel { grid-template-columns: repeat(2, 1fr); gap: var(--spacing-24); }
+
+    /* ---- Referee conversion — filter bar ---- */
+    .rm-page-head { margin-bottom: var(--spacing-40); }
+    .rm-page-filters { flex-direction: column; align-items: stretch; }
+    .rm-filter-field { width: 100%; }
+    .rm-page-filters .search-input,
+    .rm-filter-field .search-input,
+    .rm-filter-field .date-range-btn { width: 100%; box-sizing: border-box; }
+    .rm-filter-actions { margin-left: 0; }
+    .rm-filter-actions .fds-btn { flex: 1; }
+
+    /* ---- Cards & wide tables ---- */
+    .card { padding: var(--spacing-16); }
+    .card--lg { padding: var(--spacing-20); }
+    .ro-activity__chips { flex-wrap: wrap; }
+    .ro-activity__panels { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* Overview "Activity history" table has no scroll wrapper of its own —
+       make the table itself a horizontally scrollable block so it never
+       forces the page wider than the viewport. */
+    .ha-activity .ro-table.ha-table {
+      display: block; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .kpi-row, .kpi-row--4, .kpi-row--6, .kpi-row--2x2 { grid-template-columns: 1fr; }
+    .kpi-cards { grid-template-columns: 1fr; }
+    .funnel { grid-template-columns: 1fr; gap: var(--spacing-16); }
+    .summary-cards { gap: var(--spacing-12); }
+  }
 </style>
 </head>
 <body>
 
 <!-- ────────────────────────────  GNB  ──────────────────────────── -->
 <header class="gnb">
+  <button class="gnb__menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
   <a href="#" class="gnb__logo">
     <span class="gnb__logo-mark">F</span>
     <span>Flipster</span>
@@ -2821,6 +2926,8 @@
     </div>
   </div>
 </aside>
+
+<div class="nav-scrim" aria-hidden="true"></div>
 
 <div class="page">
   <div class="container">
@@ -5994,6 +6101,33 @@
 </script>
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+  // Mobile navigation drawer — toggles the off-canvas side-nav at the mobile breakpoint
+  (function () {
+    var body = document.body;
+    var menuBtn = document.querySelector('.gnb__menu-btn');
+    var scrim = document.querySelector('.nav-scrim');
+    function closeNav() {
+      body.classList.remove('nav-open');
+      if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+    }
+    if (menuBtn) {
+      menuBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var open = body.classList.toggle('nav-open');
+        menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+    if (scrim) scrim.addEventListener('click', closeNav);
+    // Close the drawer after navigating to a route (group toggles have no data-route, so they stay open)
+    document.querySelectorAll('.side-nav [data-route]').forEach(function (node) {
+      node.addEventListener('click', closeNav);
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeNav(); });
+  })();
+</script>
 
 </body>
 </html>
