@@ -2709,20 +2709,25 @@
     /* Release the desktop-only fixed minimum width */
     body { min-width: 0; }
 
-    /* ---- GNB ---- */
+    /* ---- GNB — match Flipster mobile: logo (left) + Deposit + hamburger (right) ---- */
     .gnb { padding: 0 var(--spacing-16); gap: var(--spacing-12); }
     .gnb__nav { display: none; }
+    .gnb__logo { order: 1; margin-right: auto; }
+    .gnb__actions { order: 2; margin-left: 0; gap: var(--spacing-8); }
+    /* Keep only the Deposit CTA in the bar; everything else lives in the drawer */
+    .gnb__actions .icon-btn,
+    .gnb__actions .gnb-profile { display: none; }
+    .gnb-deposit-btn { display: inline-flex; }
     .gnb__menu-btn {
+      order: 3;
       display: inline-grid; place-items: center;
       width: 32px; height: 32px; flex-shrink: 0;
       background: transparent; border: 0; cursor: pointer;
-      color: var(--content-default-level-4);
+      color: var(--content-default-level-5);
       border-radius: var(--radius-4);
     }
     .gnb__menu-btn:hover { background: var(--background-default-level-2); }
-    .gnb__menu-btn svg { width: 20px; height: 20px; }
-    .gnb__actions { margin-left: auto; gap: var(--spacing-4); }
-    .gnb-deposit-btn { display: none; }
+    .gnb__menu-btn svg { width: 22px; height: 22px; }
 
     /* ---- Side-nav → off-canvas drawer ---- */
     .side-nav {
