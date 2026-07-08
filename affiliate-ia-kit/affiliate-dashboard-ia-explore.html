@@ -2760,6 +2760,10 @@
     .mid-grid { grid-template-columns: 1fr; }
     .contributors__grid { grid-template-columns: 1fr; column-gap: 0; }
     .home-row { grid-template-columns: 1fr; gap: var(--spacing-24); margin-bottom: var(--spacing-40); }
+    /* Rewards-by-referee-type breakdown: let the label flex and size number
+       columns to their content so the value cells never overlap on narrow screens */
+    .breakdown__row { grid-template-columns: minmax(0, 1fr) auto auto; gap: var(--spacing-12); }
+    .breakdown__type { min-width: 0; }
 
     /* ---- Events carousel — full-bleed offset must match the 16px page padding ---- */
     .events { margin-right: calc(-1 * var(--spacing-16)); padding-right: var(--spacing-16); }
